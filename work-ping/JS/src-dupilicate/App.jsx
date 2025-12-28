@@ -1,11 +1,17 @@
-import AppProvidersWrapper from './components/wrappers/AppProvidersWrapper';
-import configureFakeBackend from './helpers/fake-backend';
-import AppRouter from './routes/router';
+import { Routes, Route } from "react-router-dom";
 import '@/assets/scss/app.scss';
-configureFakeBackend();
+// import AppRouter from '@/routes/router';
+import AppProvidersWrapper from "@/components/wrappers/AppProvidersWrapper";
+import SignUp  from '@/app/(other)/auth/sign-up/page';
+// configureFakeBackend();
 const App = () => {
-  return <AppProvidersWrapper>
-      <AppRouter />
-    </AppProvidersWrapper>;
+  return (
+    // <AppProvidersWrapper>
+    <Routes>
+      <Route path="/auth/sign-up" element={<SignUp />} />
+    </Routes>
+    // </AppProvidersWrapper>
+  );
+
 };
 export default App;

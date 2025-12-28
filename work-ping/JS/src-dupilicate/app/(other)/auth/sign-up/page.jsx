@@ -5,7 +5,11 @@ import PageMetaData from '@/components/PageTitle';
 import ThirdPartyAuth from '@/components/ThirdPartyAuth';
 import SignUpForm from './components/SignUpForm';
 import signUpImg from '@/assets/images/sign-in.svg';
+import { useEffect } from 'react';
+// import '@/assets/scss/app.scss';
 const SignUp = () => {
+ 
+
   return <>
       <PageMetaData title="Sign Up" />
 
