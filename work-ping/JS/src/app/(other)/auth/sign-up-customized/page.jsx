@@ -2,7 +2,8 @@ import { Card, CardBody, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LogoBox from '@/components/LogoBox';
 import PageMetaData from '@/components/PageTitle';
-import ThirdPartyAuth from '@/components/ThirdPartyAuth';
+// import ThirdPartyAuth from '@/components/ThirdPartyAuth';
+import ThirdPartyAuthCustomized from '@/components/ThirdPartyAuthCustomized';
 import SignUpForm from './components/SignUpForm';
 import signUpImg from '@/assets/images/sign-in.svg';
 const SignUp = () => {
@@ -30,7 +31,7 @@ const SignUp = () => {
                 <Row className="justify-content-center">
                   <Col xs={12} md={8}>
                     <SignUpForm />
-                    <ThirdPartyAuth />
+                    <ThirdPartyAuthCustomized />
                   </Col>
                 </Row>
               </div>
@@ -40,7 +41,7 @@ const SignUp = () => {
       </Card>
       <p className="text-white mb-0 text-center">
         I already have an account
-        <Link to="/auth/sign-in" className="text-white fw-bold ms-1">
+        <Link to="/auth/sign-in-customized" className="text-white fw-bold ms-1">
           Sign In
         </Link>
       </p>

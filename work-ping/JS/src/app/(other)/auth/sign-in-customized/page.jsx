@@ -2,7 +2,8 @@ import { Card, CardBody, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LogoBox from '@/components/LogoBox';
 import PageMetaData from '@/components/PageTitle';
-import ThirdPartyAuth from '@/components/ThirdPartyAuth';
+// import ThirdPartyAuth from '@/components/ThirdPartyAuth';
+import ThirdPartyAuthCustomized from '@/components/ThirdPartyAuthCustomized';//customized
 import LoginForm from './LoginForm';
 import signInImg from '@/assets/images/sign-in.svg';
 const SignIn = () => {
@@ -33,7 +34,7 @@ const SignIn = () => {
                   <Col xs={12} md={8}>
                     <LoginForm />
 
-                    <ThirdPartyAuth />
+                    <ThirdPartyAuthCustomized />
                   </Col>
                 </Row>
               </div>
