@@ -119,6 +119,7 @@ const NotFound2 = lazy(() => import('@/app/(other)/(error-pages)/error-404-2/pag
 const AuthSignIn = lazy(() => import('@/app/(other)/auth/sign-in/page'));
 const AuthSignIn2 = lazy(() => import('@/app/(other)/auth/sign-in-2/page'));
 const AuthSignUp = lazy(() => import('@/app/(other)/auth/sign-up/page'));
+const AuthSignUpCustomized = lazy(() => import('@/app/(other)/auth/sign-up-customized/page'));
 const AuthSignUp2 = lazy(() => import('@/app/(other)/auth/sign-up-2/page'));
 const ResetPassword = lazy(() => import('@/app/(other)/auth/reset-pass/page'));
 const ResetPassword2 = lazy(() => import('@/app/(other)/auth/reset-pass-2/page'));
@@ -511,9 +512,14 @@ export const authRoutes = [{
   path: '/auth/sign-in-2',
   element: <AuthSignIn2 />
 }, {
-  name: 'Sign Up',
+  name: 'Sign Up copy',
   path: '/auth/sign-up',
-  element: <AuthSignUp />
+  element: <AuthSignUp /> //AuthSignUpCustomized
+},
+ {
+  name: 'Sign Up',
+  path: '/auth/sign-up-customized',
+  element: <AuthSignUpCustomized /> //
 }, {
   name: 'Sign Up 2',
   path: '/auth/sign-up-2',
