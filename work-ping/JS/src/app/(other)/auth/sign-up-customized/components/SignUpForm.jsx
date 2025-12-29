@@ -20,7 +20,8 @@ const SignUpForm = () => {
       <TextFormInput control={control} name="name" containerClassName="mb-3" label="Name" id="name" placeholder="Enter your name" />
       <TextFormInput control={control} name="email" containerClassName="mb-3" label="Email" id="email-id" placeholder="Enter your email" />
       <PasswordFormInput control={control} name="password" containerClassName="mb-3" placeholder="Enter your password" id="password-id" label="password" />
-      
+      <PasswordFormInput control={control} name="confirm-password" containerClassName="mb-3" placeholder="Enter your password" id="password-id-2" label="confirm password" />
+      {/* <TextFormInput control={control} name="name" containerClassName="mb-3" label="Mobile number" id="name" placeholder="Enter your name" /> */}
       <div className="mb-3">
         <FormCheck label="I accept Terms and Condition" id="termAndCondition" />
       </div>
