@@ -2,11 +2,16 @@ import ComponentContainerCard from '@/components/ComponentContainerCard';
 import CustomFlatpickr from '@/components/CustomFlatpickr';
 import PasswordFormInput from '@/components/form/PasswordFormInput';
 import { Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormCheck, Row } from 'react-bootstrap';
+import {useState} from 'react'
 import TextAreaFormInput from '@/components/form/TextAreaFormInput';
 import TextFormInput from '@/components/form/TextFormInput';
 import { useForm } from 'react-hook-form';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-const BasicExamples = () => {
+import countryCodes from 'country-calling-code';
+
+const EmployeeDetailsForm = () => {
+    const [countryCode,setCountryCode]=useState('+91');
+    const [Gender,setGender]=useState('Select Gender');
   const {
     control
   } = useForm();
@@ -21,27 +26,22 @@ const BasicExamples = () => {
             <Dropdown className="form-group input-group">
                 <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none" type="button">
                 <div className="icons-center">
-                    U.S.A <IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                    {countryCode} <IconifyIcon icon="bx:chevron-down" className="ms-2" />
                 </div>
                 </DropdownToggle>
-                <DropdownMenu>
-                <li>
-                    <DropdownItem href="#">U.S.A</DropdownItem>
-                </li>
-                <li>
-                    <DropdownItem href="#">India</DropdownItem>
-                </li>
-                <li>
-                    <DropdownItem href="#">Iraq</DropdownItem>
-                </li>
-                <li>
-                    <DropdownItem href="#">South Africa</DropdownItem>
-                </li>
-                <li>
-                    <DropdownItem href="#">France</DropdownItem>
-                </li>
+                <DropdownMenu style={{maxHeight:'300px',overflowY:'auto'}}>
+                {countryCodes
+                    .sort((a,b)=>a.country.localeCompare(b.country))
+                    .map(c=>(
+                    <DropdownItem
+                        key={c.isoCode2}
+                        onClick={()=>setCountryCode('+'+c.countryCodes[0])}
+                    >
+                        {c.country} (+{c.countryCodes[0]})
+                    </DropdownItem>
+                    ))}
                 </DropdownMenu>
-                <input type="number" className="form-control" id="contactnumber" placeholder="+0(222)000-0000" />
+                <input type="number" className="form-control" id="contactnumber" placeholder="" />
             </Dropdown>
         </div>
         
@@ -62,18 +62,18 @@ const BasicExamples = () => {
             <Dropdown className="form-group input-group">
                 <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none" type="button">
                     <div className="icons-center">
-                    Select Gender<IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                    {Gender}<IconifyIcon icon="bx:chevron-down" className="ms-2" />
                     </div>
                 </DropdownToggle>
                     <DropdownMenu>
                     <li>
-                        <DropdownItem href="#">Male</DropdownItem>
+                        <DropdownItem href="#" onClick={()=>setGender('Male')}>Male</DropdownItem>
                     </li>
                     <li>
-                        <DropdownItem href="#">Female</DropdownItem>
+                        <DropdownItem href="#" onClick={()=>setGender('Female')}>Female</DropdownItem>
                     </li>
                     <li>
-                        <DropdownItem href="#">Other</DropdownItem>
+                        <DropdownItem href="#" onClick={()=>setGender('Other')}>Other</DropdownItem>
                     </li>
                 </DropdownMenu> 
             </Dropdown>
@@ -113,4 +113,4 @@ const BasicExamples = () => {
       </div>
     </ComponentContainerCard>;
 };
-export default BasicExamples;
+export default EmployeeDetailsForm;
