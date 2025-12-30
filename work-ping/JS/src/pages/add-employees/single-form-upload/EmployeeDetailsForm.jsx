@@ -10,10 +10,7 @@ const BasicExamples = () => {
   const {
     control
   } = useForm();
-  return <ComponentContainerCard id="basic" title="Add Basic Employee Details" description={<>
-          Give textual form controls like <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade with custom styles, sizing, focus
-          states, and more.
-        </>}>
+  return <ComponentContainerCard id="basic" title="Add Basic Employee Details" description={<></>}>
       <div>
         <TextFormInput name="user" label="User" control={control} placeholder="Enter User Name" containerClassName="mb-3" />
         <TextFormInput name="email" type="email" label="Email" control={control} placeholder="Email" containerClassName="mb-3" />
@@ -52,7 +49,7 @@ const BasicExamples = () => {
           <label htmlFor="example-palaceholder" className="form-label">
             DOB
           </label>
-          <CustomFlatpickr className="form-control" placeholder="Basic datepicker" options={{
+          <CustomFlatpickr className="form-control" placeholder="Date of Birth" options={{
                 enableTime: false
               }} />
           
@@ -85,10 +82,33 @@ const BasicExamples = () => {
           <label htmlFor="example-palaceholder" className="form-label">
             Date Of Joining
           </label>
-          <CustomFlatpickr className="form-control" placeholder="Basic datepicker" options={{
+          <CustomFlatpickr className="form-control" placeholder="Date of Joining" options={{
                 enableTime: false
               }} />
           
+        </div>
+        <div className="mb-3">
+            <label htmlFor="example-palaceholder" className="form-label">
+                Role
+            </label>
+            <Dropdown className="form-group input-group">
+                <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none" type="button">
+                    <div className="icons-center">
+                    Select Role<IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                    </div>
+                </DropdownToggle>
+                    <DropdownMenu>
+                    <li>
+                        <DropdownItem href="#">Admin</DropdownItem>
+                    </li>
+                    <li>
+                        <DropdownItem href="#">Developer</DropdownItem>
+                    </li>
+                    <li>
+                        <DropdownItem href="#">Tester</DropdownItem>
+                    </li>
+                </DropdownMenu> 
+            </Dropdown>
         </div>
       </div>
     </ComponentContainerCard>;
