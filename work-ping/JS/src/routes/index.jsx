@@ -99,6 +99,7 @@ const FlatPicker = lazy(() => import('@/app/(admin)/forms/flat-picker/page'));
 const Validation = lazy(() => import('@/app/(admin)/forms/validation/page'));
 const Wizard = lazy(() => import('@/app/(admin)/forms/wizard/page'));
 const FileUploads = lazy(() => import('@/app/(admin)/forms/file-uploads/page'));
+const BulkUploads = lazy(() => import('@/pages/add-employees/bulk-upload/BulkUpload'));
 const Editors = lazy(() => import('@/app/(admin)/forms/editors/page'));
 const InputMask = lazy(() => import('@/app/(admin)/forms/input-mask/page'));
 const Slider = lazy(() => import('@/app/(admin)/forms/slider/page'));
@@ -477,6 +478,10 @@ const formsRoutes = [{
   name: 'File Uploads',
   path: '/forms/file-uploads',
   element: <FileUploads />
+}, {
+  name: 'Bulk Uploads',
+  path: '/forms/bulk-uploads', //bulk uploads
+  element: <BulkUploads />
 }, {
   name: 'Editors',
   path: '/forms/editors',
