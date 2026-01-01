@@ -12,26 +12,6 @@ const BulkUpload = () => {
 
       <Row>
         <Col xl={12}>
-          <Card>
-            <CardBody>
-              <CardTitle as="h5" className="mb-1 anchor" id="overview">
-                Overview
-                <a
-                  className="btn btn-sm btn-outline-success rounded-2 float-end"
-                  href="https://www.npmjs.com/package/react-dropzone"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Official Website
-                </a>
-              </CardTitle>
-
-              <p className="text-muted mb-3">
-                Dropzone is a lightweight and powerful file upload library with drag and drop support.
-              </p>
-            </CardBody>
-          </Card>
-
           <ComponentContainerCard
             id="default"
             title="Bulk Employee Upload"
