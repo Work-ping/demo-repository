@@ -32,6 +32,7 @@ const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/pag
 const Welcome = lazy(() => import('@/app/(admin)/pages/welcome/page'));
 const FAQs = lazy(() => import('@/app/(admin)/pages/faqs/page'));
 const Profile = lazy(() => import('@/app/(admin)/pages/profile/page'));
+const DeleteEmployees = lazy(()=>import('@/pages/delete-employees/DeleteEmployees'));
 const ComingSoon = lazy(() => import('@/app/(other)/coming-soon/page'));
 const ContactUs = lazy(() => import('@/app/(admin)/pages/contact-us/page'));
 const AboutUs = lazy(() => import('@/app/(admin)/pages/about-us/page'));
@@ -242,6 +243,10 @@ const customRoutes = [{
   name: 'Profile',
   path: '/pages/profile',
   element: <Profile />
+}, {
+  name: 'DeleteEmployees',
+  path: '/pages/delete-employees',
+  element: <DeleteEmployees />
 }, {
   name: 'Contact Us',
   path: '/pages/contact-us',
