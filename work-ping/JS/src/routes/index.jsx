@@ -8,7 +8,7 @@ const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 
 // Apps Routes
 const EmployeeDetails= lazy(()=> import('@/pages/add-employees/single-form-upload/EmployeeDetailsForm'))
-const Testing2 = lazy(()=> import('@/pages/add-employees/single-form-upload/verifiedIds'));
+const Testing2 = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
 const EcommerceProductDetails = lazy(() => import('@/app/(admin)/ecommerce/products/[productId]/page'));
 const EcommerceProductCreate = lazy(() => import('@/app/(admin)/ecommerce/products/create/page'));
