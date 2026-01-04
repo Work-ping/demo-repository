@@ -34,51 +34,61 @@ const DeleteEmployees = () => {
       <PageBreadcrumb subName="Employees" title="Remove Employees" />
       <PageMetaData title="Remove Employees" />
 
-      <Row className="justify-content-center">
-        <Col xl={6} lg={8} md={10} sm={12}>
-          <ComponentContainerCard
-            id="default"
-            title="Remove Employee"
-            description="Enter the Employee User ID to review details before removal."
+     <Row
+  className="justify-content-center"
+  style={{ marginTop: '130px' }}
+>
+  <Col xl={6} lg={8} md={10} sm={12}>
+    
+    {/* HEADER (CENTERED, NO CARD BACKGROUND) */}
+    <div className="text-center mb-4">
+      <h4 className="fw-semibold mb-4 pt-3">Remove Employee</h4>
+      <p className="text-muted mb-0">
+        Enter the Employee User ID to review details before removal.
+      </p>
+    </div>
+
+    {/* FORM CONTAINER */}
+    <div className="rounded-3">
+      <Form>
+        <Form.Group className="mb-5">
+          <Form.Label className="fw-small">
+          </Form.Label>
+          <Form.Control
+            className="w-75 mx-auto"
+            type="text"
+            placeholder="Enter User ID (e.g. EMP-1023)"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+        </Form.Group>
+
+        <div className="d-flex justify-content-center gap-5">
+
+          <Button
+            variant="secondary"
+            onClick={handleClear}
+            disabled={!userId}
           >
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label className="fw-medium">
-                  Employee User ID
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter User ID (e.g. EMP-1023)"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                />
-              </Form.Group>
+            Clear
+          </Button>
+            <Button
+            variant="danger"
+            disabled={!userId}
+            onClick={handleRemoveClick}
+          >
+            Delete
+          </Button>
+        </div>
 
-              <div className="d-flex gap-2">
-                <Button
-                  variant="danger"
-                  disabled={!userId}
-                  onClick={handleRemoveClick}
-                >
-                  Delete
-                </Button>
+        <p className="text-danger fs-13 mt-4 mb-0 text-center">
+          ⚠️ This action is permanent and cannot be undone.
+        </p>
+      </Form>
+    </div>
 
-                <Button
-                  variant="secondary"
-                  onClick={handleClear}
-                  disabled={!userId}
-                >
-                  Clear
-                </Button>
-              </div>
-
-              <p className="text-danger fs-13 mt-3 mb-0">
-                ⚠️ This action is permanent and cannot be undone.
-              </p>
-            </Form>
-          </ComponentContainerCard>
-        </Col>
-      </Row>
+  </Col>
+</Row>
 
       {/* RIGHT SIDE OFFCANVAS */}
     <Offcanvas

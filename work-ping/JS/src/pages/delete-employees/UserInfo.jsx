@@ -17,11 +17,13 @@ const UserInfo = ({ swal, onCancel }) => {
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Yes, delete it!',
+         reverseButtons: true, 
         customClass: {
-          confirmButton: 'btn btn-danger w-xs mt-2',
-          cancelButton: 'btn btn-secondary w-xs mt-2'
+          cancelButton: 'btn btn-secondary w-xs mt-2',
+          confirmButton: 'btn btn-danger w-xs mt-2'
+         
         },
         buttonsStyling: false
       })
@@ -127,13 +129,12 @@ const UserInfo = ({ swal, onCancel }) => {
 
         {/* Action Buttons */}
         <div className="action-buttons">
+           <Button variant="secondary" onClick={handleCancel}>
+            Cancel
+        </Button>
           <Button variant="danger" onClick={handleConfirm}>
             Confirm
           </Button>
-
-        <Button variant="secondary" onClick={handleCancel}>
-            Cancel
-        </Button>
         </div>
 
       </CardBody>
