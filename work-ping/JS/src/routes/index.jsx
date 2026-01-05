@@ -8,7 +8,7 @@ const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 
 // Apps Routes
 const EmployeeDetails= lazy(()=> import('@/pages/add-employees/single-form-upload/EmployeeDetailsForm'))
-const Testing2 = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
+const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
 const EcommerceProductDetails = lazy(() => import('@/app/(admin)/ecommerce/products/[productId]/page'));
 const EcommerceProductCreate = lazy(() => import('@/app/(admin)/ecommerce/products/create/page'));
@@ -149,9 +149,9 @@ const generalRoutes = [{
 },{path: '/testing',
   name: 'Employee',
   element: <EmployeeDetails />
-},{path: '/testing2',
-  name: 'Testing2',
-  element: <Testing2 />
+},{path: '/add-employee',
+  name: 'AddEmployee',
+  element: <AddEmployee />
 } ,{
   path: '/dashboard/finance',
   name: 'Finance',
@@ -223,7 +223,7 @@ const appsRoutes = [{
   element: <CreateTeams />
 }, {
   name: 'CreateProjects',
-  path: '/pages/create-projects',
+  path: '/create-projects',
   element: <CreateProjects />
 }, {
   name: 'ViewTeamMembers',
@@ -260,7 +260,7 @@ const customRoutes = [{
   element: <Profile />
 }, {
   name: 'DeleteEmployees',
-  path: '/pages/delete-employees',
+  path: '/delete-employees',
   element: <DeleteEmployees />
 }, {
   name: 'Contact Us',
