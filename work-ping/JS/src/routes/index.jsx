@@ -23,6 +23,9 @@ const Schedule = lazy(() => import('@/app/(admin)/calendar/schedule/page'));
 const Integration = lazy(() => import('@/app/(admin)/calendar/integration/page'));
 const Help = lazy(() => import('@/app/(admin)/calendar/help/page'));
 const Todo = lazy(() => import('@/app/(admin)/apps/todo/page'));
+const CreateProjects = lazy(()=>import('@/pages/create-projects/CreateProjects'));
+const CreateTeams = lazy(()=>import('@/pages/create-projects/CreateTeams'));
+const ViewTeamMembers = lazy(()=>import('@/pages/create-projects/ViewTeamMembers'));
 const Social = lazy(() => import('@/app/(admin)/apps/social/page'));
 const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
@@ -214,6 +217,18 @@ const appsRoutes = [{
   name: 'Todo',
   path: '/apps/todo',
   element: <Todo />
+}, {
+  name: 'CreateTeams',
+  path: '/pages/create-teams',
+  element: <CreateTeams />
+}, {
+  name: 'CreateProjects',
+  path: '/pages/create-projects',
+  element: <CreateProjects />
+}, {
+  name: 'ViewTeamMembers',
+  path: '/pages/view-users',
+  element: <ViewTeamMembers />
 }, {
   name: 'Social',
   path: '/apps/social',
