@@ -20,9 +20,9 @@ const DEFAULT_TEAMS = [
 ];
 
 const CreateTeams = () => {
-
   const { state } = useLocation();
   const navigate = useNavigate();
+
   const [showTeamForm, setShowTeamForm] = useState(false);
   const [teams, setTeams] = useState(DEFAULT_TEAMS);
   const [editIndex, setEditIndex] = useState(null);
@@ -39,11 +39,11 @@ const CreateTeams = () => {
 
   const handleAddOrUpdateTeam = (team) => {
     if (editIndex !== null) {
-      setTeams((prev) =>
+      setTeams(prev =>
         prev.map((t, i) => (i === editIndex ? team : t))
       );
     } else {
-      setTeams((prev) => [...prev, team]);
+      setTeams(prev => [...prev, team]);
     }
     handleClose();
   };
@@ -54,7 +54,7 @@ const CreateTeams = () => {
   };
 
   const handleDeleteTeam = (index) => {
-    setTeams((prev) => prev.filter((_, i) => i !== index));
+    setTeams(prev => prev.filter((_, i) => i !== index));
   };
 
   if (!state) {
@@ -74,12 +74,18 @@ const CreateTeams = () => {
         <Col>
           <Card>
             <CardBody>
-              <div className="d-flex justify-content-between align-items-center">
+              {/* Header */}
+              <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                 <h5 className="mb-0">
-                  Teams – <span className="text-muted">{state.projectName}</span>
+                  Teams –{' '}
+                  <span className="text-muted">
+                    {state.projectName}
+                  </span>
                 </h5>
 
-                <Button variant="primary" onClick={handleOpen}>
+                <Button
+                  variant="primary"
+                  onClick={handleOpen}>
                   + Create Team
                 </Button>
               </div>
@@ -91,7 +97,7 @@ const CreateTeams = () => {
                 <thead className="bg-light">
                   <tr>
                     <th>Team Name</th>
-                    <th>Working Status</th>
+                    <th>Status</th>
                     <th className="text-end">Action</th>
                   </tr>
                 </thead>
@@ -99,39 +105,41 @@ const CreateTeams = () => {
                 <tbody>
                   {teams.map((team, index) => (
                     <tr key={index}>
-                        <td>
-                       <span
-                            role="button"
-                            className="fw-medium text-primary"
-                            onClick={() =>
-                            navigate('/pages/view-users', {
-                            state: {
-                                    TeamName: team.name,
-                                    },
-                                    })
-                                }
-                                >
-                                {team.name}
-                                </span>
-                         </td>
-                      <td>{team.type}</td>
-                      <td className="text-end">
-                        <Button
-                          variant="soft-primary"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleEditTeam(index)}
+                      <td>
+                        <span
+                          role="button"
+                          className="fw-medium text-primary"
+                          onClick={() =>
+                            navigate('/view-users', {
+                              state: { TeamName: team.name },
+                            })
+                          }
                         >
-                          <IconifyIcon icon="bx:edit" className="fs-16" />
-                        </Button>
+                          {team.name}
+                        </span>
+                      </td>
 
-                        <Button
-                          variant="soft-danger"
-                          size="sm"
-                          onClick={() => handleDeleteTeam(index)}
-                        >
-                          <IconifyIcon icon="bx:trash" className="fs-16" />
-                        </Button>
+                      <td>{team.type}</td>
+
+                      {/* Action Buttons */}
+                      <td className="text-end">
+                        <div className="d-flex justify-content-end gap-2 flex-nowrap">
+                          <Button
+                            variant="soft-primary"
+                            size="sm"
+                            onClick={() => handleEditTeam(index)}
+                          >
+                            <IconifyIcon icon="bx:edit" className="fs-16" />
+                          </Button>
+
+                          <Button
+                            variant="soft-danger"
+                            size="sm"
+                            onClick={() => handleDeleteTeam(index)}
+                          >
+                            <IconifyIcon icon="bx:trash" className="fs-16" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -161,7 +169,10 @@ const CreateTeams = () => {
               <AddTeamForm
                 onSave={handleAddOrUpdateTeam}
                 onCancel={handleClose}
-                defaultValues={editIndex !== null ? teams[editIndex] : null}/>
+                defaultValues={
+                  editIndex !== null ? teams[editIndex] : null
+                }
+              />
             </Offcanvas.Body>
           </Offcanvas>
         </Col>

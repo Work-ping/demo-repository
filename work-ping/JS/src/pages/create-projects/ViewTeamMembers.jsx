@@ -28,7 +28,7 @@ const DEFAULT_MEMBERS = [
 ];
 
 const ViewTeamMembers = () => {
-  const { state } = useLocation(); // TeamName from previous page
+  const { state } = useLocation();
 
   const [members, setMembers] = useState(DEFAULT_MEMBERS);
   const [showForm, setShowForm] = useState(false);
@@ -46,11 +46,11 @@ const ViewTeamMembers = () => {
 
   const handleAddOrUpdate = (member) => {
     if (editIndex !== null) {
-      setMembers((prev) =>
+      setMembers(prev =>
         prev.map((m, i) => (i === editIndex ? member : m))
       );
     } else {
-      setMembers((prev) => [...prev, member]);
+      setMembers(prev => [...prev, member]);
     }
     handleClose();
   };
@@ -61,7 +61,7 @@ const ViewTeamMembers = () => {
   };
 
   const handleDelete = (index) => {
-    setMembers((prev) => prev.filter((_, i) => i !== index));
+    setMembers(prev => prev.filter((_, i) => i !== index));
   };
 
   if (!state) {
@@ -81,7 +81,8 @@ const ViewTeamMembers = () => {
         <Col>
           <Card>
             <CardBody>
-              <div className="d-flex justify-content-between align-items-center">
+              {/* Header */}
+             <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                 <h5 className="mb-0">
                   Members –
                   <span className="text-muted ms-1">
@@ -89,7 +90,10 @@ const ViewTeamMembers = () => {
                   </span>
                 </h5>
 
-                <Button variant="primary" onClick={handleOpen}>
+                <Button
+                  variant="primary"
+                  onClick={handleOpen}
+                >
                   + Add Member
                 </Button>
               </div>
@@ -111,25 +115,30 @@ const ViewTeamMembers = () => {
                   {members.map((member, index) => (
                     <tr key={index}>
                       <td>{member.userId}</td>
-                      <td className="fw-medium">{member.userName}</td>
+                      <td className="fw-medium">
+                        {member.userName}
+                      </td>
                       <td>{member.workingType}</td>
-                      <td className="text-end">
-                        <Button
-                          variant="soft-primary"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleEdit(index)}
-                        >
-                          <IconifyIcon icon="bx:edit" />
-                        </Button>
 
-                        <Button
-                          variant="soft-danger"
-                          size="sm"
-                          onClick={() => handleDelete(index)}
-                        >
-                          <IconifyIcon icon="bx:trash" />
-                        </Button>
+                      {/* Action Buttons */}
+                      <td className="text-end">
+                        <div className="d-flex justify-content-end gap-2 flex-nowrap">
+                          <Button
+                            variant="soft-primary"
+                            size="sm"
+                            onClick={() => handleEdit(index)}
+                          >
+                            <IconifyIcon icon="bx:edit" className="fs-16" />
+                          </Button>
+
+                          <Button
+                            variant="soft-danger"
+                            size="sm"
+                            onClick={() => handleDelete(index)}
+                          >
+                            <IconifyIcon icon="bx:trash" className="fs-16" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}

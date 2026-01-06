@@ -18,8 +18,13 @@ const AddTeamMemberForm = ({ onSave, onCancel, defaultValues }) => {
     }
   }, [defaultValues]);
 
-  const handleSubmit = () => {
-    if (!userId || !userName || !workingType) return;
+  const handleSubmit = (e) => {
+    // 🔥 LET BROWSER VALIDATION HANDLE REQUIRED FIELDS
+    if (!e.currentTarget.checkValidity()) {
+      return; // browser shows "Please fill out this field"
+    }
+
+    e.preventDefault();
 
     onSave({
       userId,
@@ -29,30 +34,36 @@ const AddTeamMemberForm = ({ onSave, onCancel, defaultValues }) => {
   };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
+      {/* User ID */}
       <Form.Group className="mb-3">
         <Form.Label>User ID</Form.Label>
         <Form.Control
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
           placeholder="USR-103"
+          required
         />
       </Form.Group>
 
+      {/* User Name */}
       <Form.Group className="mb-3">
         <Form.Label>User Name</Form.Label>
         <Form.Control
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           placeholder="Enter user name"
+          required
         />
       </Form.Group>
 
+      {/* Working Type */}
       <Form.Group className="mb-4">
         <Form.Label>Working Type</Form.Label>
         <Form.Select
           value={workingType}
           onChange={(e) => setWorkingType(e.target.value)}
+          required
         >
           <option value="">Select</option>
           <option value="Remote">Remote</option>
@@ -62,7 +73,7 @@ const AddTeamMemberForm = ({ onSave, onCancel, defaultValues }) => {
       </Form.Group>
 
       <div className="d-flex gap-2">
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button type="submit" variant="primary">
           Save
         </Button>
         <Button variant="secondary" onClick={onCancel}>

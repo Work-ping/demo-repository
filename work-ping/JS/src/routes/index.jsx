@@ -223,7 +223,7 @@ const appsRoutes = [{
   element: <Todo />
 }, {
   name: 'CreateTeams',
-  path: '/pages/create-teams',
+  path: '/create-teams',
   element: <CreateTeams />
 }, {
   name: 'CreateProjects',
@@ -231,7 +231,7 @@ const appsRoutes = [{
   element: <CreateProjects />
 }, {
   name: 'ViewTeamMembers',
-  path: '/pages/view-users',
+  path: '/view-users',
   element: <ViewTeamMembers />
 }, {
   name: 'Social',
