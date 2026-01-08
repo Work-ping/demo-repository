@@ -1,10 +1,13 @@
+
 import { useEffect, useState } from 'react';
 import { Button, Card, CardBody, Col, Row, Offcanvas } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PageBreadcrumb from '@/components/layout/PageBreadcrumb';
 import PageMetaData from '@/components/PageTitle';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import AddProjectsForm from './AddProjectsForm';
+
+const API_URL = '';
 
 const CreateProjects = () => {
   const navigate = useNavigate();
@@ -19,38 +22,42 @@ const CreateProjects = () => {
     setShowProjectForm(false);
   };
 
-  useEffect(() => {
-    (async () => {
-      const data = await getAllTasks();
+  /* 🔹 FETCH PROJECTS FROM BACKEND */
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
       setAllTasks(data || []);
-    })();
+    } catch (err) {
+      console.error('Failed to fetch projects', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
   }, []);
 
-  /* ✅ ADD or UPDATE PROJECT */
-  const handleSaveProject = (project) => {
-    if (editProject) {
-      setAllTasks((prev) =>
-        prev.map((item) =>
-          item.id === editProject.id ? { ...project, id: editProject.id } : item
-        )
-      );
-    } else {
-      setAllTasks((prev) => [
-        ...prev,
-        { ...project, id: Date.now() },
-      ]);
-    }
+  /* 🔹 AFTER SAVE → REFRESH LIST */
+  const handleProjectSaved = () => {
+    fetchProjects();
     handleClose();
   };
 
-  /* 🗑 DELETE */
-  const handleDelete = (id) => {
-    setAllTasks((prev) => prev.filter((task) => task.id !== id));
+  /* 🗑 DELETE PROJECT (BACKEND) */
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+      });
+      fetchProjects();
+    } catch (err) {
+      console.error('Delete failed', err);
+    }
   };
 
   return (
     <>
-      <PageBreadcrumb subName="Employee" title="Projects" />
+      <PageBreadcrumb subName="Employee" title="Projects" subLink="" />
       <PageMetaData title="Projects" />
 
       <Row>
@@ -96,7 +103,7 @@ const CreateProjects = () => {
 
                 <tbody>
                   {allTasks.map((task) => (
-                    <tr key={task.id}>
+                    <tr key={task._id}>
                       <td>
                         <span
                           role="button"
@@ -111,9 +118,8 @@ const CreateProjects = () => {
                         </span>
                       </td>
 
-                      <td>{task.createdAt}</td>
-                      <td>{task.dueDate}</td>
-
+                      <td>{task.createdAt?.slice(0, 10)}</td>
+                      <td>{task.dueDate?.slice(0, 10)}</td>
                       <td>{task.employee?.name}</td>
 
                       <td>
@@ -159,13 +165,21 @@ const CreateProjects = () => {
                         <Button
                           variant="soft-danger"
                           size="sm"
-                          onClick={() => handleDelete(task.id)}
+                          onClick={() => handleDelete(task._id)}
                         >
                           <IconifyIcon icon="bx:trash" />
                         </Button>
                       </td>
                     </tr>
                   ))}
+
+                  {allTasks.length === 0 && (
+                    <tr>
+                      <td colSpan="7" className="text-center py-4">
+                        No projects found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -191,8 +205,8 @@ const CreateProjects = () => {
             <Offcanvas.Body>
               <AddProjectsForm
                 onCancel={handleClose}
-                onSave={handleSaveProject}
                 editData={editProject}
+                onSuccess={handleProjectSaved}
               />
             </Offcanvas.Body>
           </Offcanvas>
@@ -203,3 +217,4 @@ const CreateProjects = () => {
 };
 
 export default CreateProjects;
+

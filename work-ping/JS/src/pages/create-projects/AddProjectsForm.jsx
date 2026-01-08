@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
 
-const AddProjectsForm = ({ onCancel, onSave, editData }) => {
+import { useEffect, useState } from 'react';
+import { Button, Form, Alert, Spinner } from 'react-bootstrap';
+
+const AddProjectsForm = ({ onCancel, editData }) => {
   const [formData, setFormData] = useState({
     task: '',
     createdAt: '',
@@ -11,19 +12,60 @@ const AddProjectsForm = ({ onCancel, onSave, editData }) => {
     priority: 'Low',
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
   useEffect(() => {
     if (editData) {
       setFormData(editData);
     }
   }, [editData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(formData);
+    setError('');
+    setSuccess(false);
+    setLoading(true);
+
+    try {
+      const res = await fetch('http://localhost:5000/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to save project');
+      }
+
+      await res.json();
+      setSuccess(true);
+
+      // Optional: reset form
+      setFormData({
+        task: '',
+        createdAt: '',
+        dueDate: '',
+        employee: { name: '' },
+        status: 'Pending',
+        priority: 'Low',
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">Project saved successfully</Alert>}
+
       <Form.Group className="mb-3">
         <Form.Label>Project Title</Form.Label>
         <Form.Control
@@ -102,11 +144,11 @@ const AddProjectsForm = ({ onCancel, onSave, editData }) => {
       </Form.Group>
 
       <div className="d-flex justify-content-center gap-4">
-        <Button variant="secondary" onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel} disabled={loading}>
           Cancel
         </Button>
-        <Button type="submit" variant="primary">
-          Save Project
+        <Button type="submit" variant="primary" disabled={loading}>
+          {loading ? <Spinner size="sm" /> : 'Save Project'}
         </Button>
       </div>
     </Form>
@@ -114,3 +156,4 @@ const AddProjectsForm = ({ onCancel, onSave, editData }) => {
 };
 
 export default AddProjectsForm;
+
