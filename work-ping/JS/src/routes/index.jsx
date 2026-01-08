@@ -10,6 +10,7 @@ const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 const EmployeeDetails= lazy(()=> import('@/pages/add-employees/single-form-upload/EmployeeDetailsForm'))
 const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
 const UpdateEmployee= lazy(()=>import('@/pages/update-employees/UpdateEmployees'));
+const Testing2= lazy(()=>import('@/pages/add-organization/OrganizationDetails'));
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
 const EcommerceProductDetails = lazy(() => import('@/app/(admin)/ecommerce/products/[productId]/page'));
 const EcommerceProductCreate = lazy(() => import('@/app/(admin)/ecommerce/products/create/page'));
@@ -147,9 +148,9 @@ const generalRoutes = [{
   path: '/dashboard/analytics',
   name: 'Analytics',
   element: <Analytics />
-},{path: '/testing',
+},{path: '/testing2',
   name: 'Employee',
-  element: <EmployeeDetails />
+  element: <Testing2 />
 },{path: '/add-employee',
   name: 'AddEmployee',
   element: <AddEmployee />
