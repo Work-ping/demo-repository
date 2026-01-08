@@ -13,22 +13,18 @@ const AddTeamForm = ({ onSave, onCancel, defaultValues }) => {
   }, [defaultValues]);
 
   const handleSubmit = (e) => {
-    // 🔥 LET BROWSER VALIDATION HANDLE REQUIRED FIELDS
-    if (!e.currentTarget.checkValidity()) {
-      return; // shows browser popup
-    }
+    if (!e.currentTarget.checkValidity()) return;
 
     e.preventDefault();
 
     onSave({
       name: teamName,
-      type: workingType,
+      type: workingType
     });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      {/* Team Name */}
       <Form.Group className="mb-3">
         <Form.Label>Team Name</Form.Label>
         <Form.Control
@@ -38,7 +34,6 @@ const AddTeamForm = ({ onSave, onCancel, defaultValues }) => {
         />
       </Form.Group>
 
-      {/* Working Status */}
       <Form.Group className="mb-4">
         <Form.Label>Working Status</Form.Label>
         <Form.Select

@@ -3,7 +3,8 @@ import { Col, Row } from 'react-bootstrap';
 import IconifyIcon from '../wrappers/IconifyIcon';
 const PageBreadcrumb = ({
   title,
-  subName
+  subName,
+  subLink
 }) => {
   return <Row>
       <Col xs={12}>
@@ -11,7 +12,7 @@ const PageBreadcrumb = ({
           <h4 className="mb-0 fw-semibold">{title}</h4>
           <ol className="breadcrumb mb-0 align-items-center">
             <li className="breadcrumb-item icons-center">
-              <Link to="">{subName}</Link>
+              <Link to={subLink}>{subName}</Link>
               <div className="ms-1" style={{
               height: 24
             }}>
