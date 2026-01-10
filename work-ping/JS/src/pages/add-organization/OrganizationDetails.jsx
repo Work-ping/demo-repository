@@ -3,6 +3,7 @@ import CustomFlatpickr from '@/components/CustomFlatpickr'
 import PasswordFormInput from '@/components/form/PasswordFormInput'
 import { Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormCheck, Row } from 'react-bootstrap'
 import { useState } from 'react'
+
 import TextAreaFormInput from '@/components/form/TextAreaFormInput'
 import TextFormInput from '@/components/form/TextFormInput'
 import { useForm } from 'react-hook-form'
@@ -38,13 +39,33 @@ const EmployeeDetailsForm = () => {
           </label>
           <input type="number" className="form-control" placeholder="Enter casual Leaves" min={0} max={15} />
         </div>
-        <TextAreaFormInput name="textarea" label="Description" control={control} rows={5} />
-        
+        <TextAreaFormInput containerClassName="mb-3" name="textarea" label="Description" control={control} rows={5} />
+
         <div className="mb-3">
-            <label className="form-label" >
-                Organization Ip Adress
-            </label>
-            <MaskedInput mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/]} placeholder="___.___.___.___" className="form-control" />
+          <label className="form-label">Organization Ip Adress</label>
+          <MaskedInput
+            mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/]}
+            placeholder="___.___.___.___"
+            className="form-control"
+          />
+        </div>
+
+        <PasswordFormInput
+          control={control}
+          name="Pass Key"
+          containerClassName="mb-3"
+          placeholder="Enter your passkey"
+          id="password-id"
+          label={
+            <>
+              <label className="form-label" htmlFor="example-password">
+                Pass Key
+              </label>
+            </>
+          }
+        />
+        <div className="text-center mt-3">
+          <Button variant="primary">Submit</Button>
         </div>
       </div>
     </ComponentContainerCard>

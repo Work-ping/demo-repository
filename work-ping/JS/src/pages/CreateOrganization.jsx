@@ -1,6 +1,7 @@
 import { Button, Col, Row, Card } from 'react-bootstrap';
-
+import { useNavigate } from 'react-router-dom'
 const CreateOrganization = () => {
+  const navigate=useNavigate();
   return (
     <Row
       className="align-items-center justify-content-center"
@@ -24,7 +25,7 @@ const CreateOrganization = () => {
           To get started, create or connect to an organization
         </p>
 
-        <Button variant="primary" className="mb-4">
+        <Button variant="primary" className="mb-4" onClick={() => navigate('/organization/organization-details')}>
           + Add Organization
         </Button>
 
@@ -40,7 +41,7 @@ const CreateOrganization = () => {
               You can create a new organization and start managing
               your teams and workflows easily.
             </p>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" onClick={() => navigate('/organization/organization-details')}>
               CREATE ORGANIZATION
             </Button>
           </Card.Body>
