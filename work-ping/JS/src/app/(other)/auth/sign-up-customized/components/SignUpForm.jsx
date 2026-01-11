@@ -4,32 +4,128 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormCheck } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+
 const SignUpForm = () => {
   const signUpSchema = yup.object({
-    name: yup.string().required('please enter your name'),
-    email: yup.string().email('Please enter a valid email').required('please enter your email'),
-    password: yup.string().required('Please enter your password')
+    name: yup.string().required('Please enter your name'),
+    number: yup.string().required('Please enter your mobile number'),
+    email: yup
+      .string()
+      .email('Please enter a valid email')
+      .required('Please enter your email'),
+    password: yup.string().required('Please enter your password'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Passwords must match')
+      .required('Please confirm your password')
   });
+
   const {
     control,
-    handleSubmit
+    handleSubmit,
+    reset
   } = useForm({
     resolver: yupResolver(signUpSchema)
   });
-  return <form className="authentication-form" onSubmit={handleSubmit(() => {})}>
-      <TextFormInput control={control} name="name" containerClassName="mb-3" label="Name" id="name" placeholder="Enter your name" required/>
-      <TextFormInput name="number" label="Mobile Number" placeholder="Enter your number" containerClassName="mb-3" control={control} required/>
-      <TextFormInput control={control} name="email" containerClassName="mb-3" label="Email" id="email-id" placeholder="Enter your email" required/>
-      <PasswordFormInput control={control} name="password" containerClassName="mb-3" placeholder="Enter your password" id="password-id" label="Password" required/>
-      <PasswordFormInput control={control} name="confirm-password" containerClassName="mb-3" placeholder="Enter your password" id="password-id-2" label="Confirm Password" required/>
+
+  const onSubmit = async (values) => {
+    try {
+      const payload = {
+        name: values.name,
+        number: values.number,
+        email: values.email,
+        password: values.password
+      };
+
+      // const res = await fetch('', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(payload)
+      // });
+
+      // const data = await res.json();
+
+      // if (!res.ok) {
+      //   throw new Error(data.error || 'Signup failed');
+      // }
+      console.log('Signup payload:', payload);
+
+      alert('Signup successful 🎉');
+      reset();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  return (
+    <form
+      className="authentication-form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <TextFormInput
+        control={control}
+        name="name"
+        containerClassName="mb-3"
+        label="Name"
+        id="name"
+        placeholder="Enter your name"
+        required
+      />
+
+      <TextFormInput
+        name="number"
+        label="Mobile Number"
+        placeholder="Enter your number"
+        containerClassName="mb-3"
+        control={control}
+        required
+      />
+
+      <TextFormInput
+        control={control}
+        name="email"
+        containerClassName="mb-3"
+        label="Email"
+        id="email-id"
+        placeholder="Enter your email"
+        required
+      />
+
+      <PasswordFormInput
+        control={control}
+        name="password"
+        containerClassName="mb-3"
+        placeholder="Enter your password"
+        id="password-id"
+        label="Password"
+        required
+      />
+
+      <PasswordFormInput
+        control={control}
+        name="confirmPassword"
+        containerClassName="mb-3"
+        placeholder="Enter your password"
+        id="password-id-2"
+        label="Confirm Password"
+        required
+      />
+
       <div className="mb-3">
-        <FormCheck label="I accept Terms and Condition" id="termAndCondition" />
+        <FormCheck
+          label="I accept Terms and Condition"
+          id="termAndCondition"
+          required
+        />
       </div>
+
       <div className="mb-1 text-center d-grid">
         <Button variant="primary" type="submit">
           Sign Up
         </Button>
       </div>
-    </form>;
+    </form>
+  );
 };
+
 export default SignUpForm;
