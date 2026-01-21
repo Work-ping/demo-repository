@@ -3,7 +3,7 @@ import CustomFlatpickr from '@/components/CustomFlatpickr'
 import PasswordFormInput from '@/components/form/PasswordFormInput'
 import { Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormCheck, Row } from 'react-bootstrap'
 import { useState } from 'react'
-
+import LocationPicker from '@/pages/LocationPicker'
 import TextAreaFormInput from '@/components/form/TextAreaFormInput'
 import TextFormInput from '@/components/form/TextFormInput'
 import { useForm } from 'react-hook-form'
@@ -64,6 +64,53 @@ const EmployeeDetailsForm = () => {
             </>
           }
         />
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Latitude First Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter latitude" />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Longitude First Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter longitude" />
+          </div>
+        </div>
+        
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Latitude Second Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter latitude" />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Longitude Second Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter longitude" />
+          </div>
+        </div>
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Latitude Third Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter latitude" />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Longitude Third Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter longitude" />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Latitude Fourth Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter latitude" />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Longitude Fourth Corner</label>
+            <input type="number" step="any" className="form-control" placeholder="Enter longitude" />
+          </div>
+        </div>
+
         <div className="text-center mt-3">
           <Button variant="primary">Submit</Button>
         </div>
