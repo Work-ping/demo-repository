@@ -53,7 +53,23 @@ const EmployeeDetailsForm = () => {
   })
 
   const onSubmit = (data) => {
-    console.log(data)
+
+    const newData = {
+      name: data.organizationName,
+      type: data.organizationType,
+      clDays: data.casualLeaves,
+      description: data.description,
+      IPWhitelist: data.ipAddress,
+      passKey: data.passKey,
+      geoFence: [
+        { lat: data.lat1, lng: data.lng1 },
+        { lat: data.lat2, lng: data.lng2 },
+        { lat: data.lat3, lng: data.lng3 },
+        { lat: data.lat4, lng: data.lng4 },
+      ],
+    }
+
+    console.log('Organization Details Submitted: ', newData)
   }
 
   return (
