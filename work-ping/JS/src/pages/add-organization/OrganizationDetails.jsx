@@ -5,9 +5,11 @@ import { Button } from 'react-bootstrap'
 import { useState } from 'react'
 import TextAreaFormInput from '@/components/form/TextAreaFormInput'
 import TextFormInput from '@/components/form/TextFormInput'
-import { useForm } from 'react-hook-form'
+import { useForm,Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+// import {Controller } from 'react-hook-form'
+
 import MaskedInput from 'react-text-mask-legacy'
 
 // Yup Schema
@@ -29,14 +31,14 @@ const schema = yup.object({
     .required('IP Address is required'),
   passKey: yup.string().min(6, 'Minimum 6 characters').required('Pass Key is required'),
 
-  lat1: yup.number().required('Latitude is required'),
-  lng1: yup.number().required('Longitude is required'),
-  lat2: yup.number().required('Latitude is required'),
-  lng2: yup.number().required('Longitude is required'),
-  lat3: yup.number().required('Latitude is required'),
-  lng3: yup.number().required('Longitude is required'),
-  lat4: yup.number().required('Latitude is required'),
-  lng4: yup.number().required('Longitude is required'),
+  // lat1: yup.number().required('Latitude is required'),
+  // lng1: yup.number().required('Longitude is required'),
+  // lat2: yup.number().required('Latitude is required'),
+  // lng2: yup.number().required('Longitude is required'),
+  // lat3: yup.number().required('Latitude is required'),
+  // lng3: yup.number().required('Longitude is required'),
+  // lat4: yup.number().required('Latitude is required'),
+  // lng4: yup.number().required('Longitude is required'),
 })
 
 const EmployeeDetailsForm = () => {
@@ -47,6 +49,7 @@ const EmployeeDetailsForm = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    shouldFocusError: false, // 👈 add this
   })
 
   const onSubmit = (data) => {
@@ -91,14 +94,29 @@ const EmployeeDetailsForm = () => {
         />
 
         <div className="mb-3">
-          <label className="form-label">Organization IP Address*</label>
-          <input
-            className="form-control"
-            placeholder="___.___.___.___"
-            {...register('ipAddress')}
+          <label className="form-label">Organization IP Address</label>
+
+          <Controller
+            name="ipAddress"
+            control={control}
+            render={({ field }) => (
+              <MaskedInput
+                {...field}
+                mask={[
+                  /\d/, /\d/, /\d/, '.',
+                  /\d/, /\d/, /\d/, '.',
+                  /\d/, /\d/, /\d/, '.',
+                  /\d/, /\d/, /\d/
+                ]}
+                placeholder="___.___.___.___"
+                className="form-control"
+              />
+            )}
           />
+
           <small className="text-danger">{errors.ipAddress?.message}</small>
         </div>
+
 
         <PasswordFormInput
           control={control}
