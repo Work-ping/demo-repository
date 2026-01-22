@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, Col, Row, Button } from 'react-bootstrap'
+import { Col, Row, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import DropzoneFormInput from '@/components/form/DropzoneFormInput'
@@ -6,14 +6,17 @@ import PageBreadcrumb from '@/components/layout/PageBreadcrumb'
 import PageMetaData from '@/components/PageTitle'
 
 const BulkUpload = () => {
-  const [file, setFile] = useState(null)
+  const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
-
+  
   const handleUpload = async () => {
-    if (!file) return
+    if (files.length === 0) {
+      alert('Please select at least one file')
+      return
+    }
 
     const formData = new FormData()
-    formData.append('file', file)
+    files.forEach((f) => formData.append('files', f))
 
     try {
       setLoading(true)
@@ -23,8 +26,8 @@ const BulkUpload = () => {
       })
 
       const data = await res.json()
-      alert('File uploaded successfully')
       console.log(data)
+      alert('Files uploaded successfully')
     } catch (err) {
       console.error(err)
       alert('Upload failed')
@@ -58,19 +61,22 @@ const BulkUpload = () => {
                 </span>
               }
               showPreview
-              onChange={(files) => setFile(files[0])}   // 👈 capture file
+              onFileUpload={(list) => {
+                const arr = Array.isArray(list) ? list : [list]
+                setFiles(arr)
+              }}
             />
 
             <div className="text-end mt-3">
               <Button
+                type="button"
                 onClick={handleUpload}
-                disabled={!file || loading}   // 👈 required only after file select
+                disabled={files.length === 0 || loading}
               >
                 {loading ? 'Uploading...' : 'Upload'}
               </Button>
             </div>
-
-           <div className="mt-3 p-3 border rounded bg-light">
+            <div className="mt-3 p-3 border rounded bg-light">
               <h6 className="mb-2">📌 File Format Instructions</h6>
               <p className="text-muted mb-2">
                 Your Excel / CSV file must contain the following columns in the same order:
@@ -87,7 +93,7 @@ const BulkUpload = () => {
                   </thead>
                   <tbody>
                     <tr><td>1</td><td>UserId</td><td>1</td></tr>
-                    <tr><td>2</td><td>UserNmae</td><td>avdd</td></tr>
+                    <tr><td>2</td><td>UserNmae</td><td>DragoN28</td></tr>
                     <tr><td>3</td><td>Email</td><td>example@gmail.com</td></tr>
                     <tr><td>4</td><td>Phone</td><td>07013874687</td></tr>
                     <tr><td>5</td><td>Address</td><td>Jetla Pedda Kapu Street</td></tr>
@@ -107,7 +113,6 @@ const BulkUpload = () => {
                 ⚠️ Make sure column names match exactly. Do not change spelling or order.
               </small>
             </div>
-
           </ComponentContainerCard>
         </Col>
       </Row>
