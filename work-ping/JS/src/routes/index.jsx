@@ -7,7 +7,7 @@ const Finance = lazy(() => import('@/app/(admin)/dashboard/finance/page'));
 const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 
 // Apps Routes
-const EmployeeDetails= lazy(()=> import('@/pages/add-employees/single-form-upload/EmployeeDetailsForm'))
+
 const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
 const UpdateEmployee= lazy(()=>import('@/pages/update-employees/UpdateEmployees'));
 const Organization=lazy(()=>import('@/pages/CreateOrganization'))
