@@ -18,6 +18,27 @@ import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
 import FaceEmbeddings from './faceEmbeddings'
 
+// const schema = yup.object({
+//   userId: yup.string().required('User Id is required'),
+//   user: yup.string().required('User Name is required'),
+//   email: yup.string().email('Invalid email').required('Email is required'),
+//   phone: yup
+//     .string()
+//     .matches(/^[0-9]{10}$/, 'Phone must be 10 digits')
+//     .required('Phone is required'),
+//   address: yup.string().required('Address is required'),
+//   aadhaar: yup
+//     .string()
+//     .matches(/^[0-9]{12}$/, 'Aadhaar must be 12 digits')
+//     .required('Aadhaar is required'),
+//   passport: yup.string().required('Passport is required'),
+//   pan: yup
+//     .string()
+//     .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Invalid PAN format')
+//     .required('PAN is required'),
+//   bank: yup.string().required('Bank Id is required'),
+// })
+
 const AddEmployee = () => {
   const [step, setStep] = useState(0)
   const [countryCode, setCountryCode] = useState('+91')
@@ -26,14 +47,24 @@ const AddEmployee = () => {
   const [search, setSearch] = useState('')
   const [faceEmbedding, setFaceEmbedding] = useState(null)
 
-  const { control, setValue, getValues } = useForm()
+  const {
+    control,
+    setValue,
+    getValues,
+    handleSubmit
+  } = useForm({
+    // resolver: yupResolver(schema),
+  })
 
-  const goNext = () => {
+  const goNext = handleSubmit(() => {
+    if (!gender) return alert('Please select Gender')
+    if (!role) return alert('Please select Role')
+
     setValue('gender', gender)
     setValue('role', role)
     setValue('countryCode', countryCode)
     setStep(1)
-  }
+  })
 
   const submitForm = () => {
     const data = getValues()
@@ -55,6 +86,7 @@ const AddEmployee = () => {
             label="User Id"
             placeholder="Enter User Id"
             control={control}
+            required
           />
 
           <TextFormInput
@@ -62,6 +94,7 @@ const AddEmployee = () => {
             label="User Name"
             placeholder="Enter User Name"
             control={control}
+            required
           />
 
           <TextFormInput
@@ -69,6 +102,7 @@ const AddEmployee = () => {
             label="Email"
             placeholder="Enter Email"
             control={control}
+            required
           />
 
           <label className="form-label">Contact Number</label>
@@ -110,6 +144,7 @@ const AddEmployee = () => {
               name="phone"
               placeholder="Phone number"
               control={control}
+              required
             />
           </Dropdown>
 
@@ -126,6 +161,7 @@ const AddEmployee = () => {
             placeholder="Enter Address"
             rows={4}
             control={control}
+            required
           />
 
           <label className="form-label">Gender</label>
@@ -174,6 +210,7 @@ const AddEmployee = () => {
             label="Aadhaar Id"
             placeholder="12 digit Aadhaar"
             control={control}
+            required
           />
 
           <TextFormInput
@@ -181,6 +218,7 @@ const AddEmployee = () => {
             label="Passport Id"
             placeholder="Enter Passport Id"
             control={control}
+            required
           />
 
           <TextFormInput
@@ -188,6 +226,7 @@ const AddEmployee = () => {
             label="PAN Id"
             placeholder="ABCDE1234F"
             control={control}
+            required
           />
 
           <TextFormInput
@@ -195,6 +234,7 @@ const AddEmployee = () => {
             label="Bank Id"
             placeholder="Enter Bank Id"
             control={control}
+            required
           />
 
           <div className="d-flex justify-content-end mt-4">
