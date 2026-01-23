@@ -5,10 +5,12 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownToggle
+  DropdownToggle,
 } from 'react-bootstrap'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import TextFormInput from '@/components/form/TextFormInput'
@@ -18,26 +20,23 @@ import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
 import FaceEmbeddings from './faceEmbeddings'
 
-// const schema = yup.object({
-//   userId: yup.string().required('User Id is required'),
-//   user: yup.string().required('User Name is required'),
-//   email: yup.string().email('Invalid email').required('Email is required'),
-//   phone: yup
-//     .string()
-//     .matches(/^[0-9]{10}$/, 'Phone must be 10 digits')
-//     .required('Phone is required'),
-//   address: yup.string().required('Address is required'),
-//   aadhaar: yup
-//     .string()
-//     .matches(/^[0-9]{12}$/, 'Aadhaar must be 12 digits')
-//     .required('Aadhaar is required'),
-//   passport: yup.string().required('Passport is required'),
-//   pan: yup
-//     .string()
-//     .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Invalid PAN format')
-//     .required('PAN is required'),
-//   bank: yup.string().required('Bank Id is required'),
-// })
+const schema = yup.object({
+  userId: yup.string().required('User Id is required'),
+  user: yup.string().required('User Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  phone: yup
+    .string()
+    .matches(/^[0-9]{10}$/, 'Phone must be 10 digits')
+    .required('Phone is required'),
+  address: yup.string().required('Address is required'),
+  aadhaar: yup
+    .string()
+    .matches(/^[0-9]{12}$/, 'Aadhaar must be 12 digits')
+    .required('Aadhaar is required'),
+  pan: yup
+    .string()
+    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Invalid PAN format'),
+})
 
 const AddEmployee = () => {
   const [step, setStep] = useState(0)
@@ -47,19 +46,39 @@ const AddEmployee = () => {
   const [search, setSearch] = useState('')
   const [faceEmbedding, setFaceEmbedding] = useState(null)
 
+  // NEW: keep DOB in local state
+  const[dateOfJoining, setDateOfJoining] = useState(null)
+  const [dob, setDob] = useState(null)
+
   const {
     control,
     setValue,
     getValues,
-    handleSubmit
+    handleSubmit,
   } = useForm({
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   })
 
   const goNext = handleSubmit(() => {
-    if (!gender) return alert('Please select Gender')
-    if (!role) return alert('Please select Role')
+    if (!dob) {
+      toast.error('Please select Date of Birth')
+      return
+    }
+    if (!gender) {
+      toast.error('Please select Gender')
+      return
+    }
+    if (!dateOfJoining) {
+      toast.error('Please select Date of Joining')
+      return
+    }
 
+    if (!role) {
+      toast.error('Please select Role')
+      return
+    }
+
+    setValue('dob', dob)
     setValue('gender', gender)
     setValue('role', role)
     setValue('countryCode', countryCode)
@@ -71,6 +90,7 @@ const AddEmployee = () => {
     data.phone = countryCode + (data.phone || '')
     data.gender = gender
     data.role = role
+    data.dob = dob
     data.faceEmbedding = faceEmbedding?.hash
     data.faceSource = faceEmbedding?.source
 
@@ -79,11 +99,13 @@ const AddEmployee = () => {
 
   return (
     <>
+      <ToastContainer position="top-right" autoClose={3000} />
+
       {step === 0 && (
         <ComponentContainerCard title="Add Basic Employee Details">
           <TextFormInput
             name="userId"
-            label="User Id"
+            label="User Id*"
             placeholder="Enter User Id"
             control={control}
             required
@@ -91,7 +113,7 @@ const AddEmployee = () => {
 
           <TextFormInput
             name="user"
-            label="User Name"
+            label="User Name*"
             placeholder="Enter User Name"
             control={control}
             required
@@ -99,13 +121,13 @@ const AddEmployee = () => {
 
           <TextFormInput
             name="email"
-            label="Email"
+            label="Email*"
             placeholder="Enter Email"
             control={control}
             required
           />
 
-          <label className="form-label">Contact Number</label>
+          <label className="form-label">Contact Number*</label>
           <Dropdown className="input-group mb-3">
             <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
               <div className="icons-center">
@@ -123,10 +145,10 @@ const AddEmployee = () => {
               />
               <div style={{ maxHeight: 240, overflowY: 'auto' }}>
                 {countryCodes
-                  .filter(c =>
+                  .filter((c) =>
                     c.country.toLowerCase().includes(search.toLowerCase())
                   )
-                  .map(c => (
+                  .map((c) => (
                     <DropdownItem
                       key={c.isoCode2}
                       onClick={() => {
@@ -148,11 +170,16 @@ const AddEmployee = () => {
             />
           </Dropdown>
 
-          <label className="form-label">Date of Birth</label>
+          <label className="form-label">Date of Birth*</label>
           <CustomFlatpickr
             className="form-control mb-3"
             options={{ enableTime: false }}
-            onChange={(d) => setValue('dob', d[0])}
+            onChange={(d) => {
+              const value = d?.[0] || null
+              // console.log('DOB SELECTED:', value)
+              setDob(value)
+              setValue('dob', value)
+            }}
           />
 
           <TextAreaFormInput
@@ -164,7 +191,7 @@ const AddEmployee = () => {
             required
           />
 
-          <label className="form-label">Gender</label>
+          <label className="form-label">Gender*</label>
           <Dropdown className="mb-3">
             <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
               <div className="icons-center">
@@ -173,7 +200,7 @@ const AddEmployee = () => {
               </div>
             </DropdownToggle>
             <DropdownMenu>
-              {['Male', 'Female', 'Other'].map(g => (
+              {['Male', 'Female', 'Other'].map((g) => (
                 <DropdownItem key={g} onClick={() => setGender(g)}>
                   {g}
                 </DropdownItem>
@@ -181,14 +208,19 @@ const AddEmployee = () => {
             </DropdownMenu>
           </Dropdown>
 
-          <label className="form-label">Date of Joining</label>
+          <label className="form-label">Date of Joining*</label>
           <CustomFlatpickr
             className="form-control mb-3"
             options={{ enableTime: false }}
-            onChange={(d) => setValue('doj', d[0])}
+            onChange={(d) => {
+              const value = d?.[0] || null
+              setDateOfJoining(value)
+              setValue('doj', value)
+            }}
           />
 
-          <label className="form-label">Role</label>
+
+          <label className="form-label">Role*</label>
           <Dropdown className="mb-3">
             <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
               <div className="icons-center">
@@ -197,7 +229,7 @@ const AddEmployee = () => {
               </div>
             </DropdownToggle>
             <DropdownMenu>
-              {['Admin', 'Developer', 'Tester'].map(r => (
+              {['Admin', 'Developer', 'Tester'].map((r) => (
                 <DropdownItem key={r} onClick={() => setRole(r)}>
                   {r}
                 </DropdownItem>
@@ -207,7 +239,7 @@ const AddEmployee = () => {
 
           <TextFormInput
             name="aadhaar"
-            label="Aadhaar Id"
+            label="Aadhaar Id*"
             placeholder="12 digit Aadhaar"
             control={control}
             required
