@@ -34,20 +34,21 @@ const SignUpForm = () => {
         name: values.name,
         number: values.number,
         email: values.email,
-        password: values.password
+        password: values.password,
+        confirmPassword: values.confirmPassword
       };
 
-      // const res = await fetch('', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(payload)
-      // });
+      const res = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-      // const data = await res.json();
+      const data = await res.json();
 
-      // if (!res.ok) {
-      //   throw new Error(data.error || 'Signup failed');
-      // }
+      if (!res.ok) {
+        throw new Error(data.error || 'Signup failed');
+      }
       console.log('Signup payload:', payload);
 
       alert('Signup successful 🎉');
