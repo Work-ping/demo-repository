@@ -7,6 +7,8 @@ import {
   DropdownMenu,
   DropdownToggle
 } from 'react-bootstrap'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import TextFormInput from '@/components/form/TextFormInput'
@@ -14,7 +16,7 @@ import TextAreaFormInput from '@/components/form/TextAreaFormInput'
 import CustomFlatpickr from '@/components/CustomFlatpickr'
 import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
-import FaceEmbeddings from './FaceEmbeddings'
+import FaceEmbeddings from './faceEmbeddings'
 
 const AddEmployee = () => {
   const [step, setStep] = useState(0)
