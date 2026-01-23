@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import FallbackLoading from '@/components/FallbackLoading'
@@ -10,8 +10,18 @@ import HoverMenuToggle from './components/HoverMenuToggle'
 const AppMenu = lazy(() => import('./components/AppMenu'))
 
 const VerticalNavigationBar = () => {
-  const menuItems = getMenuItems()
+  // const menuItems = await getMenuItems()
+
+  const [menuItems, setMenuItems] = useState();
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const getMenuData = async () => {
+      const data = await getMenuItems();
+      setMenuItems(data);
+    }
+    getMenuData();
+  }, [])
 
   return (
     <div className="main-nav d-flex flex-column" id="leftside-menu-container">

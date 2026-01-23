@@ -8,4 +8,15 @@ function HttpClient() {
     delete: axios.delete
   };
 }
-export default HttpClient();
+// export default HttpClient();
+
+
+const axiosClient = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+
+export default axiosClient;
