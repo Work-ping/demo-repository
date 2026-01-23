@@ -36,7 +36,16 @@ const useSignIn = () => {
   };
   const login = handleSubmit(async values => {
     try {
-      const res = await httpClient.post('/login', values);
+      console.log(values);
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      });
+
+
+
+      // const res = await httpClient.post('http://localhost:5000/login', values);
       if (res.data.token) {
         saveSession({
           ...(res.data ?? {}),
