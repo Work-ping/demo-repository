@@ -667,16 +667,27 @@ export const MENU_ITEMS = [
         parentKey: 'technicalhub'
       }
     ]
-  },
-  {
-    key: 'aditya',
+  }
+];
+
+// const MENU_TEMPLATE =
+
+import axiosClient from "@/helpers/httpClient";
+// import axios from "axios";
+
+const generateMenu = (data) => {
+  let menuList = [];
+  for(const org of data) {
+    const orgName = org.name;
+    menuList.push({
+    key: orgName,
     icon: 'mdi:school',
-    label: 'Aditya',
+    label: orgName,
     children: [
       {
         key: 'ad-add-employee',
         label: 'Add Employee',
-        parentKey: 'aditya',
+        parentKey: orgName.toLowerCase(),
         children: [
           {
             key: 'ad-bulk-upload',
@@ -696,20 +707,44 @@ export const MENU_ITEMS = [
         key: 'ad-update-employee',
         label: 'Update Employee',
         url: '/add-employee',
-        parentKey: 'aditya'
+        parentKey: orgName.toLowerCase()
       },
       {
         key: 'ad-delete-employee',
         label: 'Delete Employee',
         url: '/delete-employees',
-        parentKey: 'aditya'
+        parentKey: orgName.toLowerCase()
       },
       {
         key: 'ad-create-projects',
         label: 'Create Projects',
         url: '/create-projects',
-        parentKey: 'aditya'
+        parentKey: orgName.toLowerCase()
       }
     ]
+  })
   }
-];
+
+  return menuList;
+}
+
+
+export const createSideBar = async () => {
+  try {
+    console.log("CALLING CALLING");
+
+    const fakeData = [{name: "TechnicalHub"}, {name: "Hub"}, {name: "MyHub"}, {name: "Technical"}]
+    return generateMenu(fakeData)
+
+    const res = await axiosClient.get(
+      "/admin/organization/get-organizations"
+    );
+
+    console.log("API RESPONSE:", res.data);
+
+    return generateMenu(res.data);
+  } catch (err) {
+    console.error("SIDEBAR API ERROR:", err);
+    return [];
+  }
+};

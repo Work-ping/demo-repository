@@ -1,6 +1,7 @@
-import { MENU_ITEMS } from '@/assets/data/menu-items';
-export const getMenuItems = () => {
-  return MENU_ITEMS;
+import { MENU_ITEMS, createSideBar } from '@/assets/data/menu-items';
+export const getMenuItems = async () => {
+  const MENU = await createSideBar();
+  return MENU;
 };
 export const findAllParent = (menuItems, menuItem) => {
   let parents = [];
