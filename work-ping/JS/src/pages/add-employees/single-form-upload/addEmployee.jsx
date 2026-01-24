@@ -28,14 +28,19 @@ const schema = yup.object({
     .string()
     .matches(/^[0-9]{10}$/, 'Phone must be 10 digits')
     .required('Phone is required'),
-  address: yup.string().required('Address is required'),
+  // address: yup.string().required('Address is required'),
   aadhaar: yup
     .string()
     .matches(/^[0-9]{12}$/, 'Aadhaar must be 12 digits')
     .required('Aadhaar is required'),
-  pan: yup
+   pan: yup
     .string()
-    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Invalid PAN format'),
+    .nullable()
+    .transform(v => (v === '' ? null : v))
+    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, {
+      message: 'Invalid PAN format',
+      excludeEmptyString: true,
+    }),
 })
 
 const AddEmployee = () => {
@@ -128,39 +133,61 @@ const AddEmployee = () => {
           />
 
           <label className="form-label">Contact Number*</label>
-          <Dropdown className="input-group mb-3">
-            <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
-              <div className="icons-center">
-                {countryCode}
-                <IconifyIcon icon="bx:chevron-down" className="ms-2" />
-              </div>
-            </DropdownToggle>
+          <div className="input-group mb-3">
+            <Dropdown>
+              <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
+                <div className="icons-center">
+                  {countryCode}
+                  <IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                </div>
+              </DropdownToggle>
 
-            <DropdownMenu style={{ width: 280 }}>
-              <input
-                className="form-control m-2"
-                placeholder="Search country..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <div style={{ maxHeight: 240, overflowY: 'auto' }}>
-                {countryCodes
-                  .filter((c) =>
-                    c.country.toLowerCase().includes(search.toLowerCase())
-                  )
-                  .map((c) => (
-                    <DropdownItem
-                      key={c.isoCode2}
-                      onClick={() => {
-                        setCountryCode('+' + c.countryCodes[0])
-                        setSearch('')
-                      }}
-                    >
-                      {c.country} (+{c.countryCodes[0]})
-                    </DropdownItem>
-                  ))}
-              </div>
-            </DropdownMenu>
+              <DropdownMenu
+                style={{
+                  width: 280,
+                  padding: 0,
+                }}
+              >
+                <div style={{ padding: 8 }}>
+                  <input
+                    className="form-control"
+                    placeholder="Search country..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: '100%',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+
+                <div
+                  style={{
+                    maxHeight: 220,
+                    overflowY: 'auto',
+                    borderTop: '1px solid #eee',
+                  }}
+                >
+                  {countryCodes
+                    .filter((c) =>
+                      c.country.toLowerCase().includes(search.toLowerCase())
+                    )
+                    .map((c) => (
+                      <DropdownItem
+                        key={c.isoCode2}
+                        onClick={() => {
+                          setCountryCode('+' + c.countryCodes[0])
+                          setSearch('')
+                        }}
+                      >
+                        {c.country} (+{c.countryCodes[0]})
+                      </DropdownItem>
+                    ))}
+                </div>
+              </DropdownMenu>
+
+            </Dropdown>
 
             <TextFormInput
               name="phone"
@@ -168,7 +195,8 @@ const AddEmployee = () => {
               control={control}
               required
             />
-          </Dropdown>
+          </div>
+
 
           <label className="form-label">Date of Birth*</label>
           <CustomFlatpickr

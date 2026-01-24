@@ -5,34 +5,34 @@ const AuthContext = createContext(undefined);
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    // throw new Error('useAuthContext must be used within an AuthProvider');
   }
   return context;
 }
-const authSessionKey = '_REBACK_AUTH_KEY_';
+const authSessionKey = 'accessToken';
 export function AuthProvider({
   children
 }) {
   const navigate = useNavigate();
-  const getSession = () => {
-    const fetchedCookie = getCookie(authSessionKey)?.toString();
-    if (!fetchedCookie) return;else return JSON.parse(fetchedCookie);
-  };
-  const [user, setUser] = useState(getSession());
-  const saveSession = user => {
-    setCookie(authSessionKey, JSON.stringify(user));
-    setUser(user);
-  };
-  const removeSession = () => {
-    deleteCookie(authSessionKey);
-    setUser(undefined);
-    navigate('/auth/sign-in');
-  };
+  // const getSession = () => {
+  //   const fetchedCookie = getCookie(authSessionKey)?.toString();
+  //   if (!fetchedCookie) return;else return JSON.parse(fetchedCookie);
+  // };
+  // const [user, setUser] = useState(getSession());
+  // // const saveSession = user => {
+  // //   // setCookie(authSessionKey, JSON.stringify(user));
+  // //   setUser(user);
+  // // };
+  // const removeSession = () => {
+  //   deleteCookie(authSessionKey);
+  //   setUser(undefined);
+  //   navigate('/auth/sign-in-customized');
+  // };
   return <AuthContext.Provider value={{
-    user,
+    // user,
     isAuthenticated: hasCookie(authSessionKey),
-    saveSession,
-    removeSession
+    // saveSession,
+    // removeSession
   }}>
       {children}
     </AuthContext.Provider>;

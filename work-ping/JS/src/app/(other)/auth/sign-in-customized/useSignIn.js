@@ -5,13 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useAuthContext } from '@/context/useAuthContext';
 import { useNotificationContext } from '@/context/useNotificationContext';
-import httpClient from '@/helpers/httpClient';
+import axiosClient from '@/helpers/httpClient';
 const useSignIn = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    saveSession
-  } = useAuthContext();
+  // const {
+  //   saveSession
+  // } = useAuthContext();
   const [searchParams] = useSearchParams();
   const {
     showNotification
@@ -37,26 +37,30 @@ const useSignIn = () => {
   const login = handleSubmit(async values => {
     try {
       console.log(values);
-      const res = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
-      });
-
-
+      // const res = await httpClient.post('http://localhost:5000/api/admin/auth/login', {
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(values)
+      // }, {
+      //   headers
+      // });
+      // const res= await axiosClient.post('/api/admin/auth/login',{
+      //   userEmail : values.email,
+      //   password : values.password
+      // });
+      // console.log(res)
 
       // const res = await httpClient.post('http://localhost:5000/login', values);
-      if (res.data.token) {
-        saveSession({
-          ...(res.data ?? {}),
-          token: res.data.token
-        });
-        redirectUser();
-        showNotification({
-          message: 'Successfully logged in. Redirecting....',
-          variant: 'success'
-        });
-      }
+      // if (res.data.token) {
+        // saveSession({
+        //   ...(res.data ?? {}),
+        //   token: res.data.token
+        // });
+        window.location.href = "/"
+        // showNotification({
+        //   message: 'Successfully logged in. Redirecting....',
+        //   variant: 'success'
+        // });
+      // }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e) {
       if (e.response?.data?.error) {
