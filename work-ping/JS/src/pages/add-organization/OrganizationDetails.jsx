@@ -11,7 +11,6 @@ import * as yup from 'yup'
 // import {Controller } from 'react-hook-form'
 
 import MaskedInput from 'react-text-mask-legacy'
-import httpClient from '@/helpers/httpClient'
 
 // Yup Schema
 const schema = yup.object({
@@ -53,7 +52,7 @@ const EmployeeDetailsForm = () => {
     shouldFocusError: false, // 👈 add this
   })
 
-  const onSubmit =async (data) => {
+  const onSubmit = (data) => {
 
     const newData = {
       name: data.organizationName,
@@ -69,15 +68,8 @@ const EmployeeDetailsForm = () => {
         { lat: data.lat4, lng: data.lng4 },
       ],
     }
-    console.log('Organization Details Submitted: ', newData)
-    await fetch('http://localhost:5000/api/admin/organization/add-organization', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newData),
-  });
 
+    console.log('Organization Details Submitted: ', newData)
   }
 
   return (

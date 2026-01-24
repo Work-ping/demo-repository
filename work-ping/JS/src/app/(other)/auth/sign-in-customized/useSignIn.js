@@ -5,13 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useAuthContext } from '@/context/useAuthContext';
 import { useNotificationContext } from '@/context/useNotificationContext';
-import axiosClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/httpClient';
 const useSignIn = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  // const {
-  //   saveSession
-  // } = useAuthContext();
+  const {
+    saveSession
+  } = useAuthContext();
   const [searchParams] = useSearchParams();
   const {
     showNotification
