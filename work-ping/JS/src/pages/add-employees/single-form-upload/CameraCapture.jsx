@@ -132,26 +132,48 @@ const CameraCapture = ({ onCapture }) => {
   }
 
   return (
-    <div style={{ position: 'relative' }}>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        width="100%"
-        style={{ display: isCaptured ? 'none' : 'block' }}
-      />
-
-      <canvas
-        ref={canvasRef}
+    <div
+      style={{
+        width: '100%',
+        maxWidth: 420,     // 👈 change this to control camera size on laptop
+        margin: '0 auto',
+      }}
+    >
+      <div
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
+          position: 'relative',
           width: '100%',
-          pointerEvents: 'none',
-          display: isCaptured ? 'none' : 'block',
+          aspectRatio: '4 / 3', // keeps camera proportional
+          background: '#000',
+          borderRadius: 12,
+          overflow: 'hidden',
         }}
-      />
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: isCaptured ? 'none' : 'block',
+          }}
+        />
+
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            display: isCaptured ? 'none' : 'block',
+          }}
+        />
+      </div>
 
       {!isCaptured && (
         <Button className="mt-3" onClick={capture} disabled={!faceFound}>
@@ -166,6 +188,7 @@ const CameraCapture = ({ onCapture }) => {
       )}
     </div>
   )
+
 }
 
 export default CameraCapture
