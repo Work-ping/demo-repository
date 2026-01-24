@@ -43,14 +43,14 @@ const useSignIn = () => {
       // }, {
       //   headers
       // });
-      const res= await axiosClient.post('/api/admin/auth/login',{
-        userEmail : values.email,
-        password : values.password
-      });
-      console.log(res)
+      // const res= await axiosClient.post('/api/admin/auth/login',{
+      //   userEmail : values.email,
+      //   password : values.password
+      // });
+      // console.log(res)
 
       // const res = await httpClient.post('http://localhost:5000/login', values);
-      if (res.data.token) {
+      // if (res.data.token) {
         // saveSession({
         //   ...(res.data ?? {}),
         //   token: res.data.token
@@ -60,7 +60,7 @@ const useSignIn = () => {
         //   message: 'Successfully logged in. Redirecting....',
         //   variant: 'success'
         // });
-      }
+      // }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e) {
       if (e.response?.data?.error) {

@@ -8,16 +8,16 @@ import { useEffect } from 'react';
 const AppRouter = props => {
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const verifyCookie = async () => {
-      try {
-        await axiosClient.get('/verify-cookie');
-      } catch(err) {
-        navigate('/auth/sign-in-customized');
-      }
-    }
-    verifyCookie();
-  }, [])
+  // useEffect(()=>{
+  //   const verifyCookie = async () => {
+  //     try {
+  //       await axiosClient.get('/verify-cookie');
+  //     } catch(err) {
+  //       navigate('/auth/sign-in-customized');
+  //     }
+  //   }
+  //   verifyCookie();
+  // }, [])
 
   return <Routes>
       {(authRoutes || []).map((route, idx) => <Route key={idx + route.name} path={route.path} element={<AuthLayout {...props}>{route.element}</AuthLayout>} />)}
