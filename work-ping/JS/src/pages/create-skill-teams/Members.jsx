@@ -13,30 +13,36 @@ import PageMetaData from '@/components/PageTitle';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import MembersForm from './MembersForm';
 
-const API_URL = '';
+const API_URL = 'http://localhost:5000/api/admin/member';
 
 const Members = () => {
-  const { state } = useLocation();
+  const { state } = useLocation(); 
 
   const [members, setMembers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editMember, setEditMember] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
   const fetchMembers = async () => {
     try {
-      const res = await fetch(API_URL);
+      setLoading(true);
+      const res = await fetch(`${API_URL}?teamId=${state.teamId}`);
       const data = await res.json();
-      console.log('MEMBERS FROM BACKEND 👉', data);
       setMembers(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('FETCH MEMBERS ERROR 👉', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    if (state?.teamId) {
+      fetchMembers();
+    }
+  }, [state]);
+
 
   const handleOpen = () => {
     setEditMember(null);
@@ -48,20 +54,24 @@ const Members = () => {
     setShowForm(false);
   };
 
- 
-  const handleAddOrUpdate = async (member) => {
+
+  const handleAddOrUpdate = async (payload) => {
     try {
       if (editMember) {
+    
         await fetch(`${API_URL}/${editMember._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(member)
+          body: JSON.stringify(payload)
         });
       } else {
-        await fetch(API_URL, {
+        await fetch(`${API_URL}/create-member`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(member)
+          body: JSON.stringify({
+            ...payload,
+            teamId: state.teamId
+          })
         });
       }
 
@@ -72,14 +82,13 @@ const Members = () => {
     }
   };
 
-  /* 🔹 DELETE MEMBER */
+
   const handleDelete = async (id) => {
     try {
       await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
       });
-
-      await fetchMembers(); // 🔥 refresh UI
+      fetchMembers();
     } catch (error) {
       console.error('DELETE MEMBER ERROR 👉', error);
     }
@@ -95,7 +104,11 @@ const Members = () => {
 
   return (
     <>
-      <PageBreadcrumb subName="Teams" title="Team Members" subLink="http://localhost:5174/skill-teams"/>
+      <PageBreadcrumb
+        subName="Teams"
+        title="Team Members"
+        subLink="http://localhost:5174/skill-teams"
+      />
       <PageMetaData title="Team Members" />
 
       <Row>
@@ -128,38 +141,47 @@ const Members = () => {
                 </thead>
 
                 <tbody>
-                  {members.map((member) => (
-                    <tr key={member._id}>
-                      <td>{member.userId}</td>
-                      <td className="fw-medium">{member.userName}</td>
-                      <td>{member.workingType}</td>
-
-                      <td className="text-end">
-                        <div className="d-flex justify-content-end gap-2">
-                          <Button
-                            variant="soft-primary"
-                            size="sm"
-                            onClick={() => {
-                              setEditMember(member);
-                              setShowForm(true);
-                            }}
-                          >
-                            <IconifyIcon icon="bx:edit" />
-                          </Button>
-
-                          <Button
-                            variant="soft-danger"
-                            size="sm"
-                            onClick={() => handleDelete(member._id)}
-                          >
-                            <IconifyIcon icon="bx:trash" />
-                          </Button>
-                        </div>
+                  {loading && (
+                    <tr>
+                      <td colSpan="4" className="text-center py-4">
+                        Loading members...
                       </td>
                     </tr>
-                  ))}
+                  )}
 
-                  {members.length === 0 && (
+                  {!loading &&
+                    members.map((member) => (
+                      <tr key={member._id}>
+                        <td>{member.userId}</td>
+                        <td className="fw-medium">{member.userName}</td>
+                        <td>{member.workingType}</td>
+
+                        <td className="text-end">
+                          <div className="d-flex justify-content-end gap-2">
+                            <Button
+                              size="sm"
+                              variant="soft-primary"
+                              onClick={() => {
+                                setEditMember(member);
+                                setShowForm(true);
+                              }}
+                            >
+                              <IconifyIcon icon="bx:edit" />
+                            </Button>
+
+                            <Button
+                              size="sm"
+                              variant="soft-danger"
+                              onClick={() => handleDelete(member._id)}
+                            >
+                              <IconifyIcon icon="bx:trash" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+
+                  {!loading && members.length === 0 && (
                     <tr>
                       <td colSpan="4" className="text-center py-4">
                         No members found
@@ -170,7 +192,6 @@ const Members = () => {
               </table>
             </div>
           </Card>
-
           <Offcanvas
             show={showForm}
             onHide={handleClose}

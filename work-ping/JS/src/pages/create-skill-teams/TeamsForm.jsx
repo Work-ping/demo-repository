@@ -3,37 +3,76 @@ import { Button, Form } from 'react-bootstrap';
 
 const TeamsForm = ({ onSave, onCancel, defaultValues }) => {
   const [teamName, setTeamName] = useState('');
-  const [teamCount, setTeamCount] = useState('');
+  const [teamManagerId, setTeamManagerId] = useState('');
+  const [organizationId, setOrganizationId] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     if (defaultValues) {
-      setTeamName(defaultValues.name || '');
-      setTeamCount(defaultValues.teamCount || '');
+      setTeamName(defaultValues.teamName || '');
+      setTeamManagerId(defaultValues.teamManagerId || '');
+      setOrganizationId(defaultValues.organizationId || '');
+      setDescription(defaultValues.description || '');
     } else {
       setTeamName('');
-      setTeamCount('');
+      setTeamManagerId('');
+      setOrganizationId('');
+      setDescription('');
     }
   }, [defaultValues]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!e.currentTarget.checkValidity()) return;
+
+    if (!teamName || !teamManagerId) return;
 
     onSave({
-      name: teamName,
-      teamCount
+      teamName,
+      teamManagerId,
+      organizationId,
+      description
     });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3">
-        <Form.Label>Team Name</Form.Label>
+        <Form.Label>Team Name *</Form.Label>
         <Form.Control
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
           placeholder="Enter team name"
           required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Team Manager ID *</Form.Label>
+        <Form.Control
+          value={teamManagerId}
+          onChange={(e) => setTeamManagerId(e.target.value)}
+          placeholder="Enter manager id"
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Team Leader ID</Form.Label>
+        <Form.Control
+          value={organizationId}
+          onChange={(e) => setOrganizationId(e.target.value)}
+          placeholder="Optional"
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Optional description"
         />
       </Form.Group>
 

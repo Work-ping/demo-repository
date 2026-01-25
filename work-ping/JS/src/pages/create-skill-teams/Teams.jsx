@@ -13,8 +13,7 @@ import PageMetaData from '@/components/PageTitle';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import TeamsForm from './TeamsForm';
 
-
-const API_URL = 'http://localhost:5000/api/teams';
+const API_URL = 'http://localhost:5000/api/admin/team';
 
 const Teams = () => {
   const { state } = useLocation();
@@ -22,8 +21,8 @@ const Teams = () => {
 
   const projectName = state?.projectName || 'All Projects';
 
-  const [showTeamForm, setShowTeamForm] = useState(false);
   const [teams, setTeams] = useState([]);
+  const [showTeamForm, setShowTeamForm] = useState(false);
   const [editTeam, setEditTeam] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +44,7 @@ const Teams = () => {
     fetchTeams();
   }, []);
 
-  /* 🔹 OPEN / CLOSE FORM */
+
   const handleOpen = () => {
     setEditTeam(null);
     setShowTeamForm(true);
@@ -57,19 +56,19 @@ const Teams = () => {
   };
 
 
-  const handleAddOrUpdateTeam = async (team) => {
+  const handleAddOrUpdateTeam = async (payload) => {
     try {
       if (editTeam) {
         await fetch(`${API_URL}/${editTeam._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(team)
+          body: JSON.stringify(payload)
         });
       } else {
-        await fetch(API_URL, {
+        await fetch(`${API_URL}/create-team`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(team)
+          body: JSON.stringify(payload)
         });
       }
 
@@ -94,7 +93,11 @@ const Teams = () => {
 
   return (
     <>
-      <PageBreadcrumb subName="Projects" title="Teams" subLink="" />
+      <PageBreadcrumb
+        subName="Projects"
+        title="Teams"
+        subLink="http://localhost:5173/skill-teams"
+      />
       <PageMetaData title="Teams" />
 
       <Row>
@@ -112,13 +115,12 @@ const Teams = () => {
               </div>
             </CardBody>
 
-            {/* 🔹 TEAM TABLE */}
             <div className="table-responsive">
               <table className="table mb-0">
                 <thead className="bg-light">
                   <tr>
                     <th>Team Name</th>
-                    <th>Team Count</th>
+                    <th>Manager ID</th>
                     <th className="text-end">Action</th>
                   </tr>
                 </thead>
@@ -141,15 +143,15 @@ const Teams = () => {
                             className="fw-medium text-primary"
                             onClick={() =>
                               navigate('/view-members', {
-                                state: { TeamName: team.name }
+                                state: { teamId: team._id }
                               })
                             }
                           >
-                            {team.name}
+                            {team.teamName}
                           </span>
                         </td>
 
-                        <td>{team.teamCount}</td>
+                        <td>{team.teamManagerId}</td>
 
                         <td className="text-end">
                           <div className="d-flex justify-content-end gap-2">
@@ -188,7 +190,6 @@ const Teams = () => {
             </div>
           </Card>
 
-          {/* 🔹 OFFCANVAS FORM */}
           <Offcanvas
             show={showTeamForm}
             onHide={handleClose}

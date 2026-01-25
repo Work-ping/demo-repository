@@ -19,25 +19,21 @@ const MembersForm = ({ onSave, onCancel, defaultValues }) => {
   }, [defaultValues]);
 
   const handleSubmit = (e) => {
-  
-    if (!e.currentTarget.checkValidity()) {
-      return;
-    }
-
     e.preventDefault();
+
+    if (!e.currentTarget.checkValidity()) return;
 
     onSave({
       userId,
       userName,
-      workingType,
+      workingType
     });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      {/* User ID */}
       <Form.Group className="mb-3">
-        <Form.Label>User ID</Form.Label>
+        <Form.Label>User ID *</Form.Label>
         <Form.Control
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
@@ -46,9 +42,8 @@ const MembersForm = ({ onSave, onCancel, defaultValues }) => {
         />
       </Form.Group>
 
-      {/* User Name */}
       <Form.Group className="mb-3">
-        <Form.Label>User Name</Form.Label>
+        <Form.Label>User Name *</Form.Label>
         <Form.Control
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
@@ -56,9 +51,25 @@ const MembersForm = ({ onSave, onCancel, defaultValues }) => {
           required
         />
       </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Working Type *</Form.Label>
+        <Form.Select
+          value={workingType}
+          onChange={(e) => setWorkingType(e.target.value)}
+          required
+        >
+          <option value="">Select working type</option>
+          <option value="Full Time">Full Time</option>
+          <option value="Part Time">Part Time</option>
+          <option value="Intern">Intern</option>
+          <option value="Contract">Contract</option>
+        </Form.Select>
+      </Form.Group>
+
       <div className="d-flex gap-2">
         <Button type="submit" variant="primary">
-          Save
+          {defaultValues ? 'Update' : 'Save'}
         </Button>
         <Button variant="secondary" onClick={onCancel}>
           Cancel
