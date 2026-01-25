@@ -34,6 +34,7 @@ const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
 const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/page'));
 const Teams = lazy(()=>import('@/pages/create-skill-teams/Teams'));
+
 const Members = lazy(()=>import('@/pages/create-skill-teams/Members'));
 
 // Pages Routes
@@ -302,11 +303,13 @@ const customRoutes = [{
   name: 'Widgets',
   path: '/widgets',
   element: <Widgets />
-}, {
+},
+ {
   name: 'Teams',
   path: '/skill-teams',
   element: <Teams />
-}, {
+},
+ {
   name: 'Members',
   path: '/view-members',
   element: <Members />
