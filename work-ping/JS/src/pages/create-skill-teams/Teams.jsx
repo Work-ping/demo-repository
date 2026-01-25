@@ -26,7 +26,7 @@ const Teams = () => {
   const [editTeam, setEditTeam] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
+  /* 🔹 FETCH TEAMS */
   const fetchTeams = async () => {
     try {
       setLoading(true);
@@ -44,7 +44,7 @@ const Teams = () => {
     fetchTeams();
   }, []);
 
-
+  /* 🔹 OPEN / CLOSE FORM */
   const handleOpen = () => {
     setEditTeam(null);
     setShowTeamForm(true);
@@ -55,16 +55,18 @@ const Teams = () => {
     setShowTeamForm(false);
   };
 
-
+  /* 🔹 CREATE / UPDATE TEAM */
   const handleAddOrUpdateTeam = async (payload) => {
     try {
       if (editTeam) {
+        // UPDATE
         await fetch(`${API_URL}/${editTeam._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       } else {
+        // CREATE
         await fetch(`${API_URL}/create-team`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -115,12 +117,12 @@ const Teams = () => {
               </div>
             </CardBody>
 
+            {/* 🔹 TEAMS TABLE */}
             <div className="table-responsive">
               <table className="table mb-0">
                 <thead className="bg-light">
                   <tr>
                     <th>Team Name</th>
-                    <th>Manager ID</th>
                     <th className="text-end">Action</th>
                   </tr>
                 </thead>
@@ -128,7 +130,7 @@ const Teams = () => {
                 <tbody>
                   {loading && (
                     <tr>
-                      <td colSpan="3" className="text-center py-4">
+                      <td colSpan="2" className="text-center py-4">
                         Loading teams...
                       </td>
                     </tr>
@@ -150,8 +152,6 @@ const Teams = () => {
                             {team.teamName}
                           </span>
                         </td>
-
-                        <td>{team.teamManagerId}</td>
 
                         <td className="text-end">
                           <div className="d-flex justify-content-end gap-2">
@@ -180,7 +180,7 @@ const Teams = () => {
 
                   {!loading && teams.length === 0 && (
                     <tr>
-                      <td colSpan="3" className="text-center py-4">
+                      <td colSpan="2" className="text-center py-4">
                         No teams created yet
                       </td>
                     </tr>
@@ -190,6 +190,7 @@ const Teams = () => {
             </div>
           </Card>
 
+          {/* 🔹 OFFCANVAS FORM */}
           <Offcanvas
             show={showTeamForm}
             onHide={handleClose}
