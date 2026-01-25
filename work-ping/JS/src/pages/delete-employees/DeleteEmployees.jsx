@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Col,
@@ -15,11 +16,14 @@ import UserInfo from './UserInfo';
 const DeleteEmployees = () => {
   const [userId, setUserId] = useState('');
   const [showInfo, setShowInfo] = useState(false);
-
+  const navigate = useNavigate();
   const handleClear = () => {
     setUserId('');
     setShowInfo(false);
   };
+ const handleUpdateClick = () => {
+  navigate(`/update-employee/${userId}`);
+};
 
   const handleRemoveClick = () => {
     setShowInfo(true);
@@ -71,6 +75,13 @@ const DeleteEmployees = () => {
             disabled={!userId}
           >
             Clear
+          </Button>
+          <Button
+            variant="primary" 
+            onClick={handleUpdateClick}
+            disabled={!userId}
+          >
+            Update
           </Button>
             <Button
             variant="danger"

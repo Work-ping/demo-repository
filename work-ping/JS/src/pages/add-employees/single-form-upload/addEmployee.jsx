@@ -18,7 +18,7 @@ import TextAreaFormInput from '@/components/form/TextAreaFormInput'
 import CustomFlatpickr from '@/components/CustomFlatpickr'
 import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
-import FaceEmbeddings from './faceEmbeddings'
+import FaceEmbeddings from './FaceEmbeddings'
 
 const schema = yup.object({
   userId: yup.string().required('User Id is required'),
