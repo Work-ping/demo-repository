@@ -13,8 +13,8 @@ const Dashboard = lazy(()=>import('@/pages/admin-dashboard/AdminDashboard'));
 const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
 const UpdateEmployee= lazy(()=>import('@/pages/update-employees/UpdateEmployee'));
 const Organization=lazy(()=>import('@/pages/CreateOrganization'))
-const OrganizationDetails= lazy(()=>import('@/pages/add-organization/OrganizationDetails'));
-const OrganizationUpdateDetails= lazy(()=>import('@/pages/update-organization/OrganizationDetails'));
+
+
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
 const EcommerceProductDetails = lazy(() => import('@/app/(admin)/ecommerce/products/[productId]/page'));
 const EcommerceProductCreate = lazy(() => import('@/app/(admin)/ecommerce/products/create/page'));
@@ -140,11 +140,17 @@ const ResetPassword2 = lazy(() => import('@/app/(other)/auth/reset-pass-2/page')
 const LockScreen = lazy(() => import('@/app/(other)/auth/lock-screen/page'));
 const LockScreen2 = lazy(() => import('@/app/(other)/auth/lock-screen-2/page'));
 
-//work-pink routes
-const AddTeams = lazy(()=>import('@/pages/Teams(Department)/Edit/AddTeams/AddTeams'));
-const Update = lazy(()=>import('@/pages/Teams(Department)/Edit/UpdateTeams/UpdateTeams'));
+//work-ping routes
 
+          //teams route
 
+const AddTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/AddTeams/AddTeams'));
+const UpdateTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/UpdateTeams/Update/UpdateTeams'));
+const ViewTeams = lazy(()=>import('@/pages/Teams(Department)/ViewTeams/View'))
+          //organization routes
+const OrganizationViews = lazy(()=>import('@/pages/Organization/ViewOrganization/View'))
+const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/Update/update-organization/OrganizationDetails'));
+const OrganizationDetails= lazy(()=>import('@/pages/Organization/EditOrganization/AddOrganization/OrganizationDetails'));
 
 
 
@@ -161,9 +167,6 @@ const generalRoutes = [{
   path: '/dashboard/analytics',
   name: 'Analytics',
   element: <Analytics />
-},{path: '/organization/organization-details',
-  name: 'Organization Details',
-  element: <OrganizationDetails />
 },{path: '/add-employee',
   name: 'AddEmployee',
   element: <AddEmployee />
@@ -172,13 +175,6 @@ const generalRoutes = [{
   name: 'UpdateEmployee',
   element: <UpdateEmployee />
 },{
-  path: '/organization/update-organization/:orgId',
-  name: 'UpdateOrganization',
-  element: <OrganizationUpdateDetails />
-},{path: '/organization',
-  name: 'Add Organization',
-  element: <Organization />
-} ,{
   path: '/dashboard/finance',
   name: 'Finance',
   element: <Finance />
@@ -317,17 +313,10 @@ const customRoutes = [{
   name: 'Widgets',
   path: '/widgets',
   element: <Widgets />
-}, {
-  name: 'Teams',
-  path: '/add-teams',
-  element: <AddTeams />
-},
-{
-  name: 'UpdateTeams',
-  path:'/update-teams',
-  element:<Update/>
-}
-,];
+},];
+
+
+
 const baseUIRoutes = [{
   name: 'Accordions',
   path: '/ui/accordions',
@@ -632,4 +621,45 @@ export const authRoutes = [{
   path: '/coming-soon',
   element: <ComingSoon />
 }];
-export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes];
+
+
+export const teamsRoutes=[
+   {
+  name: 'Teams',
+  path: '/teams/edit-teams/add-teams',
+  element: <AddTeams />
+},
+{
+  name: 'UpdateTeams',
+  path:'/teams/edit-teams/update-teams',
+  element:<UpdateTeams/>
+}
+,{
+  name:'TeamsView',
+  path:'/teams/view-teams/',
+  element:<ViewTeams/>
+},
+];
+
+export const organizationRoutes=[
+  {
+    path: '/organization/organization-details',
+    name: 'Organization Details',
+    element: <OrganizationDetails />
+  },
+  {
+    path: '/organization/update-organization/:orgId',
+    name: 'UpdateOrganization',
+    element: <OrganizationUpdateDetails />
+  },{
+    path:'/organization/view-organizations',
+    name:"ViewOrganization",
+    element:<OrganizationViews/>
+
+  }
+
+]
+
+
+
+export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes];
