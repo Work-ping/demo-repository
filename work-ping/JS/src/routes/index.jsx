@@ -315,7 +315,7 @@ const customRoutes = [{
   element: <Widgets />
 }, {
   name: 'Teams',
-  path: '/skill-teams',
+  path: '/add-teams',
   element: <Teams />
 },
  {
