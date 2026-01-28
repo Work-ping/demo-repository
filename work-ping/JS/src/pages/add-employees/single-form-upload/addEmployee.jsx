@@ -6,99 +6,72 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Form,
 } from 'react-bootstrap'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-import ComponentContainerCard from '@/components/ComponentContainerCard'
-import TextFormInput from '@/components/form/TextFormInput'
-import TextAreaFormInput from '@/components/form/TextAreaFormInput'
-import CustomFlatpickr from '@/components/CustomFlatpickr'
 import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
 import FaceEmbeddings from './FaceEmbeddings'
+import ComponentContainerCard from '@/components/ComponentContainerCard'
 
+/* ---------------- Validation Schema ---------------- */
 const schema = yup.object({
   userId: yup.string().required('User Id is required'),
   user: yup.string().required('User Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
+
   phone: yup
     .string()
     .matches(/^[0-9]{10}$/, 'Phone must be 10 digits')
     .required('Phone is required'),
-  // address: yup.string().required('Address is required'),
+
+  dob: yup.string().required('Date of Birth is required'),
+  gender: yup.string().required('Gender is required'),
+  doj: yup.string().required('Date of Joining is required'),
+  role: yup.string().required('Role is required'),
+
   aadhaar: yup
     .string()
     .matches(/^[0-9]{12}$/, 'Aadhaar must be 12 digits')
     .required('Aadhaar is required'),
-   pan: yup
+
+  pan: yup
     .string()
     .nullable()
     .transform(v => (v === '' ? null : v))
-    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, {
-      message: 'Invalid PAN format',
-      excludeEmptyString: true,
-    }),
+    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Invalid PAN format'),
+
+  address: yup.string().required('Address is required'),
 })
 
+/* ---------------- Component ---------------- */
 const AddEmployee = () => {
   const [step, setStep] = useState(0)
   const [countryCode, setCountryCode] = useState('+91')
-  const [gender, setGender] = useState('')
-  const [role, setRole] = useState('')
   const [search, setSearch] = useState('')
   const [faceEmbedding, setFaceEmbedding] = useState(null)
 
-  // NEW: keep DOB in local state
-  const[dateOfJoining, setDateOfJoining] = useState(null)
-  const [dob, setDob] = useState(null)
-
   const {
-    control,
-    setValue,
-    getValues,
+    register,
     handleSubmit,
+    formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
   })
 
   const goNext = handleSubmit(() => {
-    if (!dob) {
-      toast.error('Please select Date of Birth')
-      return
-    }
-    if (!gender) {
-      toast.error('Please select Gender')
-      return
-    }
-    if (!dateOfJoining) {
-      toast.error('Please select Date of Joining')
-      return
-    }
-
-    if (!role) {
-      toast.error('Please select Role')
-      return
-    }
-
-    setValue('dob', dob)
-    setValue('gender', gender)
-    setValue('role', role)
-    setValue('countryCode', countryCode)
     setStep(1)
   })
 
   const submitForm = () => {
     const data = getValues()
-    data.phone = countryCode + (data.phone || '')
-    data.gender = gender
-    data.role = role
-    data.dob = dob
+    data.phone = countryCode + data.phone
     data.faceEmbedding = faceEmbedding?.hash
     data.faceSource = faceEmbedding?.source
-
     console.log('SUBMITTED DATA:', data)
   }
 
@@ -108,215 +81,152 @@ const AddEmployee = () => {
 
       {step === 0 && (
         <ComponentContainerCard title="Add Basic Employee Details">
-          <TextFormInput
-            name="userId"
-            label="User Id*"
-            placeholder="Enter User Id"
-            control={control}
-            required
-          />
+          <Form className="row g-3">
 
-          <TextFormInput
-            name="user"
-            label="User Name*"
-            placeholder="Enter User Name"
-            control={control}
-            required
-          />
+            {/* Row 1 */}
+            <div className="col-md-4">
+              <Form.Label>User Id*</Form.Label>
+              <Form.Control placeholder="Enter User Id" {...register('userId')} />
+              <small className="text-danger">{errors.userId?.message}</small>
+            </div>
 
-          <TextFormInput
-            name="email"
-            label="Email*"
-            placeholder="Enter Email"
-            control={control}
-            required
-          />
+            <div className="col-md-4">
+              <Form.Label>User Name*</Form.Label>
+              <Form.Control placeholder="Enter Full Name" {...register('user')} />
+              <small className="text-danger">{errors.user?.message}</small>
+            </div>
 
-          <label className="form-label">Contact Number*</label>
-          <div className="input-group mb-3">
-            <Dropdown>
-              <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
-                <div className="icons-center">
-                  {countryCode}
-                  <IconifyIcon icon="bx:chevron-down" className="ms-2" />
-                </div>
-              </DropdownToggle>
+            <div className="col-md-4">
+              <Form.Label>Email*</Form.Label>
+              <Form.Control placeholder="Enter Email" {...register('email')} />
+              <small className="text-danger">{errors.email?.message}</small>
+            </div>
 
-              <DropdownMenu
-                style={{
-                  width: 280,
-                  padding: 0,
-                }}
-              >
-                <div style={{ padding: 8 }}>
-                  <input
-                    className="form-control"
-                    placeholder="Search country..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    style={{
-                      width: '100%',
-                      boxSizing: 'border-box',
-                    }}
-                  />
-                </div>
+            {/* Row 2 */}
+            <div className="col-md-4">
+              <Form.Label>Contact Number*</Form.Label>
+              <div className="d-flex gap-2">
+                <Dropdown>
+                  <DropdownToggle className="btn btn-light border arrow-none" style={{ minWidth: 90 }}>
+                    {countryCode}
+                    <IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                  </DropdownToggle>
+                  <DropdownMenu style={{ maxHeight: 200, overflowY: 'auto' }}>
+                    <Form.Control
+                      placeholder="Search country"
+                      className="m-2"
+                      value={search}
+                      onChange={e => setSearch(e.target.value)}
+                    />
+                    {countryCodes
+                      .filter(c =>
+                        c.country.toLowerCase().includes(search.toLowerCase())
+                      )
+                      .map(c => (
+                        <DropdownItem
+                          key={c.isoCode2}
+                          onClick={() => {
+                            setCountryCode('+' + c.countryCodes[0])
+                            setSearch('')
+                          }}
+                        >
+                          {c.country} (+{c.countryCodes[0]})
+                        </DropdownItem>
+                      ))}
+                  </DropdownMenu>
+                </Dropdown>
 
-                <div
-                  style={{
-                    maxHeight: 220,
-                    overflowY: 'auto',
-                    borderTop: '1px solid #eee',
-                  }}
-                >
-                  {countryCodes
-                    .filter((c) =>
-                      c.country.toLowerCase().includes(search.toLowerCase())
-                    )
-                    .map((c) => (
-                      <DropdownItem
-                        key={c.isoCode2}
-                        onClick={() => {
-                          setCountryCode('+' + c.countryCodes[0])
-                          setSearch('')
-                        }}
-                      >
-                        {c.country} (+{c.countryCodes[0]})
-                      </DropdownItem>
-                    ))}
-                </div>
-              </DropdownMenu>
-
-            </Dropdown>
-
-            <TextFormInput
-              name="phone"
-              placeholder="Phone number"
-              control={control}
-              required
-            />
-          </div>
-
-
-          <label className="form-label">Date of Birth*</label>
-          <CustomFlatpickr
-            className="form-control mb-3"
-            options={{ enableTime: false }}
-            onChange={(d) => {
-              const value = d?.[0] || null
-              // console.log('DOB SELECTED:', value)
-              setDob(value)
-              setValue('dob', value)
-            }}
-          />
-
-          <TextAreaFormInput
-            name="address"
-            label="Address"
-            placeholder="Enter Address"
-            rows={4}
-            control={control}
-            required
-          />
-
-          <label className="form-label">Gender*</label>
-          <Dropdown className="mb-3">
-            <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
-              <div className="icons-center">
-                {gender || 'Select Gender'}
-                <IconifyIcon icon="bx:chevron-down" className="ms-2" />
+                <Form.Control
+                  placeholder="10-digit phone number"
+                  {...register('phone')}
+                />
               </div>
-            </DropdownToggle>
-            <DropdownMenu>
-              {['Male', 'Female', 'Other'].map((g) => (
-                <DropdownItem key={g} onClick={() => setGender(g)}>
-                  {g}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+              <small className="text-danger">{errors.phone?.message}</small>
+            </div>
 
-          <label className="form-label">Date of Joining*</label>
-          <CustomFlatpickr
-            className="form-control mb-3"
-            options={{ enableTime: false }}
-            onChange={(d) => {
-              const value = d?.[0] || null
-              setDateOfJoining(value)
-              setValue('doj', value)
-            }}
-          />
+            <div className="col-md-4">
+              <Form.Label>Date of Birth*</Form.Label>
+              <Form.Control type="date" {...register('dob')} />
+              <small className="text-danger">{errors.dob?.message}</small>
+            </div>
 
+            <div className="col-md-4">
+              <Form.Label>Gender*</Form.Label>
+              <Form.Select {...register('gender')}>
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </Form.Select>
+              <small className="text-danger">{errors.gender?.message}</small>
+            </div>
 
-          <label className="form-label">Role*</label>
-          <Dropdown className="mb-3">
-            <DropdownToggle className="btn btn-light rounded-end-0 border arrow-none">
-              <div className="icons-center">
-                {role || 'Select Role'}
-                <IconifyIcon icon="bx:chevron-down" className="ms-2" />
-              </div>
-            </DropdownToggle>
-            <DropdownMenu>
-              {['Admin', 'Developer', 'Tester'].map((r) => (
-                <DropdownItem key={r} onClick={() => setRole(r)}>
-                  {r}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+            {/* Row 3 */}
+            <div className="col-md-4">
+              <Form.Label>Date of Joining*</Form.Label>
+              <Form.Control type="date" {...register('doj')} />
+              <small className="text-danger">{errors.doj?.message}</small>
+            </div>
 
-          <TextFormInput
-            name="aadhaar"
-            label="Aadhaar Id*"
-            placeholder="12 digit Aadhaar"
-            control={control}
-            required
-          />
+            <div className="col-md-4">
+              <Form.Label>Role*</Form.Label>
+              <Form.Select {...register('role')}>
+                <option value="">Select Role</option>
+                <option>Admin</option>
+                <option>Developer</option>
+                <option>Tester</option>
+              </Form.Select>
+              <small className="text-danger">{errors.role?.message}</small>
+            </div>
 
-          <TextFormInput
-            name="passport"
-            label="Passport Id"
-            placeholder="Enter Passport Id"
-            control={control}
-            required
-          />
+            <div className="col-md-4">
+              <Form.Label>Aadhaar*</Form.Label>
+              <Form.Control
+                placeholder="12-digit Aadhaar number"
+                {...register('aadhaar')}
+              />
+              <small className="text-danger">{errors.aadhaar?.message}</small>
+            </div>
 
-          <TextFormInput
-            name="pan"
-            label="PAN Id"
-            placeholder="ABCDE1234F"
-            control={control}
-            required
-          />
+            {/* Address */}
+            <div className="col-12">
+              <Form.Label>Address*</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                placeholder="Enter complete address"
+                {...register('address')}
+              />
+              <small className="text-danger">{errors.address?.message}</small>
+            </div>
 
-          <TextFormInput
-            name="bank"
-            label="Bank Id"
-            placeholder="Enter Bank Id"
-            control={control}
-            required
-          />
+            {/* Row 4 */}
+            <div className="col-md-4">
+              <Form.Label>Passport</Form.Label>
+              <Form.Control placeholder="Enter passport number" />
+            </div>
 
-          <div className="d-flex justify-content-end mt-4">
-            <Button className="rounded-pill" onClick={goNext}>
-              Next
-            </Button>
-          </div>
+            <div className="col-md-4">
+              <Form.Label>PAN</Form.Label>
+              <Form.Control placeholder="ABCDE1234F" {...register('pan')} />
+              <small className="text-danger">{errors.pan?.message}</small>
+            </div>
+
+            <div className="col-md-4">
+              <Form.Label>Bank Id</Form.Label>
+              <Form.Control placeholder="Enter bank account number" />
+            </div>
+
+            <div className="col-12 d-flex justify-content-end mt-3">
+              <Button onClick={goNext}>Next</Button>
+            </div>
+          </Form>
         </ComponentContainerCard>
       )}
 
       {step === 1 && (
         <>
-          <FaceEmbeddings
-            onCapture={(data) => {
-              setFaceEmbedding(data)
-              console.log(
-                `FACE HASH RECEIVED FROM ${data.source.toUpperCase()}:`,
-                data.hash
-              )
-            }}
-          />
-
+          <FaceEmbeddings onCapture={d => setFaceEmbedding(d)} />
           <div className="d-flex justify-content-between mt-3">
             <Button onClick={() => setStep(0)}>Previous</Button>
             <Button variant="success" onClick={submitForm}>

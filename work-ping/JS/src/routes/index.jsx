@@ -14,6 +14,7 @@ const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/a
 const UpdateEmployee= lazy(()=>import('@/pages/update-employees/UpdateEmployee'));
 const Organization=lazy(()=>import('@/pages/CreateOrganization'))
 const OrganizationDetails= lazy(()=>import('@/pages/add-organization/OrganizationDetails'));
+const OrganizationUpdateDetails= lazy(()=>import('@/pages/update-organization/OrganizationDetails'));
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
 const EcommerceProductDetails = lazy(() => import('@/app/(admin)/ecommerce/products/[productId]/page'));
 const EcommerceProductCreate = lazy(() => import('@/app/(admin)/ecommerce/products/create/page'));
@@ -163,6 +164,10 @@ const generalRoutes = [{
   path: '/update-employee/:empId',
   name: 'UpdateEmployee',
   element: <UpdateEmployee />
+},{
+  path: '/organization/update-organization/:orgId',
+  name: 'UpdateOrganization',
+  element: <OrganizationUpdateDetails />
 },{path: '/organization',
   name: 'Add Organization',
   element: <Organization />
@@ -308,16 +313,15 @@ const customRoutes = [{
   name: 'Widgets',
   path: '/widgets',
   element: <Widgets />
-},
- {
+}, {
   name: 'Teams',
   path: '/skill-teams',
   element: <Teams />
 },
  {
-  name: 'Update',
-  path: '/update-skill-teams',
-  element: <Update />
+  name: 'Members',
+  path: '/view-members',
+  element: <Members />
 }];
 const baseUIRoutes = [{
   name: 'Accordions',
