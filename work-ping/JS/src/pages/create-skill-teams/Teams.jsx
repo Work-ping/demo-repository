@@ -7,135 +7,122 @@ import {
   Row,
   Offcanvas
 } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PageBreadcrumb from '@/components/layout/PageBreadcrumb';
 import PageMetaData from '@/components/PageTitle';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-import MembersForm from './MembersForm';
+import TeamsForm from './TeamsForm';
 
-const API_URL = 'http://localhost:5000/api/admin/member';
+const API_URL = 'http://localhost:5000/api/admin/team';
 
-const Members = () => {
-  const { state } = useLocation(); 
+const Teams = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-  const [members, setMembers] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [editMember, setEditMember] = useState(null);
+  const projectName = state?.projectName || 'All Projects';
+
+  const [teams, setTeams] = useState([]);
+  const [showTeamForm, setShowTeamForm] = useState(false);
+  const [editTeam, setEditTeam] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
-  const fetchMembers = async () => {
+  /* 🔹 FETCH TEAMS */
+  const fetchTeams = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}?teamId=${state.teamId}`);
+      const res = await fetch(API_URL);
       const data = await res.json();
-      setMembers(Array.isArray(data) ? data : []);
+      setTeams(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error('FETCH MEMBERS ERROR 👉', error);
+      console.error('FETCH TEAMS ERROR 👉', error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (state?.teamId) {
-      fetchMembers();
-    }
-  }, [state]);
+    fetchTeams();
+  }, []);
 
-
+  /* 🔹 OPEN / CLOSE FORM */
   const handleOpen = () => {
-    setEditMember(null);
-    setShowForm(true);
+    setEditTeam(null);
+    setShowTeamForm(true);
   };
 
   const handleClose = () => {
-    setEditMember(null);
-    setShowForm(false);
+    setEditTeam(null);
+    setShowTeamForm(false);
   };
 
-
-  const handleAddOrUpdate = async (payload) => {
+  /* 🔹 CREATE / UPDATE TEAM */
+  const handleAddOrUpdateTeam = async (payload) => {
     try {
-      if (editMember) {
-    
-        await fetch(`${API_URL}/${editMember._id}`, {
+      if (editTeam) {
+        // UPDATE
+        await fetch(`${API_URL}/${editTeam._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       } else {
-        await fetch(`${API_URL}/create-member`, {
+        // CREATE
+        await fetch(`${API_URL}/create-team`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...payload,
-            teamId: state.teamId
-          })
+          body: JSON.stringify(payload)
         });
       }
 
-      await fetchMembers();
+      await fetchTeams();
       handleClose();
     } catch (error) {
-      console.error('SAVE MEMBER ERROR 👉', error);
+      console.error('SAVE TEAM ERROR 👉', error);
     }
   };
 
-
-  const handleDelete = async (id) => {
+  /* 🔹 DELETE TEAM */
+  const handleDeleteTeam = async (id) => {
     try {
       await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
       });
-      fetchMembers();
+      fetchTeams();
     } catch (error) {
-      console.error('DELETE MEMBER ERROR 👉', error);
+      console.error('DELETE TEAM ERROR 👉', error);
     }
   };
-
-  if (!state) {
-    return (
-      <p className="text-center text-danger mt-5">
-        No team selected. Please go back.
-      </p>
-    );
-  }
 
   return (
     <>
       <PageBreadcrumb
-        subName="Teams"
-        title="Team Members"
-        subLink="http://localhost:5174/skill-teams"
+        subName="Projects"
+        title="Teams"
+        subLink="http://localhost:5173/skill-teams"
       />
-      <PageMetaData title="Team Members" />
+      <PageMetaData title="Teams" />
 
       <Row>
         <Col>
           <Card>
             <CardBody>
-              <div className="d-flex flex-column flex-sm-row justify-content-between gap-2">
+              <div className="d-flex justify-content-between align-items-center">
                 <h5 className="mb-0">
-                  Members –
-                  <span className="text-muted ms-1">
-                    {state.TeamName}
-                  </span>
+                  Teams – <span className="text-muted">{projectName}</span>
                 </h5>
 
                 <Button variant="primary" onClick={handleOpen}>
-                  + Add Member
+                  + Create Team
                 </Button>
               </div>
             </CardBody>
 
+            {/* 🔹 TEAMS TABLE */}
             <div className="table-responsive">
               <table className="table mb-0">
                 <thead className="bg-light">
                   <tr>
-                    <th>User ID</th>
-                    <th>User Name</th>
-                    <th>Working Type</th>
+                    <th>Team Name</th>
                     <th className="text-end">Action</th>
                   </tr>
                 </thead>
@@ -143,27 +130,37 @@ const Members = () => {
                 <tbody>
                   {loading && (
                     <tr>
-                      <td colSpan="4" className="text-center py-4">
-                        Loading members...
+                      <td colSpan="2" className="text-center py-4">
+                        Loading teams...
                       </td>
                     </tr>
                   )}
 
                   {!loading &&
-                    members.map((member) => (
-                      <tr key={member._id}>
-                        <td>{member.userId}</td>
-                        <td className="fw-medium">{member.userName}</td>
-                        <td>{member.workingType}</td>
+                    teams.map((team) => (
+                      <tr key={team._id}>
+                        <td>
+                          <span
+                            role="button"
+                            className="fw-medium text-primary"
+                            onClick={() =>
+                              navigate('/view-members', {
+                                state: { teamId: team._id }
+                              })
+                            }
+                          >
+                            {team.teamName}
+                          </span>
+                        </td>
 
                         <td className="text-end">
                           <div className="d-flex justify-content-end gap-2">
                             <Button
                               size="sm"
-                              variant="soft-primary"
+                              variant="primary"
                               onClick={() => {
-                                setEditMember(member);
-                                setShowForm(true);
+                                setEditTeam(team);
+                                setShowTeamForm(true);
                               }}
                             >
                               <IconifyIcon icon="bx:edit" />
@@ -171,8 +168,8 @@ const Members = () => {
 
                             <Button
                               size="sm"
-                              variant="soft-danger"
-                              onClick={() => handleDelete(member._id)}
+                              variant="danger"
+                              onClick={() => handleDeleteTeam(team._id)}
                             >
                               <IconifyIcon icon="bx:trash" />
                             </Button>
@@ -181,10 +178,10 @@ const Members = () => {
                       </tr>
                     ))}
 
-                  {!loading && members.length === 0 && (
+                  {!loading && teams.length === 0 && (
                     <tr>
-                      <td colSpan="4" className="text-center py-4">
-                        No members found
+                      <td colSpan="2" className="text-center py-4">
+                        No teams created yet
                       </td>
                     </tr>
                   )}
@@ -192,8 +189,10 @@ const Members = () => {
               </table>
             </div>
           </Card>
+
+          {/* 🔹 OFFCANVAS FORM */}
           <Offcanvas
-            show={showForm}
+            show={showTeamForm}
             onHide={handleClose}
             placement="end"
             style={{
@@ -204,15 +203,15 @@ const Members = () => {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>
-                {editMember ? 'Edit Member' : 'Add Member'}
+                {editTeam ? 'Edit Team' : 'Create Team'}
               </Offcanvas.Title>
             </Offcanvas.Header>
 
             <Offcanvas.Body>
-              <MembersForm
-                onSave={handleAddOrUpdate}
+              <TeamsForm
+                onSave={handleAddOrUpdateTeam}
                 onCancel={handleClose}
-                defaultValues={editMember}
+                defaultValues={editTeam}
               />
             </Offcanvas.Body>
           </Offcanvas>
@@ -222,4 +221,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default Teams;

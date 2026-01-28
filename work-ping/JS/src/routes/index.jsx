@@ -6,6 +6,8 @@ const Analytics = lazy(() => import('@/app/(admin)/dashboard/analytics/page'));
 const Finance = lazy(() => import('@/app/(admin)/dashboard/finance/page'));
 const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 
+const Dashboard = lazy(()=>import('@/pages/admin-dashboard/AdminDashboard'));
+
 // Apps Routes
 
 const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
@@ -34,7 +36,8 @@ const Social = lazy(() => import('@/app/(admin)/apps/social/page'));
 const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
 const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/page'));
-// const Teams = lazy(()=>import('@/pages/create-skill-teams/Teams'));
+const Teams = lazy(()=>import('@/pages/create-skill-teams/Teams'));
+
 const Members = lazy(()=>import('@/pages/create-skill-teams/Members'));
 
 // Pages Routes
@@ -177,6 +180,10 @@ const generalRoutes = [{
   path: '/dashboard/sales',
   name: 'Sales',
   element: <Sales />
+}, {
+  path: '/admin-dashboard',
+  name: 'Dashboard',
+  element: <Dashboard />
 }];
 const appsRoutes = [{
   name: 'Products',
@@ -307,6 +314,10 @@ const customRoutes = [{
   name: 'Widgets',
   path: '/widgets',
   element: <Widgets />
+}, {
+  name: 'Teams',
+  path: '/skill-teams',
+  element: <Teams />
 }, {
   name: 'Members',
   path: '/view-members',
