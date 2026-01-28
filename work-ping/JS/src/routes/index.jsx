@@ -36,8 +36,7 @@ const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
 const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/page'));
 const Teams = lazy(()=>import('@/pages/create-skill-teams/Teams'));
-
-const Members = lazy(()=>import('@/pages/create-skill-teams/Members'));
+const Update = lazy(()=>import('@/pages/create-skill-teams/UpdateTeams'));
 
 // Pages Routes
 const Welcome = lazy(() => import('@/app/(admin)/pages/welcome/page'));
@@ -316,9 +315,9 @@ const customRoutes = [{
   element: <Teams />
 },
  {
-  name: 'Members',
-  path: '/view-members',
-  element: <Members />
+  name: 'Update',
+  path: '/update-skill-teams',
+  element: <Update />
 }];
 const baseUIRoutes = [{
   name: 'Accordions',

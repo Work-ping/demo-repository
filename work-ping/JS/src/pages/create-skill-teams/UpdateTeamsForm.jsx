@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 
-const TeamsForm = ({ onSave, onCancel, defaultValues }) => {
+const UpdateTeamsForm = ({ onSave, onCancel, defaultValues }) => {
   const [teamName, setTeamName] = useState('');
   const [teamManagerId, setTeamManagerId] = useState('');
   const [organizationId, setOrganizationId] = useState('');
@@ -110,4 +110,4 @@ const TeamsForm = ({ onSave, onCancel, defaultValues }) => {
   );
 };
 
-export default TeamsForm;
+export default UpdateTeamsForm;

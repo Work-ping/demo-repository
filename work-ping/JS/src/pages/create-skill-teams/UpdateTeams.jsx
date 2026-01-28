@@ -6,7 +6,7 @@ import TeamsForm from './TeamsForm';
 
 const API_URL = 'http://localhost:5000/api/admin/team';
 
-const CreateTeam = () => {
+const UpdateTeams = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -36,7 +36,7 @@ const CreateTeam = () => {
     <>
       <PageBreadcrumb
         subName="Projects"
-        title={editTeam ? 'Edit Team' : 'Create Team'}
+        title={editTeam ? 'Edit Team' : 'Update Team'}
       />
       <PageMetaData title="Team Form" />
 
@@ -57,4 +57,4 @@ const CreateTeam = () => {
   );
 };
 
-export default CreateTeam;
+export default UpdateTeams;
