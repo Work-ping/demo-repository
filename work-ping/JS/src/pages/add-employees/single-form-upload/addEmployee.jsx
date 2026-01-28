@@ -17,7 +17,6 @@ import countryCodes from 'country-calling-code'
 import FaceEmbeddings from './FaceEmbeddings'
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 
-/* ---------------- Validation Schema ---------------- */
 const schema = yup.object({
   userId: yup.string().required('User Id is required'),
   user: yup.string().required('User Name is required'),
@@ -47,7 +46,7 @@ const schema = yup.object({
   address: yup.string().required('Address is required'),
 })
 
-/* ---------------- Component ---------------- */
+
 const AddEmployee = () => {
   const [step, setStep] = useState(0)
   const [countryCode, setCountryCode] = useState('+91')
@@ -83,7 +82,7 @@ const AddEmployee = () => {
         <ComponentContainerCard title="Add Basic Employee Details">
           <Form className="row g-3">
 
-            {/* Row 1 */}
+           
             <div className="col-md-4">
               <Form.Label>User Id*</Form.Label>
               <Form.Control placeholder="Enter User Id" {...register('userId')} />
@@ -102,7 +101,7 @@ const AddEmployee = () => {
               <small className="text-danger">{errors.email?.message}</small>
             </div>
 
-            {/* Row 2 */}
+          
             <div className="col-md-4">
               <Form.Label>Contact Number*</Form.Label>
               <div className="d-flex gap-2">
@@ -161,7 +160,7 @@ const AddEmployee = () => {
               <small className="text-danger">{errors.gender?.message}</small>
             </div>
 
-            {/* Row 3 */}
+         
             <div className="col-md-4">
               <Form.Label>Date of Joining*</Form.Label>
               <Form.Control type="date" {...register('doj')} />
@@ -188,7 +187,7 @@ const AddEmployee = () => {
               <small className="text-danger">{errors.aadhaar?.message}</small>
             </div>
 
-            {/* Address */}
+        
             <div className="col-12">
               <Form.Label>Address*</Form.Label>
               <Form.Control
