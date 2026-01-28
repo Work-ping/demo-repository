@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardBody, Col, Row, Button } from 'react-bootstrap';
 import PageBreadcrumb from '@/components/layout/PageBreadcrumb';
 import PageMetaData from '@/components/PageTitle';
-import TeamsForm from './TeamsForm';
+import TeamsForm from '../AddTeams/TeamsForm';
 
 const API_URL = 'http://localhost:5000/api/admin/team';
 

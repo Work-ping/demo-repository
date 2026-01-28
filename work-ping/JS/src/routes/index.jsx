@@ -31,13 +31,11 @@ const Help = lazy(() => import('@/app/(admin)/calendar/help/page'));
 const Todo = lazy(() => import('@/app/(admin)/apps/todo/page'));
 const CreateProjects = lazy(()=>import('@/pages/create-projects/CreateProjects'));
 const CreateTeams = lazy(()=>import('@/pages/create-projects/CreateTeams'));
-const ViewTeamMembers = lazy(()=>import('@/pages/create-projects/ViewTeamMembers'));
+
 const Social = lazy(() => import('@/app/(admin)/apps/social/page'));
 const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
 const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/page'));
-const Teams = lazy(()=>import('@/pages/create-skill-teams/Teams'));
-const Update = lazy(()=>import('@/pages/create-skill-teams/UpdateTeams'));
 
 // Pages Routes
 const Welcome = lazy(() => import('@/app/(admin)/pages/welcome/page'));
@@ -141,6 +139,15 @@ const ResetPassword = lazy(() => import('@/app/(other)/auth/reset-pass/page'));
 const ResetPassword2 = lazy(() => import('@/app/(other)/auth/reset-pass-2/page'));
 const LockScreen = lazy(() => import('@/app/(other)/auth/lock-screen/page'));
 const LockScreen2 = lazy(() => import('@/app/(other)/auth/lock-screen-2/page'));
+
+//work-pink routes
+const AddTeams = lazy(()=>import('@/pages/Teams(Department)/Edit/AddTeams/AddTeams'));
+const Update = lazy(()=>import('@/pages/Teams(Department)/Edit/UpdateTeams/UpdateTeams'));
+
+
+
+
+
 const initialRoutes = [{
   path: '/',
   name: 'root',
@@ -248,11 +255,8 @@ const appsRoutes = [{
   name: 'CreateProjects',
   path: '/create-projects',
   element: <CreateProjects />
-}, {
-  name: 'ViewTeamMembers',
-  path: '/view-users',
-  element: <ViewTeamMembers />
-}, {
+},
+{
   name: 'Social',
   path: '/apps/social',
   element: <Social />
@@ -316,13 +320,14 @@ const customRoutes = [{
 }, {
   name: 'Teams',
   path: '/add-teams',
-  element: <Teams />
+  element: <AddTeams />
 },
- {
-  name: 'Members',
-  path: '/view-members',
-  element: <Members />
-}];
+{
+  name: 'UpdateTeams',
+  path:'/update-teams',
+  element:<Update/>
+}
+,];
 const baseUIRoutes = [{
   name: 'Accordions',
   path: '/ui/accordions',
