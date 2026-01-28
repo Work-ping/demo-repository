@@ -676,57 +676,58 @@ import axiosClient from "@/helpers/httpClient";
 // import axios from "axios";
 
 const generateMenu = (data) => {
-  let menuList = [];
-  for(const org of data) {
-    const orgName = org.name;
-    menuList.push({
-    key: orgName,
-    icon: 'mdi:school',
-    label: orgName,
-    children: [
-      {
-        key: 'ad-add-employee',
-        label: 'Add Employee',
-        parentKey: orgName.toLowerCase(),
-        children: [
-          {
-            key: 'ad-bulk-upload',
-            label: 'Bulk Upload',
-            url: '/employees-spreadsheet',
-            parentKey: 'ad-add-employee'
-          },
-          {
-            key: 'ad-single-upload',
-            label: 'Single Upload',
-            url: '/add-employee',
-            parentKey: 'ad-add-employee'
-          }
-        ]
-      },
-      {
-        key: 'ad-update-employee',
-        label: 'Update Employee',
-        url: '/add-employee',
-        parentKey: orgName.toLowerCase()
-      },
-      {
-        key: 'ad-delete-employee',
-        label: 'Delete Employee',
-        url: '/delete-employees',
-        parentKey: orgName.toLowerCase()
-      },
-      {
-        key: 'ad-create-projects',
-        label: 'Create Projects',
-        url: '/create-projects',
-        parentKey: orgName.toLowerCase()
-      }
-    ]
-  })
-  }
+  return data.map((org) => {
+    const orgKey = `org-${org.name.toLowerCase()}`;
 
-  return menuList;
-}
+    const addEmployeeKey = `${orgKey}-add-employee`;
+
+    return {
+      key: orgKey,
+      icon: 'mdi:school',
+      label: org.name,
+      children: [
+        {
+          key: addEmployeeKey,
+          label: 'Add Employee',
+          parentKey: orgKey,
+          children: [
+            {
+              key: `${addEmployeeKey}-bulk`,
+              label: 'Bulk Upload',
+              url: '/employees-spreadsheet',
+              parentKey: addEmployeeKey
+            },
+            {
+              key: `${addEmployeeKey}-single`,
+              label: 'Single Upload',
+              url: '/add-employee',
+              parentKey: addEmployeeKey
+            }
+          ]
+        },
+        {
+          key: `${orgKey}-update-employee`,
+          label: 'Update Employee',
+          url: '/add-employee',
+          parentKey: orgKey
+        },
+        {
+          key: `${orgKey}-delete-employee`,
+          label: 'Delete Employee',
+          url: '/delete-employees',
+          parentKey: orgKey
+        },
+        {
+          key: `${orgKey}-create-projects`,
+          label: 'Create Projects',
+          url: '/create-projects',
+          parentKey: orgKey
+        }
+      ]
+    };
+  });
+};
+
 
 
 export const createSideBar = async () => {

@@ -1,126 +1,123 @@
-import { useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as React from 'react'
 import {
-  Button,
-  Col,
-  Form,
-  Row,
-  Offcanvas
-} from 'react-bootstrap';
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Inject,
+  Filter,
+  Sort,
+  Page
+} from '@syncfusion/ej2-react-grids'
 
-import ComponentContainerCard from '@/components/ComponentContainerCard';
-import PageBreadcrumb from '@/components/layout/PageBreadcrumb';
-import PageMetaData from '@/components/PageTitle';
-import UserInfo from './UserInfo';
+const employeeData = [
+  {
+    id: 1,
+    name: 'John Doe',
+    phoneNumber: '9876543210',
+    dateOfJoining: new Date('2021-06-15'),
+    organization: 'TechNova',
+    dateOfBirth: new Date('1998-02-10'),
+    departmentId: 'D001',
+    aadhaarNumber: '1234 5678 9012',
+    panNumber: 'ABCDE1234F',
+    bankId: 'HDFC000123',
+    passportId: 'N1234567'
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    phoneNumber: '9123456780',
+    dateOfJoining: new Date('2020-01-20'),
+    organization: 'InnoSoft',
+    dateOfBirth: new Date('1996-09-18'),
+    departmentId: 'D002',
+    aadhaarNumber: '4321 8765 2109',
+    panNumber: 'PQRSX5678L',
+    bankId: 'ICIC000456',
+    passportId: 'M7654321'
+  }
+]
 
-const DeleteEmployees = () => {
-  const [userId, setUserId] = useState('');
-  const [showInfo, setShowInfo] = useState(false);
-  const navigate = useNavigate();
-  const handleClear = () => {
-    setUserId('');
-    setShowInfo(false);
-  };
- const handleUpdateClick = () => {
-  navigate(`/update-employee/${userId}`);
-};
-
-  const handleRemoveClick = () => {
-    setShowInfo(true);
-  };
-
-  const handleCloseInfo = () => {
-    setShowInfo(false);
-  };
-
+function EmployeeTable() {
   return (
-    <>
-      <PageBreadcrumb subName="Employees" title="Remove Employees" />
-      <PageMetaData title="Remove Employees" />
+    <div style={{ padding: '20px' }}>
+      <GridComponent
+        dataSource={employeeData}
+        allowSorting={true}
+        allowFiltering={true}
+        allowPaging={true}
+        pageSettings={{ pageSize: 5 }}
+        filterSettings={{ type: 'Menu' }}
+        height={400}
+      >
+        <ColumnsDirective>
+          <ColumnDirective field="id" headerText="ID" width="80" textAlign="Right" />
 
-     <Row
-  className="justify-content-center"
-  style={{ marginTop: '130px' }}
->
-  <Col xl={6} lg={8} md={10} sm={12}>
-    
-    {/* HEADER (CENTERED, NO CARD BACKGROUND) */}
-    <div className="text-center mb-4">
-      <h4 className="fw-semibold mb-4 pt-3">Remove Employee</h4>
-      <p className="text-muted mb-0">
-        Enter the Employee User ID to review details before removal.
-      </p>
-    </div>
+          <ColumnDirective field="name" headerText="Name" width="180" />
 
-    {/* FORM CONTAINER */}
-    <div className="rounded-3">
-      <Form>
-        <Form.Group className="mb-5">
-          <Form.Label className="fw-small">
-          </Form.Label>
-          <Form.Control
-            className="w-75 mx-auto"
-            type="text"
-            placeholder="Enter User ID (e.g. EMP-1023)"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+          <ColumnDirective
+            field="phoneNumber"
+            headerText="Phone Number"
+            width="150"
           />
-        </Form.Group>
 
-        <div className="d-flex justify-content-center gap-5">
+          <ColumnDirective
+            field="dateOfJoining"
+            headerText="Date of Joining"
+            type="date"
+            format="dd-MMM-yyyy"
+            width="150"
+          />
 
-          <Button
-            variant="secondary"
-            onClick={handleClear}
-            disabled={!userId}
-          >
-            Clear
-          </Button>
-          <Button
-            variant="primary" 
-            onClick={handleUpdateClick}
-            disabled={!userId}
-          >
-            Update
-          </Button>
-            <Button
-            variant="danger"
-            disabled={!userId}
-            onClick={handleRemoveClick}
-          >
-            Delete
-          </Button>
-        </div>
+          <ColumnDirective
+            field="organization"
+            headerText="Organization"
+            width="150"
+          />
 
-        <p className="text-danger fs-13 mt-4 mb-0 text-center">
-          ⚠️ This action is permanent and cannot be undone.
-        </p>
-      </Form>
+          <ColumnDirective
+            field="dateOfBirth"
+            headerText="Date of Birth"
+            type="date"
+            format="dd-MMM-yyyy"
+            width="150"
+          />
+
+          <ColumnDirective
+            field="departmentId"
+            headerText="Department ID"
+            width="130"
+          />
+
+          <ColumnDirective
+            field="aadhaarNumber"
+            headerText="Aadhaar Number"
+            width="180"
+          />
+
+          <ColumnDirective
+            field="panNumber"
+            headerText="PAN Number"
+            width="140"
+          />
+
+          <ColumnDirective
+            field="bankId"
+            headerText="Bank ID"
+            width="130"
+          />
+
+          <ColumnDirective
+            field="passportId"
+            headerText="Passport ID"
+            width="130"
+          />
+        </ColumnsDirective>
+
+        <Inject services={[Filter, Sort, Page]} />
+      </GridComponent>
     </div>
+  )
+}
 
-  </Col>
-</Row>
-
-      {/* RIGHT SIDE OFFCANVAS */}
-    <Offcanvas
-  show={showInfo}
-  onHide={() => setShowInfo(false)}
-  placement="end"
-  backdrop
-  className="user-info-offcanvas"
->
-  <Offcanvas.Header closeButton>
-    <Offcanvas.Title>Employee Details</Offcanvas.Title>
-  </Offcanvas.Header>
-
-  <Offcanvas.Body className="p-0">
-    <UserInfo onCancel={() => setShowInfo(false)} />
-  </Offcanvas.Body>
-</Offcanvas>
-
-
-    </>
-  );
-};
-
-export default DeleteEmployees;
+export default EmployeeTable
