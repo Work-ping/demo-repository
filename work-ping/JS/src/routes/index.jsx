@@ -6,13 +6,11 @@ const Analytics = lazy(() => import('@/app/(admin)/dashboard/analytics/page'));
 const Finance = lazy(() => import('@/app/(admin)/dashboard/finance/page'));
 const Sales = lazy(() => import('@/app/(admin)/dashboard/sales/page'));
 
-const Dashboard = lazy(()=>import('@/pages/admin-dashboard/AdminDashboard'));
 
 // Apps Routes
 
-const AddEmployee = lazy(()=> import('@/pages/add-employees/single-form-upload/addEmployee'));
-const UpdateEmployee= lazy(()=>import('@/pages/update-employees/UpdateEmployee'));
-const Organization=lazy(()=>import('@/pages/CreateOrganization'))
+
+
 
 
 const EcommerceProducts = lazy(() => import('@/app/(admin)/ecommerce/products/page'));
@@ -29,9 +27,6 @@ const Schedule = lazy(() => import('@/app/(admin)/calendar/schedule/page'));
 const Integration = lazy(() => import('@/app/(admin)/calendar/integration/page'));
 const Help = lazy(() => import('@/app/(admin)/calendar/help/page'));
 const Todo = lazy(() => import('@/app/(admin)/apps/todo/page'));
-const CreateProjects = lazy(()=>import('@/pages/create-projects/CreateProjects'));
-const CreateTeams = lazy(()=>import('@/pages/create-projects/CreateTeams'));
-
 const Social = lazy(() => import('@/app/(admin)/apps/social/page'));
 const Contacts = lazy(() => import('@/app/(admin)/apps/contacts/page'));
 const Invoices = lazy(() => import('@/app/(admin)/invoices/page'));
@@ -41,7 +36,7 @@ const InvoiceDetails = lazy(() => import('@/app/(admin)/invoices/[invoiceId]/pag
 const Welcome = lazy(() => import('@/app/(admin)/pages/welcome/page'));
 const FAQs = lazy(() => import('@/app/(admin)/pages/faqs/page'));
 const Profile = lazy(() => import('@/app/(admin)/pages/profile/page'));
-const DeleteEmployees = lazy(()=>import('@/pages/delete-employees/DeleteEmployees'));
+
 const ComingSoon = lazy(() => import('@/app/(other)/coming-soon/page'));
 const ContactUs = lazy(() => import('@/app/(admin)/pages/contact-us/page'));
 const AboutUs = lazy(() => import('@/app/(admin)/pages/about-us/page'));
@@ -110,7 +105,7 @@ const FlatPicker = lazy(() => import('@/app/(admin)/forms/flat-picker/page'));
 const Validation = lazy(() => import('@/app/(admin)/forms/validation/page'));
 const Wizard = lazy(() => import('@/app/(admin)/forms/wizard/page'));
 const FileUploads = lazy(() => import('@/app/(admin)/forms/file-uploads/page'));
-const EmployeesSpreadSheet = lazy(() => import('@/pages/add-employees/bulk-upload/BulkUpload'));
+
 const Editors = lazy(() => import('@/app/(admin)/forms/editors/page'));
 const InputMask = lazy(() => import('@/app/(admin)/forms/input-mask/page'));
 const Slider = lazy(() => import('@/app/(admin)/forms/slider/page'));
@@ -140,19 +135,6 @@ const ResetPassword2 = lazy(() => import('@/app/(other)/auth/reset-pass-2/page')
 const LockScreen = lazy(() => import('@/app/(other)/auth/lock-screen/page'));
 const LockScreen2 = lazy(() => import('@/app/(other)/auth/lock-screen-2/page'));
 
-//work-ping routes
-
-          //teams route
-
-const AddTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/AddTeams/AddTeams'));
-const UpdateTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/UpdateTeams/Update/UpdateTeams'));
-const ViewTeams = lazy(()=>import('@/pages/Teams(Department)/ViewTeams/View'))
-          //organization routes
-const OrganizationViews = lazy(()=>import('@/pages/Organization/ViewOrganization/View'))
-const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/Update/update-organization/OrganizationDetails'));
-const OrganizationDetails= lazy(()=>import('@/pages/Organization/EditOrganization/AddOrganization/OrganizationDetails'));
-
-
 
 const initialRoutes = [{
   path: '/',
@@ -167,14 +149,8 @@ const generalRoutes = [{
   path: '/dashboard/analytics',
   name: 'Analytics',
   element: <Analytics />
-},{path: '/add-employee',
-  name: 'AddEmployee',
-  element: <AddEmployee />
-},{
-  path: '/update-employee/:empId',
-  name: 'UpdateEmployee',
-  element: <UpdateEmployee />
-},{
+}
+,{
   path: '/dashboard/finance',
   name: 'Finance',
   element: <Finance />
@@ -182,11 +158,7 @@ const generalRoutes = [{
   path: '/dashboard/sales',
   name: 'Sales',
   element: <Sales />
-}, {
-  path: '/admin-dashboard',
-  name: 'Dashboard',
-  element: <Dashboard />
-}];
+},];
 const appsRoutes = [{
   name: 'Products',
   path: '/ecommerce/products',
@@ -243,14 +215,6 @@ const appsRoutes = [{
   name: 'Todo',
   path: '/apps/todo',
   element: <Todo />
-}, {
-  name: 'CreateTeams',
-  path: '/create-teams',
-  element: <CreateTeams />
-}, {
-  name: 'CreateProjects',
-  path: '/create-projects',
-  element: <CreateProjects />
 },
 {
   name: 'Social',
@@ -280,12 +244,7 @@ const customRoutes = [{
 }, {
   name: 'Profile',
   path: '/pages/profile',
-  element: <Profile />
-}, {
-  name: 'DeleteEmployees',
-  path: '/delete-employees',
-  element: <DeleteEmployees />
-}, {
+    element: <Profile />}, {
   name: 'Contact Us',
   path: '/pages/contact-us',
   element: <ContactUs />
@@ -529,10 +488,6 @@ const formsRoutes = [{
   path: '/forms/file-uploads',
   element: <FileUploads />
 }, {
-  name: 'Employees Spreadsheet',
-  path: '/employees-spreadsheet', //bulk uploads
-  element: <EmployeesSpreadSheet />
-}, {
   name: 'Editors',
   path: '/forms/editors',
   element: <Editors />
@@ -622,6 +577,23 @@ export const authRoutes = [{
   element: <ComingSoon />
 }];
 
+//work-ping routes
+
+          //teams route
+
+const AddTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/AddTeams/AddTeams'));
+const UpdateTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/UpdateTeams/Update/UpdateTeams'));
+const ViewTeams = lazy(()=>import('@/pages/Teams(Department)/ViewTeams/View'))
+          //organization routes
+const OrganizationViews = lazy(()=>import('@/pages/Organization/ViewOrganization/View'))
+const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/Update/update-organization/OrganizationDetails'));
+const AddOrganization= lazy(()=>import('@/pages/Organization/EditOrganization/AddOrganization/OrganizationDetails'));
+          //employees routes
+
+const EmployeesViews = lazy(()=>import('@/pages/Employees/ViewEmployees/ViewEmployees'))
+const EmployeesUpdate= lazy(()=>import('@/pages/Employees/EditEmployees/UpdateEmployees/UpdateEmployees/UpdateEmployee'));
+const BulkEmployeeUpload= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/BulkEmployeeUpload/BulkUpload'));
+const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/SingleEmployeeForm/SingleEmployeeForm'));
 
 export const teamsRoutes=[
    {
@@ -645,7 +617,7 @@ export const organizationRoutes=[
   {
     path: '/organization/organization-details',
     name: 'Organization Details',
-    element: <OrganizationDetails />
+    element: <AddOrganization />
   },
   {
     path: '/organization/update-organization/:orgId',
@@ -660,6 +632,29 @@ export const organizationRoutes=[
 
 ]
 
+export const employeesRoutes=[
+ {
+  path:'/employees/view-employees',
+  name:'ViewEmployees',
+  element:<EmployeesViews/>
+ },
+ {
+  path:'/employees/update-employees',
+  name:'UpdateEmployees',
+  element:<EmployeesUpdate/>
+ },
+ {
+  path:'/employees/add-employees/bulk-upload',
+  name:'BulkEmployeeUpload',
+  element:<BulkEmployeeUpload/>
+ },
+ {
+  path:'/employees/add-employees/single-employee-form',
+  name:'SingleEmployeeAdd',
+  element:<SingleEmployeeAdd/>
+ }
+];
 
 
-export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes];
+
+export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes,...employeesRoutes];
