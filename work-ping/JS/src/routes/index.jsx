@@ -639,7 +639,7 @@ export const employeesRoutes=[
   element:<EmployeesViews/>
  },
  {
-  path:'/employees/update-employees',
+  path:'/employees/update-employees/:empId',
   name:'UpdateEmployees',
   element:<EmployeesUpdate/>
  },

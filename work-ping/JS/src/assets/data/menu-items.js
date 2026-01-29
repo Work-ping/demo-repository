@@ -623,129 +623,104 @@
 //   label: 'Disabled Item',
 //   isDisabled: true
 // }];
+
 export const MENU_ITEMS = [
   {
-    key: 'technicalhub',
-    icon: 'mdi:office-building',
-    label: 'TechnicalHub',
+    key: 'employees',
+    icon: 'mdi:account-group',
+    label: 'Employees',
     children: [
       {
-        key: 'th-add-employee',
-        label: 'Add Employee',
-        parentKey: 'technicalhub',
+        key: 'view-employees',
+        label: 'View Employees',
+        url: '/employees/view-employees',
+        parentKey: 'employees',
+      },
+      {
+        key: 'edit-employees',
+        label: 'Edit Employees',
+        parentKey: 'employees',
         children: [
           {
-            key: 'th-bulk-upload',
-            label: 'Bulk Upload',
-            url: '/employees-spreadsheet',
-            parentKey: 'th-add-employee'
+            key: 'add-employee',
+            label: 'Add Employee',
+            url: '/employees/add-employees/single-employee-form',
+            parentKey: 'edit-employees',
           },
           {
-            key: 'th-single-upload',
-            label: 'Single Upload',
-            url: '/add-employee',
-            parentKey: 'th-add-employee'
-          }
-        ]
+            key: 'update-employees',
+            label: 'Update Employees',
+            url: '/employees/update-employees',
+            parentKey: 'edit-employees',
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    key: 'organizations',
+    icon: 'mdi:office-building',
+    label: 'Organizations',
+    children: [
+      {
+        key: 'view-organizations',
+        label: 'View Organizations',
+        url: '/organization/view-organizations',
+        parentKey: 'organizations',
       },
       {
-        key: 'th-update-employee',
-        label: 'Update Employee',
-        url: '/add-employee',
-        parentKey: 'technicalhub'
+        key: 'edit-organizations',
+        label: 'Edit Organizations',
+        parentKey: 'organizations',
+        children: [
+          {
+            key: 'add-organization',
+            label: 'Add Organization',
+            url: '/organization/organization-details',
+            parentKey: 'edit-organizations',
+          },
+          {
+            key: 'update-organization',
+            label: 'Update Organization',
+            url: '/organization/update-organization/:orgId',
+            parentKey: 'edit-organizations',
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    key: 'teams',
+    icon: 'mdi:account-multiple',
+    label: 'Teams',
+    children: [
+      {
+        key: 'view-teams',
+        label: 'View Teams',
+        url: '/teams/view-teams',
+        parentKey: 'teams',
       },
       {
-        key: 'th-delete-employee',
-        label: 'Delete Employee',
-        url: '/delete-employees',
-        parentKey: 'technicalhub'
+        key: 'edit-teams',
+        label: 'Edit Teams',
+        parentKey: 'teams',
+        children: [
+          {
+            key: 'add-teams',
+            label: 'Add Teams',
+            url: '/teams/edit-teams/add-teams',
+            parentKey: 'edit-teams',
+          },
+          {
+            key: 'update-teams',
+            label: 'Update Teams',
+            url: '/teams/edit-teams/update-teams',
+            parentKey: 'edit-teams',
+          },
+        ],
       },
-      {
-        key: 'th-create-projects',
-        label: 'Create Projects',
-        url: '/create-projects',
-        parentKey: 'technicalhub'
-      }
-    ]
-  }
+    ],
+  },
 ];
-
-// const MENU_TEMPLATE =
-
-import axiosClient from "@/helpers/httpClient";
-// import axios from "axios";
-
-const generateMenu = (data) => {
-  return data.map((org) => {
-    const orgKey = `org-${org.name.toLowerCase()}`;
-
-    const addEmployeeKey = `${orgKey}-add-employee`;
-
-    return {
-      key: orgKey,
-      icon: 'mdi:school',
-      label: org.name,
-      children: [
-        {
-          key: addEmployeeKey,
-          label: 'Add Employee',
-          parentKey: orgKey,
-          children: [
-            {
-              key: `${addEmployeeKey}-bulk`,
-              label: 'Bulk Upload',
-              url: '/employees-spreadsheet',
-              parentKey: addEmployeeKey
-            },
-            {
-              key: `${addEmployeeKey}-single`,
-              label: 'Single Upload',
-              url: '/add-employee',
-              parentKey: addEmployeeKey
-            }
-          ]
-        },
-        {
-          key: `${orgKey}-update-employee`,
-          label: 'Update Employee',
-          url: '/add-employee',
-          parentKey: orgKey
-        },
-        {
-          key: `${orgKey}-delete-employee`,
-          label: 'Delete Employee',
-          url: '/delete-employees',
-          parentKey: orgKey
-        },
-        {
-          key: `${orgKey}-create-projects`,
-          label: 'Create Projects',
-          url: '/create-projects',
-          parentKey: orgKey
-        }
-      ]
-    };
-  });
-};
-
-
-
-export const createSideBar = async () => {
-  try {
-    console.log("CALLING CALLING");
-
-    const fakeData = [{name: "TechnicalHub"}, {name: "Hub"}, {name: "MyHub"}, {name: "Technical"}]
-    return generateMenu(fakeData)
-
-    const res = await axiosClient.get(
-      "/admin/organization/get-organizations"
-    );
-
-    console.log("API RESPONSE:", res.data);
-
-    return generateMenu(res.data);
-  } catch (err) {
-    console.error("SIDEBAR API ERROR:", err);
-    return [];
-  }
-};
