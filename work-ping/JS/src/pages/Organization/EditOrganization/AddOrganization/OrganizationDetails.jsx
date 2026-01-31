@@ -1,19 +1,11 @@
 import ComponentContainerCard from '@/components/ComponentContainerCard'
-import CustomFlatpickr from '@/components/CustomFlatpickr'
-import PasswordFormInput from '@/components/form/PasswordFormInput'
-import { Button } from 'react-bootstrap'
-import { useState } from 'react'
-import TextAreaFormInput from '@/components/form/TextAreaFormInput'
-import TextFormInput from '@/components/form/TextFormInput'
-import { useForm,Controller } from 'react-hook-form'
+import { Button, Form } from 'react-bootstrap'
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-// import {Controller } from 'react-hook-form'
-
 import MaskedInput from 'react-text-mask-legacy'
-import httpClient from '@/helpers/httpClient'
 
-// Yup Schema
+
 const schema = yup.object({
   organizationName: yup.string().required('Organization Name is required'),
   organizationType: yup.string().required('Organization Type is required'),
@@ -31,30 +23,20 @@ const schema = yup.object({
     )
     .required('IP Address is required'),
   passKey: yup.string().min(6, 'Minimum 6 characters').required('Pass Key is required'),
-
-  // lat1: yup.number().required('Latitude is required'),
-  // lng1: yup.number().required('Longitude is required'),
-  // lat2: yup.number().required('Latitude is required'),
-  // lng2: yup.number().required('Longitude is required'),
-  // lat3: yup.number().required('Latitude is required'),
-  // lng3: yup.number().required('Longitude is required'),
-  // lat4: yup.number().required('Latitude is required'),
-  // lng4: yup.number().required('Longitude is required'),
 })
 
 const EmployeeDetailsForm = () => {
   const {
-    control,
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    shouldFocusError: false, // 👈 add this
+    shouldFocusError: false,
   })
 
-  const onSubmit =async (data) => {
-
+  const onSubmit = async (data) => {
     const newData = {
       name: data.organizationName,
       type: data.organizationType,
@@ -69,115 +51,107 @@ const EmployeeDetailsForm = () => {
         { lat: data.lat4, lng: data.lng4 },
       ],
     }
-    console.log('Organization Details Submitted: ', newData)
-    await fetch('http://localhost:5000/api/admin/organization/add-organization', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newData),
-  });
 
+    console.log('Organization Details Submitted:', newData)
+
+    await fetch('http://localhost:5000/api/admin/organization/add-organization', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newData),
+    })
   }
 
   return (
-    <ComponentContainerCard id="basic" title="Organization Details" description={<></>}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextFormInput
-          name="organizationName"
-          label="Organization Name*"
-          control={control}
-          placeholder="Enter Organization Name"
-          containerClassName="mb-3"
-        />
+    <ComponentContainerCard id="basic" title="Organization Details">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="row">
 
-        <TextFormInput
-          name="organizationType"
-          label="Organization Type*"
-          control={control}
-          placeholder="Enter Organization Type"
-          containerClassName="mb-3"
-        />
-
-        <div className="mb-3">
-          <label className="form-label">Casual Leaves*</label>
-          <input
-            type="number"
-            className="form-control"
-            {...register('casualLeaves')}
-          />
-          <small className="text-danger">{errors.casualLeaves?.message}</small>
-        </div>
-
-        <TextAreaFormInput
-          containerClassName="mb-3"
-          name="description"
-          label="Description"
-          control={control}
-          rows={5}
-        />
-
-        <div className="mb-3">
-          <label className="form-label">Organization IP Address</label>
-
-          <Controller
-            name="ipAddress"
-            control={control}
-            render={({ field }) => (
-              <MaskedInput
-                {...field}
-                mask={[
-                  /\d/, /\d/, /\d/, '.',
-                  /\d/, /\d/, /\d/, '.',
-                  /\d/, /\d/, /\d/, '.',
-                  /\d/, /\d/, /\d/
-                ]}
-                placeholder="___.___.___.___"
-                className="form-control"
-              />
-            )}
-          />
-
-          <small className="text-danger">{errors.ipAddress?.message}</small>
-        </div>
-
-
-        <PasswordFormInput
-          control={control}
-          name="passKey"
-          containerClassName="mb-3"
-          placeholder="Enter your passkey"
-          id="password-id"
-          label="Pass Key*"
-        />
-
-        {[
-          ['lat1', 'lng1', 'First'],
-          ['lat2', 'lng2', 'Second'],
-          ['lat3', 'lng3', 'Third'],
-          ['lat4', 'lng4', 'Fourth'],
-        ].map(([lat, lng, label]) => (
-          <div className="row mb-3" key={lat}>
-            <div className="col-md-6">
-              <label className="form-label">Latitude {label} Corner</label>
-              <input type="number" step="any" className="form-control" {...register(lat)} />
-              <small className="text-danger">{errors[lat]?.message}</small>
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label">Longitude {label} Corner</label>
-              <input type="number" step="any" className="form-control" {...register(lng)} />
-              <small className="text-danger">{errors[lng]?.message}</small>
-            </div>
+         
+          <div className="col-md-4 mb-3">
+            <Form.Label>Organization Name*</Form.Label>
+            <Form.Control placeholder="Enter Organization Name" {...register('organizationName')} />
+            <small className="text-danger">{errors.organizationName?.message}</small>
           </div>
-        ))}
 
-        <div className="text-center mt-3">
-          <Button type="submit" variant="primary">
-            Submit
-          </Button>
+         
+          <div className="col-md-4 mb-3">
+            <Form.Label>Organization Type*</Form.Label>
+            <Form.Control placeholder="Enter Organization Type" {...register('organizationType')} />
+            <small className="text-danger">{errors.organizationType?.message}</small>
+          </div>
+
+          
+          <div className="col-md-4 mb-3">
+            <Form.Label>Casual Leaves*</Form.Label>
+            <Form.Control placeholder="Enter Casual Leaves" type="number" {...register('casualLeaves')} />
+            <small className="text-danger">{errors.casualLeaves?.message}</small>
+          </div>
+
+          
+          <div className="col-md-4 mb-3">
+            <Form.Label>Organization IP Address*</Form.Label>
+            <Controller
+              name="ipAddress"
+              control={control}
+              render={({ field }) => (
+                <MaskedInput
+                  {...field}
+                  mask={[
+                    /\d/, /\d/, /\d/, '.',
+                    /\d/, /\d/, /\d/, '.',
+                    /\d/, /\d/, /\d/, '.',
+                    /\d/, /\d/, /\d/
+                  ]}
+                  className="form-control"
+                  placeholder="___.___.___.___"
+                />
+              )}
+            />
+            <small className="text-danger">{errors.ipAddress?.message}</small>
+          </div>
+
+         
+          <div className="col-md-4 mb-3">
+            <Form.Label>Pass Key*</Form.Label>
+            <Form.Control placeholder="Enter Pass Key" type="password" {...register('passKey')} />
+            <small className="text-danger">{errors.passKey?.message}</small>
+          </div>
+
+         
+          {/* {[
+            ['lat1', 'lng1', 'First'],
+            ['lat2', 'lng2', 'Second'],
+            ['lat3', 'lng3', 'Third'],
+            ['lat4', 'lng4', 'Fourth'],
+          ].map(([lat, lng, label]) => (
+            <>
+              <div className="col-md-4 mb-3" key={lat}>
+                <Form.Label>Latitude {label}</Form.Label>
+                <Form.Control type="number" step="any" {...register(lat)} />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <Form.Label>Longitude {label}</Form.Label>
+                <Form.Control type="number" step="any" {...register(lng)} />
+              </div>
+            </>
+          ))} */}
+
+  
+          <div className="col-12 mb-3">
+            <Form.Label>Description</Form.Label>
+            <Form.Control as="textarea" rows={4} {...register('description')} />
+          </div>
+
+         
+          <div className="col-12 text-center mt-3">
+            <Button type="submit" variant="primary">
+              Submit
+            </Button>
+          </div>
+
         </div>
-      </form>
+      </Form>
     </ComponentContainerCard>
   )
 }
