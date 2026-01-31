@@ -47,6 +47,13 @@ const TODO = () => {
                       <th className="border-0 py-2">Status</th>
                       <th className="border-0 py-2">Priority</th>
                       <th className="border-0 py-2">Action</th>
+                      <th className="border-0 py-2">Task Name</th>
+                      <th className="border-0 py-2">Created Date</th>
+                      <th className="border-0 py-2">Due Date</th>
+                      <th className="border-0 py-2">Assigned</th>
+                      <th className="border-0 py-2">Status</th>
+                      <th className="border-0 py-2">Priority</th>
+                      <th className="border-0 py-2">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -54,12 +61,12 @@ const TODO = () => {
                     return <tr key={idx}>
                           <td>
                             <div className="d-flex align-items-center gap-2">
-                              <div className="form-check form-todo ps-4">
-                                <input type="checkbox" className="form-check-input rounded-circle mt-0 fs-18" id={`customCheck${idx}`} defaultChecked={task.status === 'Completed' ? true : false} />
+                              
+                                {/* <input type="checkbox" className="form-check-input rounded-circle mt-0 fs-18" id={`customCheck${idx}`} defaultChecked={task.status === 'Completed' ? true : false} /> */}
                                 <label className="form-check-label" htmlFor={`customCheck${idx}`}>
                                   {task.task}
                                 </label>
-                              </div>
+                              
                             </div>
                           </td>
                           <td>
