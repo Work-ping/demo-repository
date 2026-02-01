@@ -1,113 +1,124 @@
-import { useEffect, useState } from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-
-const TeamsForm = ({ onSave, onCancel, defaultValues }) => {
-  const [teamName, setTeamName] = useState('');
-  const [teamManagerId, setTeamManagerId] = useState('');
-  const [organizationId, setOrganizationId] = useState('');
-  const [description, setDescription] = useState('');
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { Button, Form, Card, CardBody, Row, Col } from 'react-bootstrap'
 
 
-  const resetForm = () => {
-    setTeamName('');
-    setTeamManagerId('');
-    setOrganizationId('');
-    setDescription('');
-  };
+const schema = yup.object({
+  teamName: yup.string().required('Team Name is required'),
+  organizationId: yup.string().required('Organization ID is required'),
+  description: yup.string().nullable(),
+})
 
- 
+const TeamsForm = ({ onSave, defaultValues }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: defaultValues || {
+      teamName: '',
+      teamManagerId: '',
+      organizationId: '',
+      description: '',
+    },
+  })
+
+
   useEffect(() => {
     if (defaultValues) {
-      setTeamName(defaultValues.teamName || '');
-      setTeamManagerId(defaultValues.teamManagerId || '');
-      setOrganizationId(defaultValues.organizationId || '');
-      setDescription(defaultValues.description || '');
-    } else {
-      resetForm();
+      reset(defaultValues)
     }
-  }, [defaultValues]);
+  }, [defaultValues, reset])
 
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!teamName || !teamManagerId) return;
+  const onSubmit = data => {
+    onSave(data)
+  }
 
-    onSave({
-      teamName,
-      teamManagerId,
-      organizationId,
-      description
-    });
-  };
+
+  const handleClear = () => {
+    if (defaultValues) {
+
+      reset(defaultValues)
+    } else {
+
+      reset({
+        teamName: '',
+        teamManagerId: '',
+        organizationId: '',
+        description: '',
+      })
+    }
+  }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Row>
+        <Card>
+          <CardBody>
+            <Form className="row g-4" onSubmit={handleSubmit(onSubmit)}>
 
-        <Col md={6}>
-          <Form.Group className="mb-3">
-            <Form.Label>Team Name *</Form.Label>
-            <Form.Control
-              value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
-              placeholder="Enter team name"
-              required
-            />
-          </Form.Group>
+              {/* LEFT SIDE */}
+              <div className="col-md-6">
+                <div className="row g-3">
 
-          <Form.Group className="mb-3">
-            <Form.Label>Team Manager ID *</Form.Label>
-            <Form.Control
-              value={teamManagerId}
-              onChange={(e) => setTeamManagerId(e.target.value)}
-              placeholder="Enter manager id"
-              required
-            />
-          </Form.Group>
+                  <div className="col-12">
+                    <Form.Label>Team Name*</Form.Label>
+                    <Form.Control {...register('teamName')} />
+                    <small className="text-danger">
+                      {errors.teamName?.message}
+                    </small>
+                  </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Team Leader ID</Form.Label>
-            <Form.Control
-              value={organizationId}
-              onChange={(e) => setOrganizationId(e.target.value)}
-              placeholder="Optional"
-            />
-          </Form.Group>
-        </Col>
+                  <div className="col-12">
+                    <Form.Label>Team Manager ID</Form.Label>
+                    <Form.Control {...register('teamManagerId')} />
+                  </div>
 
-      
-        <Col md={6}>
-          <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={8}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional description"
-            />
-          </Form.Group>
-        </Col>
-      </Row>
+                  <div className="col-12">
+                    <Form.Label>Organization ID*</Form.Label>
+                    <Form.Control {...register('organizationId')} />
+                    <small className="text-danger">
+                      {errors.organizationId?.message}
+                    </small>
+                  </div>
 
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="row g-3">
 
-      <div className="d-flex justify-content-center gap-3 mt-4">
-        <Button
-          variant="secondary"
-          onClick={() => {
-            resetForm();
-            onCancel();
-          }}
-        >
-          Cancel
-        </Button>
+                  <div className="col-12">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={8}
+                      {...register('description')}
+                    />
+                  </div>
 
-        <Button type="submit" variant="primary">
-          {defaultValues ? 'Update' : 'Save'}
-        </Button>
-      </div>
-    </Form>
-  );
-};
+                </div>
+              </div>
 
-export default TeamsForm;
+              <div className="col-12 d-flex justify-content-center gap-4">
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={handleClear}
+                >
+                  {defaultValues ? 'Reset' : 'Clear'}
+                </Button>
+
+                <Button type="submit">
+                  {defaultValues ? 'Update' : 'Save'}
+                </Button>
+              </div>
+
+            </Form>
+          </CardBody>
+        </Card>
+  )
+}
+
+export default TeamsForm

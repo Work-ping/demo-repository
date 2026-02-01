@@ -598,6 +598,7 @@ const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmp
           //project routes
 const AddProjects = lazy(()=> import('@/pages/Projects/AddProjects/AddProjects'));
 const UpdateProjects = lazy(()=> import('@/pages/Projects/UpdateProjects/UpdateProjects'));
+const TwoFactorAuthCard = lazy(()=> import('@/pages/TwoFactorAuthentication/TwoFactorAuthentication'));
 
 export const teamsRoutes=[
    {
@@ -672,6 +673,14 @@ export const projectsRoutes=[
   }
 ]
 
+export const TwoFactorAuthentication=[
+  {
+    path:'/two-factor-auth',
+    name: 'TwoFactorAuthCard',
+    element: <TwoFactorAuthCard/>
+  }
+]
 
 
-export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes,...employeesRoutes,...projectsRoutes];
+
+export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes,...employeesRoutes,...projectsRoutes,...TwoFactorAuthentication];
