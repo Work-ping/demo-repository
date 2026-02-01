@@ -595,6 +595,10 @@ const EmployeesUpdate= lazy(()=>import('@/pages/Employees/EditEmployees/UpdateEm
 const BulkEmployeeUpload= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/BulkEmployeeUpload/BulkUpload'));
 const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/SingleEmployeeForm/SingleEmployeeForm'));
 
+          //project routes
+const AddProjects = lazy(()=> import('@/pages/Projects/AddProjects/AddProjects'));
+const UpdateProjects = lazy(()=> import('@/pages/Projects/UpdateProjects/UpdateProjects'));
+
 export const teamsRoutes=[
    {
   name: 'Teams',
@@ -655,6 +659,19 @@ export const employeesRoutes=[
  }
 ];
 
+export const projectsRoutes=[
+  {
+    path: '/projects/add-projects',
+    name:'AddProjects',
+    element:<AddProjects/>
+  }, 
+  {
+    path: '/projects/update-projects',
+    name: 'UpdateProjects',
+    element:<UpdateProjects/>
+  }
+]
 
 
-export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes,...employeesRoutes];
+
+export const appRoutes = [...initialRoutes, ...generalRoutes, ...appsRoutes, ...customRoutes, ...baseUIRoutes, ...advancedUIRoutes, ...chartsNMapsRoutes, ...formsRoutes, ...tableRoutes, ...iconRoutes, ...authRoutes,...teamsRoutes,...organizationRoutes,...employeesRoutes,...projectsRoutes];
