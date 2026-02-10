@@ -20,7 +20,7 @@ import axios from 'axios'
 
 const schema = yup.object({
   userId: yup.string().required('User Id is required'),
-  user: yup.string().required('User Name is required'),
+  userName: yup.string().required('User Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
 
   phone: yup
