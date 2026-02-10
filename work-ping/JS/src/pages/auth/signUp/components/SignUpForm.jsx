@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormCheck } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-
+// import dotenv from 'dotenv';
+import axios from 'axios';
+// dotenv.config();  
 const SignUpForm = () => {
   const signUpSchema = yup.object({
     name: yup.string().required('Please enter your name'),
@@ -34,24 +36,17 @@ const SignUpForm = () => {
         name: values.name,
         number: values.number,
         email: values.email,
-        password: values.password,
-        confirmPassword: values.confirmPassword
+        password: values.password
       };
 
-      const res = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const res = await axios.post('http://10.16.63.143:5000/api/admin/auth/register', payload);
 
-      const data = await res.json();
+      const data = res.data;
 
-      if (!res.ok) {
+      if (res.status !== 201) {
         throw new Error(data.error || 'Signup failed');
       }
-      console.log('Signup payload:', payload);
-
-      alert('Signup successful 🎉');
+      console.log('Signup successful:', data);
       reset();
     } catch (error) {
       alert(error.message);

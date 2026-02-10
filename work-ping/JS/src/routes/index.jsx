@@ -125,10 +125,8 @@ const NotFound2 = lazy(() => import('@/app/(other)/(error-pages)/error-404-2/pag
 
 // Auth Routes
 const AuthSignIn = lazy(() => import('@/app/(other)/auth/sign-in/page'));
-const AuthSignInCustomized = lazy(() => import('@/app/(other)/auth/sign-in-customized/page'));
 const AuthSignIn2 = lazy(() => import('@/app/(other)/auth/sign-in-2/page'));
 const AuthSignUp = lazy(() => import('@/app/(other)/auth/sign-up/page'));
-const AuthSignUpCustomized = lazy(() => import('@/app/(other)/auth/sign-up-customized/page'));
 const AuthSignUp2 = lazy(() => import('@/app/(other)/auth/sign-up-2/page'));
 const ResetPassword = lazy(() => import('@/app/(other)/auth/reset-pass/page'));
 const ResetPassword2 = lazy(() => import('@/app/(other)/auth/reset-pass-2/page'));
@@ -523,10 +521,6 @@ export const authRoutes = [{
   name: 'Sign In',
   element: <AuthSignIn />
 }, {
-  path: '/auth/sign-in-customized',
-  name: 'Sign In',
-  element: <AuthSignInCustomized />
-}, {
   name: 'Sign In 2',
   path: '/auth/sign-in-2',
   element: <AuthSignIn2 />
@@ -534,11 +528,6 @@ export const authRoutes = [{
   name: 'Sign Up copy',
   path: '/auth/sign-up',
   element: <AuthSignUp /> //AuthSignUpCustomized
-},
- {
-  name: 'Sign Up',
-  path: '/auth/sign-up-customized',
-  element: <AuthSignUpCustomized /> //
 }, {
   name: 'Sign Up 2',
   path: '/auth/sign-up-2',
@@ -578,6 +567,9 @@ export const authRoutes = [{
 }];
 
 //work-ping routes
+          //auth routes
+const signIn = lazy(()=>import('@/pages/auth/signIn/page'));
+const signUp = lazy(()=>import('@/pages/auth/signUp/page'));
 
           //teams route
 
@@ -600,6 +592,9 @@ const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmp
 const AddProjects = lazy(()=> import('@/pages/Projects/AddProjects/AddProjects'));
 const UpdateProjects = lazy(()=> import('@/pages/Projects/UpdateProjects/UpdateProjects'));
 const TwoFactorAuthCard = lazy(()=> import('@/pages/TwoFactorAuthentication/TwoFactorAuthentication'));
+
+
+
 
 const teamsRoutes=[
    {

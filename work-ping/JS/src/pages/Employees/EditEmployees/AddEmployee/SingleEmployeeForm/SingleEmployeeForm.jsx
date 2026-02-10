@@ -17,11 +17,12 @@ import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import countryCodes from 'country-calling-code'
 import FaceEmbeddings from './FaceEmbeddings'
 import ComponentContainerCard from '@/components/ComponentContainerCard'
+import axios from 'axios'
 
 /* ---------------- Validation Schema ---------------- */
 const schema = yup.object({
   userId: yup.string().required('User Id is required'),
-  user: yup.string().required('User Name is required'),
+  userName: yup.string().required('User Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
 
   phone: yup
@@ -70,12 +71,17 @@ const AddEmployee = () => {
     setStep(1)
   })
 
-  const submitForm = () => {
+  const submitForm = async() => {
     const data = getValues()
     data.phone = countryCode + data.phone
     data.faceEmbedding = faceEmbedding?.hash
     data.faceSource = faceEmbedding?.source
-    console.log('SUBMITTED DATA:', data)
+    try{
+       const res = await axios.post('http://10.16.63.143:5000/api/admin/add-employees/by-form', data)
+       console.log('Employee added:', res.data)
+    } catch(error) {
+      console.error('Error adding employee:', error)
+    }
   }
 
   return (
