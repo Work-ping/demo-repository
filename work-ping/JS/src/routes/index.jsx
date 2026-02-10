@@ -527,10 +527,11 @@ const SignUp = lazy(()=>import('@/pages/auth/signUp/page'));
 const AddTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/AddTeams/AddTeams'));
 const UpdateTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/UpdateTeams/Update/UpdateTeams'));
 const ViewTeams = lazy(()=>import('@/pages/Teams(Department)/ViewTeams/View'))
-          //organization routes
+      //organization routes
 const OrganizationViews = lazy(()=>import('@/pages/Organization/ViewOrganization/View'))
-const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/Update/update-organization/OrganizationDetails'));
+const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/OrganizationDetails'));
 const AddOrganization= lazy(()=>import('@/pages/Organization/EditOrganization/AddOrganization/OrganizationDetails'));
+const OrganizationUpdateView=lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/View'))
           //employees routes
 
 const EmployeesViews = lazy(()=>import('@/pages/Employees/ViewEmployees/ViewEmployees'))
@@ -549,7 +550,7 @@ const TwoFactorAuthCard = lazy(()=> import('@/pages/TwoFactorAuthentication/TwoF
 export const authRoutes = [{
   path: '/auth/sign-in',
   name: 'Sign In',
-  element: <SignIn />
+  element: <SignIn />//custom sign in page
 }, {
   name: 'Sign In 2',
   path: '/auth/sign-in-2',
@@ -596,38 +597,6 @@ export const authRoutes = [{
   element: <ComingSoon />
 }];
 
-<<<<<<< Updated upstream
-//work-ping routes
-          //auth routes
-const signIn = lazy(()=>import('@/pages/auth/signIn/page'));
-const signUp = lazy(()=>import('@/pages/auth/signUp/page'));
-
-          //teams route
-
-const AddTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/AddTeams/AddTeams'));
-const UpdateTeams = lazy(()=>import('@/pages/Teams(Department)/EditTeams/UpdateTeams/Update/UpdateTeams'));
-const ViewTeams = lazy(()=>import('@/pages/Teams(Department)/ViewTeams/View'))
-          //organization routes
-const OrganizationViews = lazy(()=>import('@/pages/Organization/ViewOrganization/View'))
-const OrganizationUpdateDetails= lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/OrganizationDetails'));
-const AddOrganization= lazy(()=>import('@/pages/Organization/EditOrganization/AddOrganization/OrganizationDetails'));
-const OrganizationUpdateView=lazy(()=>import('@/pages/Organization/EditOrganization/UpdateOrganization/View'))
-          //employees routes
-
-const EmployeesViews = lazy(()=>import('@/pages/Employees/ViewEmployees/ViewEmployees'))
-const EmployeesUpdate= lazy(()=>import('@/pages/Employees/EditEmployees/UpdateEmployees/UpdateEmployees/UpdateEmployee'));
-const BulkEmployeeUpload= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/BulkEmployeeUpload/BulkUpload'));
-const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/SingleEmployeeForm/SingleEmployeeForm'));
-
-          //project routes
-const AddProjects = lazy(()=> import('@/pages/Projects/AddProjects/AddProjects'));
-const UpdateProjects = lazy(()=> import('@/pages/Projects/UpdateProjects/UpdateProjects'));
-const TwoFactorAuthCard = lazy(()=> import('@/pages/TwoFactorAuthentication/TwoFactorAuthentication'));
-
-
-
-=======
->>>>>>> Stashed changes
 
 const teamsRoutes=[
    {
