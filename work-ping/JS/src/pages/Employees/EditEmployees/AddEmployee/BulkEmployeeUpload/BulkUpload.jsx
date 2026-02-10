@@ -1,5 +1,7 @@
-import { Col, Row, Button } from 'react-bootstrap'
+import { Col, Row, Button, Card, CardBody } from 'react-bootstrap'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import DropzoneFormInput from '@/components/form/DropzoneFormInput'
 import PageBreadcrumb from '@/components/layout/PageBreadcrumb'
@@ -8,7 +10,9 @@ import PageMetaData from '@/components/PageTitle'
 const BulkUpload = () => {
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
-  
+  const [showTable, setShowTable] = useState(false)   
+
+
   const handleUpload = async () => {
     if (files.length === 0) {
       alert('Please select at least one file')
@@ -27,6 +31,9 @@ const BulkUpload = () => {
 
       const data = await res.json()
       console.log(data)
+
+      setShowTable(true)
+
       alert('Files uploaded successfully')
     } catch (err) {
       console.error(err)
@@ -76,6 +83,7 @@ const BulkUpload = () => {
                 {loading ? 'Uploading...' : 'Upload'}
               </Button>
             </div>
+
             <div className="mt-3 p-3 border rounded bg-light">
               <h6 className="mb-2">📌 File Format Instructions</h6>
               <p className="text-muted mb-2">
@@ -115,6 +123,54 @@ const BulkUpload = () => {
             </div>
           </ComponentContainerCard>
         </Col>
+        {showTable && (
+          <Col>
+            <Card>
+              <CardBody />
+
+              <div className="table-responsive table-centered" style={{ overflowX: 'auto' }}>
+                <table className="table text-nowrap mb-0" style={{ minWidth: '2000px' }}>
+                  <thead className="bg-light bg-opacity-50">
+                    <tr>
+                      <th className="border-0 py-2 px-3">UserID</th>
+                      <th className="border-0 py-2 px-3">UserName</th>
+                      <th className="border-0 py-2 px-3">Email</th>
+                      <th className="border-0 py-2 px-3">Phone</th>
+                      <th className="border-0 py-2 px-3">Address</th>
+                      <th className="border-0 py-2 px-3">Aadhaar</th>
+                      <th className="border-0 py-2 px-3">Passport</th>
+                      <th className="border-0 py-2 px-3">Pan</th>
+                      <th className="border-0 py-2 px-3">Bank</th>
+                      <th className="border-0 py-2 px-3">Gender</th>
+                      <th className="border-0 py-2 px-3">Role</th>
+                      <th className="border-0 py-2 px-3">CountryCode</th>
+                      <th className="border-0 py-2 px-3">Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allTasks?.map((task, idx) => (
+                      <tr key={idx}>
+                        <td className="px-3 py-2">{task.userId}</td>
+                        <td className="px-3 py-2">{task.userName}</td>
+                        <td className="px-3 py-2">{task.email}</td>
+                        <td className="px-3 py-2">{task.phone}</td>
+                        <td className="px-3 py-2">{task.address}</td>
+                        <td className="px-3 py-2">{task.aadhaar}</td>
+                        <td className="px-3 py-2">{task.passport}</td>
+                        <td className="px-3 py-2">{task.pan}</td>
+                        <td className="px-3 py-2">{task.bank}</td>
+                        <td className="px-3 py-2">{task.gender}</td>
+                        <td className="px-3 py-2">{task.role}</td>
+                        <td className="px-3 py-2">{task.countryCode}</td>
+                        <td className="px-3 py-2">{task.image}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </Col>
+        )}
       </Row>
     </>
   )
