@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-
+import axiosClient from '@/helpers/httpClient';
 const LoginForm = () => {
   const loginSchema = yup.object({
     email: yup.string().email('Please enter a valid email').required('please enter your email'),
@@ -22,11 +22,11 @@ const LoginForm = () => {
   const onSubmit = async values => {
     try {
       const payload = {
-        email: values.email,
+        userEmail: values.email,
         password: values.password
       };
       console.log('Login payload:', payload);
-      const response = await axios.post( 'http://10.16.63.143:5000/api/admin/auth/login', payload);
+      const response = await axiosClient.post( '/api/admin/auth/login', payload);
       console.log('Login response:', response.data);
     } catch (error) {
       console.error('Login error:', error);
