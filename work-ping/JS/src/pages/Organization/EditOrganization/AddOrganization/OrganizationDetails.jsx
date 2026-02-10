@@ -22,7 +22,7 @@ const schema = yup.object({
       'Invalid IP Address'
     )
     .required('IP Address is required'),
-  passKey: yup.string().min(6, 'Minimum 6 characters').required('Pass Key is required'),
+  
 })
 
 const EmployeeDetailsForm = () => {
@@ -43,7 +43,6 @@ const EmployeeDetailsForm = () => {
       clDays: data.casualLeaves,
       description: data.description,
       IPWhitelist: data.ipAddress,
-      passKey: data.passKey,
       geoFence: [
         { lat: data.lat1, lng: data.lng1 },
         { lat: data.lat2, lng: data.lng2 },
@@ -111,11 +110,7 @@ const EmployeeDetailsForm = () => {
           </div>
 
          
-          <div className="col-md-4 mb-3">
-            <Form.Label>Pass Key*</Form.Label>
-            <Form.Control placeholder="Enter Pass Key" type="password" {...register('passKey')} />
-            <small className="text-danger">{errors.passKey?.message}</small>
-          </div>
+         
 
          
           {/* {[

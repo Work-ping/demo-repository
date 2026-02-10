@@ -98,7 +98,7 @@ const TODO = () => {
                   <th>Type</th>
                   <th>IP Address</th>
                   <th>Founded At</th>
-                  
+                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -124,7 +124,22 @@ const TODO = () => {
                       <td>{task.type}</td>
                       <td>{task.ipAddress}</td>
                       <td>{new Date(task.foundedAt).toDateString()}</td>
-                      
+                      <td>
+                        <Button
+                          variant="soft-secondary"
+                          size="sm"
+                          className="me-2"
+                          onClick={() =>
+                            navigate(`/organization/update-organization/${task.id}`)
+                          }
+                        >
+                          <IconifyIcon icon="bx:edit" />
+                        </Button>
+
+                        <Button variant="soft-danger" size="sm">
+                          <IconifyIcon icon="bx:trash" />
+                        </Button>
+                      </td>
                     </tr>
                   ))
                 )}

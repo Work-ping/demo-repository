@@ -683,7 +683,7 @@ export const MENU_ITEMS = [
           {
             key: 'update-organization',
             label: 'Update Organization',
-            url: '/organization/update-organization/:orgId',
+            url: '/organization/update-view-organization',
             parentKey: 'edit-organizations',
           },
         ],
