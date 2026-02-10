@@ -3,28 +3,51 @@ import * as yup from 'yup';
 import PasswordFormInput from '@/components/form/PasswordFormInput';
 import TextFormInput from '@/components/form/TextFormInput';
 import { Button } from 'react-bootstrap';
-import useSignIn from './useSignIn';
-export const loginSchema = yup.object({
-  email: yup.string().email('Please enter a valid email').required('please enter your email'),
-  password: yup.string().required('Please enter your password')
-});
+import axios from 'axios';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
 const LoginForm = () => {
+  const loginSchema = yup.object({
+    email: yup.string().email('Please enter a valid email').required('please enter your email'),
+    password: yup.string().required('Please enter your password')
+  });
   const {
     loading,
-    login,
-    control
-  } = useSignIn();
-  return <form onSubmit={login} className="authentication-form">
+    control,
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(loginSchema)
+  });
+  const onSubmit = async values => {
+    try {
+      const payload = {
+        email: values.email,
+        password: values.password
+      };
+      console.log('Login payload:', payload);
+      const response = await axios.post( 'http://10.16.63.143:5000/api/admin/auth/login', payload);
+      console.log('Login response:', response.data);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="authentication-form"
+    >
       <TextFormInput control={control} name="email" containerClassName="mb-3" label="Email" id="email-id" placeholder="Enter your email" />
 
       <PasswordFormInput control={control} name="password" containerClassName="mb-3" placeholder="Enter your password" id="password-id" label={<>
-            <Link to="/auth/reset-pass" className="float-end text-muted text-unline-dashed ms-1">
-              Reset password
-            </Link>
-            <label className="form-label" htmlFor="example-password">
-              Password
-            </label>
-          </>} />
+        <Link to="/auth/reset-pass" className="float-end text-muted text-unline-dashed ms-1">
+          Reset password
+        </Link>
+        <label className="form-label" htmlFor="example-password">
+          Password
+        </label>
+      </>} />
 
       <div className="mb-3">
         <div className="form-check">
@@ -39,6 +62,7 @@ const LoginForm = () => {
           Sign In
         </Button>
       </div>
-    </form>;
+    </form>
+  )
 };
 export default LoginForm;
