@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import MaskedInput from 'react-text-mask-legacy'
-
+import axiosClient from '@/helpers/httpClient'
 
 const schema = yup.object({
   organizationName: yup.string().required('Organization Name is required'),
@@ -22,7 +22,7 @@ const schema = yup.object({
       'Invalid IP Address'
     )
     .required('IP Address is required'),
-  
+  passKey: yup.string().min(6, 'Minimum 6 characters').required('Pass Key is required'),
 })
 
 const EmployeeDetailsForm = () => {
@@ -43,21 +43,27 @@ const EmployeeDetailsForm = () => {
       clDays: data.casualLeaves,
       description: data.description,
       IPWhitelist: data.ipAddress,
-      geoFence: [
-        { lat: data.lat1, lng: data.lng1 },
-        { lat: data.lat2, lng: data.lng2 },
-        { lat: data.lat3, lng: data.lng3 },
-        { lat: data.lat4, lng: data.lng4 },
-      ],
+      passKey: data.passKey,
+      geoFencing: {
+            corners: [
+              { lat: data.lat1, lng: data.lng1 },
+              { lat: data.lat2, lng: data.lng2 },
+              { lat: data.lat3, lng: data.lng3 },
+              { lat: data.lat4, lng: data.lng4 },
+            ]
+        }
+      ,
+     
     }
 
     console.log('Organization Details Submitted:', newData)
 
-    await fetch('http://localhost:5000/api/admin/organization/add-organization', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newData),
-    })
+    try {
+      const response = await axiosClient.post('/api/admin/organization/add-organization', newData)
+      console.log('Response:', response.data)
+    } catch (error) {
+      console.error('Error submitting organization details:', error)
+    }
   }
 
   return (
@@ -110,7 +116,11 @@ const EmployeeDetailsForm = () => {
           </div>
 
          
-         
+          <div className="col-md-4 mb-3">
+            <Form.Label>Pass Key*</Form.Label>
+            <Form.Control placeholder="Enter Pass Key" type="password" {...register('passKey')} />
+            <small className="text-danger">{errors.passKey?.message}</small>
+          </div>
 
          
           {/* {[
