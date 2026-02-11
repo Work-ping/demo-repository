@@ -18,7 +18,7 @@ const TODO = () => {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies?page=${page}&limit=${itemsPerPage}&search=${encodeURIComponent(q || '')}`
+        `http://192.168.29.97:5000/api/companies?page=${page}&limit=${itemsPerPage}&search=${encodeURIComponent(q || '')}`
       )
       const result = await response.json()
 
@@ -92,13 +92,13 @@ const TODO = () => {
             <table className="table text-nowrap mb-0">
               <thead className="bg-light bg-opacity-50">
                 <tr>
+                  <th>Action</th>
                   <th>Name</th>
                   <th>Geo Fencing</th>
                   <th>CL Days</th>
                   <th>Type</th>
                   <th>IP Address</th>
                   <th>Founded At</th>
-                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -118,12 +118,6 @@ const TODO = () => {
                 ) : (
                   tasks.map((task) => (
                     <tr key={task.id}>
-                      <td>{task.name}</td>
-                      <td>{task.geoFencing}</td>
-                      <td>{task.clDays}</td>
-                      <td>{task.type}</td>
-                      <td>{task.ipAddress}</td>
-                      <td>{new Date(task.foundedAt).toDateString()}</td>
                       <td>
                         <Button
                           variant="soft-secondary"
@@ -140,6 +134,12 @@ const TODO = () => {
                           <IconifyIcon icon="bx:trash" />
                         </Button>
                       </td>
+                      <td>{task.name}</td>
+                      <td>{task.geoFencing}</td>
+                      <td>{task.clDays}</td>
+                      <td>{task.type}</td>
+                      <td>{task.ipAddress}</td>
+                      <td>{new Date(task.foundedAt).toDateString()}</td>
                     </tr>
                   ))
                 )}

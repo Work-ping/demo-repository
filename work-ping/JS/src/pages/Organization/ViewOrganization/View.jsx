@@ -18,7 +18,7 @@ const TODO = () => {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies?page=${page}&limit=${itemsPerPage}&search=${encodeURIComponent(q || '')}`
+        `http://192.168.29.97:5000/api/companies?page=${page}&limit=${itemsPerPage}&search=${encodeURIComponent(q || '')}`
       )
       const result = await response.json()
 
