@@ -650,7 +650,7 @@ export const MENU_ITEMS = [
           {
             key: 'update-employees',
             label: 'Update Employees',
-            url: '/employees/update-employees',
+            url: '/employees/employees-update-view',
             parentKey: 'edit-employees',
           },
         ],

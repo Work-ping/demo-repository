@@ -536,6 +536,7 @@ const OrganizationUpdateView=lazy(()=>import('@/pages/Organization/EditOrganizat
 
 const EmployeesViews = lazy(()=>import('@/pages/Employees/ViewEmployees/ViewEmployees'))
 const EmployeesUpdate= lazy(()=>import('@/pages/Employees/EditEmployees/UpdateEmployees/UpdateEmployees/UpdateEmployee'));
+const EmployeesUpdateView= lazy(()=>import('@/pages/Employees/EditEmployees/UpdateEmployees/UpdateEmployees/EmployeesUpdateView'));
 const BulkEmployeeUpload= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/BulkEmployeeUpload/BulkUpload'));
 const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/SingleEmployeeForm/SingleEmployeeForm'));
 
@@ -644,6 +645,11 @@ const employeesRoutes=[
   path:'/employees/view-employees',
   name:'ViewEmployees',
   element:<EmployeesViews/>
+ },
+ {
+  path:'/employees/employees-update-view',
+  name:'UpdateEmployeesView',
+  element:<EmployeesUpdateView/>
  },
  {
   path:'/employees/update-employees/:empId',

@@ -77,6 +77,14 @@ const ViewEmployees = () => {
     }
   }
 
+  const handleUpdate = (id) => {
+    navigate(`/employees/update-employees/${id}`)
+  }
+
+  const handleDelete = (id) => {
+    console.log('Delete clicked:', id)
+  }
+
   const getPages = () => {
     if (totalPages <= 5)
       return Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -106,12 +114,7 @@ const ViewEmployees = () => {
                   <IconifyIcon
                     icon="bx:search-alt"
                     className="position-absolute"
-                    style={{
-                      left: 12,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      fontSize: 18,
-                    }}
+                    style={{ left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 18 }}
                   />
                   <input
                     type="search"
@@ -165,6 +168,7 @@ const ViewEmployees = () => {
             <table className="table text-nowrap mb-0">
               <thead className="bg-light">
                 <tr>
+                  <th>Action</th>
                   <th>User_id</th>
                   <th>Name</th>
                   <th>Gmail</th>
@@ -185,20 +189,29 @@ const ViewEmployees = () => {
 
               <tbody>
                 {loading ? (
-                  <tr>
-                    <td colSpan="15" className="text-center py-4">
-                      Loading...
-                    </td>
-                  </tr>
+                  <tr><td colSpan="16" className="text-center py-4">Loading...</td></tr>
                 ) : employees.length === 0 ? (
-                  <tr>
-                    <td colSpan="15" className="text-center py-4">
-                      No records found
-                    </td>
-                  </tr>
+                  <tr><td colSpan="16" className="text-center py-4">No records found</td></tr>
                 ) : (
                   employees.map(emp => (
                     <tr key={emp.USER_ID}>
+                      <td>
+                        <Button
+                          variant="soft-secondary"
+                          size="sm"
+                          className="me-2"
+                          onClick={() =>
+                            navigate(`/employees/update-employee/${emp.USER_ID}`)
+                          }
+                        >
+                          <IconifyIcon icon="bx:edit" />
+                        </Button>
+
+                        <Button variant="soft-danger" size="sm">
+                          <IconifyIcon icon="bx:trash" />
+                        </Button>
+                      </td>
+
                       <td>{emp.USER_ID}</td>
                       <td>{emp.name}</td>
                       <td>{emp.gmail}</td>
