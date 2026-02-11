@@ -103,7 +103,7 @@ const AddEmployee = () => {
                 }
               >
                 <IconifyIcon icon="bx:upload" className="me-1" />
-                Bulk Upload
+                Spread-Sheet
               </Button>
             </div>
           }
