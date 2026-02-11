@@ -6,15 +6,17 @@ import {
   CardBody,
   ProgressBar
 } from 'react-bootstrap'
-import { useState, useRef, } from 'react'
+import { useState, useRef } from 'react'
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import PageMetaData from '@/components/PageTitle'
 import { useNavigate } from 'react-router-dom'
 import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import axiosClient from '@/helpers/httpClient'
+
 const BulkUpload = () => {
   const navigate = useNavigate()
-  const [files, setFiles] = useState([])
+
+  const [file, setFile] = useState(null) // ✅ single file
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [allTasks, setAllTasks] = useState([])
@@ -29,32 +31,32 @@ const BulkUpload = () => {
   }
 
   const handleFileChange = (e) => {
-    const selected = Array.from(e.target.files)
-    setFiles((prev) => [...prev, ...selected])
+    const selectedFile = e.target.files[0] // ✅ only first file
+    if (selectedFile) {
+      setFile(selectedFile)
+    }
   }
 
-  const handleRemoveFile = (index) => {
-    const updated = files.filter((_, i) => i !== index)
-    setFiles(updated)
-
-    if (updated.length === 0 && fileInputRef.current) {
+  const handleRemoveFile = () => {
+    setFile(null)
+    if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
   }
 
   const handleUpload = async () => {
-    if (files.length === 0) {
-      alert('Please select at least one file')
+    if (!file) {
+      alert('Please select a file')
       return
     }
 
     const formData = new FormData()
-    files.forEach((file) => formData.append('files', file))
+    formData.append('file', file)
 
     try {
       setLoading(true)
       setUploadProgress(0)
-      console.log('Uploading files:', files)
+
       const res = await axiosClient.post(
         '/api/admin/add-employees/by-excel',
         formData,
@@ -72,7 +74,7 @@ const BulkUpload = () => {
       setAllTasks(res.data.data || [])
       setShowTable(true)
 
-      setFiles([])
+      setFile(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
 
       alert('Upload Successful')
@@ -86,35 +88,32 @@ const BulkUpload = () => {
 
   return (
     <>
-      
       <PageMetaData title="Employees-SpreadSheet" />
 
       <Row>
         <Col xl={12}>
           <ComponentContainerCard
-           
             title={
-            <div className="d-flex justify-content-between align-items-center">
-              <span>Add  Employees Details By Excel-SpreadSheet</span>
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Add Employees Details By Excel-SpreadSheet</span>
 
-              <Button
-                variant="outline-primary"
-                size="sm"
-                onClick={() =>
-                  navigate('/employees/add-employees/single-employee-form')
-                }
-              >
-                <IconifyIcon icon="bx:upload" className="me-1" />
-                By-Form
-              </Button>
-            </div>
-          }
-            description="Upload an Excel or CSV file containing employee details. Ensure the file follows the specified format for successful processing."
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={() =>
+                    navigate('/employees/add-employees/single-employee-form')
+                  }
+                >
+                  <IconifyIcon icon="bx:upload" className="me-1" />
+                  By-Form
+                </Button>
+              </div>
+            }
+            description="Upload an Excel or CSV file containing employee details."
           >
-             
+            {/* Hidden File Input */}
             <input
               type="file"
-              multiple
               accept=".csv,.xlsx"
               ref={fileInputRef}
               onChange={handleFileChange}
@@ -128,45 +127,33 @@ const BulkUpload = () => {
               onClick={() => fileInputRef.current.click()}
             >
               <h5 className="fw-semibold mb-2">
-                Drag & Drop Files Here
+                Click to Select File
               </h5>
               <p className="text-muted mb-1">
-                or click to browse files
-              </p>
-              <small className="text-muted">
                 Supported formats: .csv, .xlsx
-              </small>
+              </p>
             </div>
 
-            {/* File Grid */}
-            {files.length > 0 && (
-              <Row className="g-3 mt-3">
-                {files.map((file, index) => (
-                  <Col xs={12} sm={6} md={4} lg={3} key={index}>
-                    <Card className="shadow-sm h-100">
-                      <CardBody className="d-flex flex-column justify-content-between">
-                        <div>
-                          <h6 className="text-truncate" title={file.name}>
-                            {file.name}
-                          </h6>
-                          <small className="text-muted">
-                            {formatSize(file.size)}
-                          </small>
-                        </div>
+            {/* File Preview Card */}
+            {file && (
+              <Card className="shadow-sm mt-3">
+                <CardBody className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 className="mb-1">{file.name}</h6>
+                    <small className="text-muted">
+                      {formatSize(file.size)}
+                    </small>
+                  </div>
 
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          className="mt-3"
-                          onClick={() => handleRemoveFile(index)}
-                        >
-                          Remove
-                        </Button>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={handleRemoveFile}
+                  >
+                    Remove
+                  </Button>
+                </CardBody>
+              </Card>
             )}
 
             {/* Upload Button */}
@@ -174,7 +161,7 @@ const BulkUpload = () => {
               <Button
                 variant="primary"
                 onClick={handleUpload}
-                disabled={files.length === 0 || loading}
+                disabled={!file || loading}
               >
                 {loading ? 'Uploading...' : 'Upload'}
               </Button>
@@ -192,6 +179,13 @@ const BulkUpload = () => {
               </div>
             )}
 
+            {/* File Format Instructions */}
+            <div className="mt-4 p-3 border rounded bg-light">
+              <h6 className="mb-2">📌 File Format Instructions</h6>
+              <p className="text-muted mb-2">
+                Your Excel / CSV file must contain the following columns in the same order.
+              </p>
+            </div>
             <div className="mt-4 p-3 border rounded bg-light">
               <h6 className="mb-2">📌 File Format Instructions</h6>
               <p className="text-muted mb-2">
@@ -229,11 +223,10 @@ const BulkUpload = () => {
                 ⚠️ Make sure column names match exactly. Do not change spelling or order.
               </small>
             </div>
-
           </ComponentContainerCard>
         </Col>
 
-        {/* 🔥 Optional Data Table After Upload */}
+        {/* Data Table After Upload */}
         {showTable && (
           <Col xl={12} className="mt-4">
             <Card>
