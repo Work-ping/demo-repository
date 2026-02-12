@@ -70,14 +70,14 @@ const BulkUpload = () => {
           },
         }
       )
-
-      setAllTasks(res.data.data || [])
+      console.log(res.data)
+      setAllTasks(res.data || [])
       setShowTable(true)
 
       setFile(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
 
-      alert('Upload Successful')
+     
     } catch (err) {
       console.error(err)
       alert('Upload Failed')
@@ -180,12 +180,44 @@ const BulkUpload = () => {
             )}
 
             {/* File Format Instructions */}
-            <div className="mt-4 p-3 border rounded bg-light">
-              <h6 className="mb-2">📌 File Format Instructions</h6>
-              <p className="text-muted mb-2">
-                Your Excel / CSV file must contain the following columns in the same order.
-              </p>
-            </div>
+            {showTable && (
+              <Col xl={12} className="mt-4">
+                <Card>
+                  <CardBody>
+                    <h5 className="mb-2">You Uploaded {allTasks.count.total} Records, {allTasks.count.total - allTasks.count.failed} Success, {allTasks.count.failed} Failed.</h5>
+                    <div className="table-responsive">
+                      <table className="table table-bordered table-hover text-nowrap">
+                        <thead className="table-light">
+                          <tr>
+
+                            <th>Index</th>
+                            <th>Error</th>
+                            <th>UserId</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {allTasks.error.map((task, idx) => (
+                            <tr key={idx}>
+                              <td>{task.rowNumber}</td>
+                              <td>{task.error}</td>
+                              <td>{task.rowData.employeeId}</td>
+                              <td>{task.rowData.name}</td>
+                              <td>{task.rowData.email}</td>
+                              <td>{task.rowData.phone}</td>
+                              
+                              
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            )}
             <div className="mt-4 p-3 border rounded bg-light">
               <h6 className="mb-2">📌 File Format Instructions</h6>
               <p className="text-muted mb-2">
@@ -227,54 +259,7 @@ const BulkUpload = () => {
         </Col>
 
         {/* Data Table After Upload */}
-        {showTable && (
-          <Col xl={12} className="mt-4">
-            <Card>
-              <CardBody>
-                <div className="table-responsive">
-                  <table className="table table-bordered table-hover text-nowrap">
-                    <thead className="table-light">
-                      <tr>
-                        <th>UserID</th>
-                        <th>UserName</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Aadhaar</th>
-                        <th>Passport</th>
-                        <th>Pan</th>
-                        <th>Bank</th>
-                        <th>Gender</th>
-                        <th>Role</th>
-                        <th>CountryCode</th>
-                        <th>Image</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {allTasks.map((task, idx) => (
-                        <tr key={idx}>
-                          <td>{task.userId}</td>
-                          <td>{task.userName}</td>
-                          <td>{task.email}</td>
-                          <td>{task.phone}</td>
-                          <td>{task.address}</td>
-                          <td>{task.aadhaar}</td>
-                          <td>{task.passport}</td>
-                          <td>{task.pan}</td>
-                          <td>{task.bank}</td>
-                          <td>{task.gender}</td>
-                          <td>{task.role}</td>
-                          <td>{task.countryCode}</td>
-                          <td>{task.image}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        )}
+        
       </Row>
     </>
   )
