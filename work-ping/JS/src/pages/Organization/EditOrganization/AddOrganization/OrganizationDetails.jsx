@@ -1,11 +1,13 @@
 import ComponentContainerCard from '@/components/ComponentContainerCard'
 import { Button, Form } from 'react-bootstrap'
+import { useState } from 'react'
+
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import MaskedInput from 'react-text-mask-legacy'
 import axiosClient from '@/helpers/httpClient'
-
+import GeoFencing from '@/pages/Maps/GeoFencing'
 const schema = yup.object({
   organizationName: yup.string().required('Organization Name is required'),
   organizationType: yup.string().required('Organization Type is required'),
@@ -22,10 +24,12 @@ const schema = yup.object({
       'Invalid IP Address'
     )
     .required('IP Address is required'),
-  passKey: yup.string().min(6, 'Minimum 6 characters').required('Pass Key is required'),
+ 
 })
 
 const EmployeeDetailsForm = () => {
+  const [geoCoords, setGeoCoords] = useState([])
+
   const {
     register,
     control,
@@ -38,23 +42,14 @@ const EmployeeDetailsForm = () => {
 
   const onSubmit = async (data) => {
     const newData = {
-      name: data.organizationName,
-      type: data.organizationType,
-      clDays: data.casualLeaves,
-      description: data.description,
-      IPWhitelist: data.ipAddress,
-      passKey: data.passKey,
-      geoFencing: {
-            corners: [
-              { lat: data.lat1, lng: data.lng1 },
-              { lat: data.lat2, lng: data.lng2 },
-              { lat: data.lat3, lng: data.lng3 },
-              { lat: data.lat4, lng: data.lng4 },
-            ]
-        }
-      ,
-     
-    }
+  name: data.organizationName,
+  type: data.organizationType,
+  clDays: data.casualLeaves,
+  description: data.description,
+  IPWhitelist: data.ipAddress,
+  coordinates: geoCoords
+}
+
 
     console.log('Organization Details Submitted:', newData)
 
@@ -114,34 +109,13 @@ const EmployeeDetailsForm = () => {
             />
             <small className="text-danger">{errors.ipAddress?.message}</small>
           </div>
+          <GeoFencing onChange={setGeoCoords} />
 
          
-          <div className="col-md-4 mb-3">
-            <Form.Label>Pass Key*</Form.Label>
-            <Form.Control placeholder="Enter Pass Key" type="password" {...register('passKey')} />
-            <small className="text-danger">{errors.passKey?.message}</small>
-          </div>
+       
 
          
-          {/* {[
-            ['lat1', 'lng1', 'First'],
-            ['lat2', 'lng2', 'Second'],
-            ['lat3', 'lng3', 'Third'],
-            ['lat4', 'lng4', 'Fourth'],
-          ].map(([lat, lng, label]) => (
-            <>
-              <div className="col-md-4 mb-3" key={lat}>
-                <Form.Label>Latitude {label}</Form.Label>
-                <Form.Control type="number" step="any" {...register(lat)} />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <Form.Label>Longitude {label}</Form.Label>
-                <Form.Control type="number" step="any" {...register(lng)} />
-              </div>
-            </>
-          ))} */}
-
+          
   
           <div className="col-12 mb-3">
             <Form.Label>Description</Form.Label>
@@ -161,4 +135,4 @@ const EmployeeDetailsForm = () => {
   )
 }
 
-export default EmployeeDetailsForm
+export default EmployeeDetailsForm; 
