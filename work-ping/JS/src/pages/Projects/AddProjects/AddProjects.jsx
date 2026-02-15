@@ -1,10 +1,9 @@
+import ComponentContainerCard from '@/components/ComponentContainerCard'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Button, Form, Card, CardBody, Row, Col } from 'react-bootstrap'
 
-import PageBreadcrumb from '@/components/layout/PageBreadcrumb'
-import PageMetaData from '@/components/PageTitle'
 
 
 const schema = yup.object({
@@ -31,21 +30,15 @@ const TaskForm = () => {
   }
 
   return (
-    <>
-      <PageBreadcrumb subName="Projects" title="Create Projects" />
-      <PageMetaData title="Create Projects" />
-
-      <Row className="justify-content-center">
-        <Col xl={11} lg={10}>
-          <Card>
-            <CardBody>
-              <Form className="row g-4" onSubmit={handleSubmit(onSubmit)}>
+ 
+    <ComponentContainerCard id="basic" title="Add Projects">
+        <Form className="row g-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-md-6">
                   <div className="row g-3">
 
                     <div className="col-12">
                       <Form.Label>Name*</Form.Label>
-                      <Form.Control {...register('name')} />
+                      <Form.Control placeholder='Enter Project Name'{...register('name')} />
                       <small className="text-danger">{errors.name?.message}</small>
                     </div>
 
@@ -63,7 +56,7 @@ const TaskForm = () => {
 
                     <div className="col-12">
                       <Form.Label>Contracted By*</Form.Label>
-                      <Form.Control {...register('contractedBy')} />
+                      <Form.Control placeholder='Enter Contracted By'{...register('contractedBy')} />
                       <small className="text-danger">{errors.contractedBy?.message}</small>
                     </div>
 
@@ -74,7 +67,7 @@ const TaskForm = () => {
 
                     <div className="col-12">
                       <Form.Label>Organization ID*</Form.Label>
-                      <Form.Control {...register('organizationId')} />
+                      <Form.Control placeholder='Enter OrganizationID'{...register('organizationId')} />
                       <small className="text-danger">{errors.organizationId?.message}</small>
                     </div>
 
@@ -82,7 +75,7 @@ const TaskForm = () => {
                       <Form.Label>Description*</Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={8}
+                        rows={9}
                         {...register('description')}
                       />
                       <small className="text-danger">{errors.description?.message}</small>
@@ -105,11 +98,11 @@ const TaskForm = () => {
                 </div>
 
               </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </>
+
+    </ComponentContainerCard>
+
+      
+
   )
 }
 

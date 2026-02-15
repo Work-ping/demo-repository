@@ -3,9 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Button, Form, Card, CardBody, Row, Col } from 'react-bootstrap'
-
-import PageBreadcrumb from '@/components/layout/PageBreadcrumb'
-import PageMetaData from '@/components/PageTitle'
+import ComponentContainerCard from '@/components/ComponentContainerCard'
 
 
 const schema = yup.object({
@@ -51,17 +49,9 @@ const TaskForm = () => {
   }
 
   return (
-    <>
-      <PageBreadcrumb subName="Projects" title="Project Details" />
-      <PageMetaData title="Project Details" />
-
-      <Row className="justify-content-center">
-        <Col xl={11} lg={10}>
-          <Card>
-            <CardBody>
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="mb-0">Project Information</h4>
-
+       <ComponentContainerCard id="basic">
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <h4>Project Project</h4>
                 {!isEditMode && (
                   <Button onClick={() => setIsEditMode(true)}>
                     Edit
@@ -125,7 +115,7 @@ const TaskForm = () => {
                       <Form.Label>Description*</Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={10}
+                        rows={9}
                         disabled={!isEditMode}
                         {...register('description')}
                       />
@@ -150,11 +140,8 @@ const TaskForm = () => {
                 )}
 
               </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </>
+
+       </ComponentContainerCard>
   )
 }
 

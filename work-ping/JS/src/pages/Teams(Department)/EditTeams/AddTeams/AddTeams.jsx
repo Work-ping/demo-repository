@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import ComponentContainerCard from '@/components/ComponentContainerCard'
 import { Card, CardBody, Col, Row, Button } from 'react-bootstrap';
 import PageBreadcrumb from '@/components/layout/PageBreadcrumb';
 import PageMetaData from '@/components/PageTitle';
@@ -33,27 +34,15 @@ const CreateTeam = () => {
   };
 
   return (
-    <>
-      <PageBreadcrumb
-        subName="Projects"
-        title={editTeam ? 'Edit Team' : 'Create Team'}
-      />
-      <PageMetaData title="Team Form" />
-
-      <Row className="justify-content-center">
-        <Col xl={11} lg={10}>
-          <Card>
-            <CardBody>
-              <TeamsForm
+      <ComponentContainerCard id="basic" title="Add teams">
+          <TeamsForm
                 onSave={handleSave}
                 onCancel={() => navigate('')}
                 defaultValues={editTeam}
               />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </>
+      </ComponentContainerCard>
+
+   
   );
 };
 

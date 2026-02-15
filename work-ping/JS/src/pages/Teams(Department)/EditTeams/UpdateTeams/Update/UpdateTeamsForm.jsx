@@ -45,20 +45,14 @@ const UpdateTeamsForm = ({ onSave, defaultValues }) => {
 
   return (
     <>
-
-      <Row className="justify-content-center">
-        <Col xl={11} lg={10}>
-          <Card>
-            <CardBody>
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="mb-0">Team Information</h4>
-
+      <div className="d-flex justify-content-between align-items-center mb-2">
+            <h4 className="mb-0">Team Information</h4>
                 {!isEditMode && (
-                  <Button onClick={() => setIsEditMode(true)}>
+              <Button onClick={() => setIsEditMode(true)}>
                     Edit
-                  </Button>
-                )}
-              </div>
+              </Button>
+            )}
+        </div>
 
               <Form className="row g-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-md-6">
@@ -106,7 +100,7 @@ const UpdateTeamsForm = ({ onSave, defaultValues }) => {
                       <Form.Label>Description</Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={10}
+                        rows={9}
                         disabled={!isEditMode}
                         {...register('description')}
                       />
@@ -131,10 +125,6 @@ const UpdateTeamsForm = ({ onSave, defaultValues }) => {
                 )}
 
               </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
     </>
   )
 }

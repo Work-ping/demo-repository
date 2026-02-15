@@ -55,11 +55,7 @@ const TeamsForm = ({ onSave, defaultValues }) => {
   }
 
   return (
-        <Card>
-          <CardBody>
             <Form className="row g-4" onSubmit={handleSubmit(onSubmit)}>
-
-              {/* LEFT SIDE */}
               <div className="col-md-6">
                 <div className="row g-3">
 
@@ -93,7 +89,7 @@ const TeamsForm = ({ onSave, defaultValues }) => {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={8}
+                      rows={9}
                       {...register('description')}
                     />
                   </div>
@@ -116,8 +112,6 @@ const TeamsForm = ({ onSave, defaultValues }) => {
               </div>
 
             </Form>
-          </CardBody>
-        </Card>
   )
 }
 
