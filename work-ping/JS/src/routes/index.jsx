@@ -541,8 +541,12 @@ const BulkEmployeeUpload= lazy(()=>import('@/pages/Employees/EditEmployees/AddEm
 const SingleEmployeeAdd= lazy(()=>import('@/pages/Employees/EditEmployees/AddEmployee/SingleEmployeeForm/SingleEmployeeForm'));
 
           //project routes
-const AddProjects = lazy(()=> import('@/pages/Projects/AddProjects/AddProjects'));
-const UpdateProjects = lazy(()=> import('@/pages/Projects/UpdateProjects/UpdateProjects'));
+const AddProjects = lazy(()=> import('@/pages/Projects/EditProject-Teams/AddProjects/AddProjects'));
+const UpdateProjects = lazy(()=> import('@/pages/Projects/EditProject-Teams/UpdateProjects/UpdateProjects'));
+const ViewProjects = lazy(()=> import('@/pages/Projects/ViewProject-Teams/ViewProjects/ViewProjects'));
+const ProjectTeamMembers = lazy(()=> import('@/pages/Projects/ViewProject-Teams/ProjectTeamMembers/ProjectTeamMembers'));
+
+//two-factor-authentication
 const TwoFactorAuthCard = lazy(()=> import('@/pages/TwoFactorAuthentication/TwoFactorAuthentication'));
 
 
@@ -678,6 +682,15 @@ const projectsRoutes=[
     path: '/projects/update-projects',
     name: 'UpdateProjects',
     element:<UpdateProjects/>
+  },{
+    path:'/projects/view-projects',
+    name:'ViewProjects',
+    element:<ViewProjects/>
+  },
+  {
+    path:'/projects/view-project-teams/project-team-members',
+    name:'ViewProjectTeams',
+    element:<ProjectTeamMembers/>
   }
 ]
 
