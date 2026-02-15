@@ -1,39 +1,6 @@
 
 export const MENU_ITEMS = [
   {
-    key: 'employees',
-    icon: 'mdi:account-group',
-    label: 'Employees',
-    children: [
-      {
-        key: 'view-employees',
-        label: 'View Employees',
-        url: '/employees/view-employees',
-        parentKey: 'employees',
-      },
-      {
-        key: 'edit-employees',
-        label: 'Edit Employees',
-        parentKey: 'employees',
-        children: [
-          {
-            key: 'add-employee',
-            label: 'Add Employee',
-            url: '/employees/add-employees/single-employee-form',
-            parentKey: 'edit-employees',
-          },
-          {
-            key: 'update-employees',
-            label: 'Update Employees',
-            url: '/employees/employees-update-view',
-            parentKey: 'edit-employees',
-          },
-        ],
-      },
-    ],
-  },
-
-  {
     key: 'organizations',
     icon: 'mdi:office-building',
     label: 'Organizations',
@@ -65,7 +32,6 @@ export const MENU_ITEMS = [
       },
     ],
   },
-
   {
     key: 'teams',
     icon: 'mdi:account-multiple',
@@ -98,6 +64,39 @@ export const MENU_ITEMS = [
       },
     ],
   },
+  {
+    key: 'employees',
+    icon: 'mdi:account-group',
+    label: 'Employees',
+    children: [
+      {
+        key: 'view-employees',
+        label: 'View Employees',
+        url: '/employees/view-employees',
+        parentKey: 'employees',
+      },
+      {
+        key: 'edit-employees',
+        label: 'Edit Employees',
+        parentKey: 'employees',
+        children: [
+          {
+            key: 'add-employee',
+            label: 'Add Employee',
+            url: '/employees/add-employees/single-employee-form',
+            parentKey: 'edit-employees',
+          },
+          {
+            key: 'update-employees',
+            label: 'Update Employees',
+            url: '/employees/employees-update-view',
+            parentKey: 'edit-employees',
+          },
+        ],
+      },
+    ],
+  },
+
   {
     key: 'Project-teams',
     icon: 'mdi:account-multiple',
