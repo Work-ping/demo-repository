@@ -98,9 +98,9 @@ export const MENU_ITEMS = [
   },
 
   {
-    key: 'Project-teams bro',
+    key: 'Project-teams',
     icon: 'mdi:account-multiple',
-    label: 'Project-Teams',
+    label: 'Project-Teams Bro',
     children: [
       {
         key: 'view-Projectteams',
