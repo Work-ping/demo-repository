@@ -55,7 +55,7 @@ const EmployeeDetailsForm = () => {
     console.log('Organization Details Submitted:', newData)
 
     try {
-      const response = await axios.post('https://ubiquitous-space-memory-pjg5v97ppq7p3r5p6-5000.app.github.dev/api/admin/organization/add-organization', newData,{
+      const response = await axiosClient.post('/api/admin/organization/add-organization', newData,{
         withCredentials: true
       })
       console.log('Response:', response.data)

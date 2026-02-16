@@ -24,11 +24,11 @@ const LoginForm = () => {
   const onSubmit = async values => {
     try {
       const payload = {
-        email: values.email,
+        userEmail: values.email,
         password: values.password
       };
       console.log('Login payload:', payload);
-      const response = await axios.post( 'https://ubiquitous-space-memory-pjg5v97ppq7p3r5p6-5000.app.github.dev/api/admin/auth/login', payload,{
+      const response = await axiosClient.post( '/api/admin/auth/login', payload,{
         withCredentials: true
       });
       console.log('Login response:', response.data);
