@@ -7,7 +7,9 @@ import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axiosClient from '@/helpers/httpClient';
+import { useNavigate } from 'react-router-dom';
 const LoginForm = () => {
+  const navigate = useNavigate();
   const loginSchema = yup.object({
     email: yup.string().email('Please enter a valid email').required('please enter your email'),
     password: yup.string().required('Please enter your password')
@@ -22,12 +24,15 @@ const LoginForm = () => {
   const onSubmit = async values => {
     try {
       const payload = {
-        userEmail: values.email,
+        email: values.email,
         password: values.password
       };
       console.log('Login payload:', payload);
-      const response = await axiosClient.post( '/api/admin/auth/login', payload);
+      const response = await axios.post( 'https://ubiquitous-space-memory-pjg5v97ppq7p3r5p6-5000.app.github.dev/api/admin/auth/login', payload,{
+        withCredentials: true
+      });
       console.log('Login response:', response.data);
+      navigate('/dashboard/analytics');
     } catch (error) {
       console.error('Login error:', error);
     }

@@ -7,8 +7,10 @@ import * as yup from 'yup';
 // import dotenv from 'dotenv';
 import axiosClient from '@/helpers/httpClient';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // dotenv.config();  
 const SignUpForm = () => {
+  const navigate = useNavigate(); 
   const signUpSchema = yup.object({
     name: yup.string().required('Please enter your name'),
     number: yup.string().required('Please enter your mobile number'),
@@ -40,7 +42,9 @@ const SignUpForm = () => {
         password: values.password
       };
       console.log(payload)
-      const res = await axiosClient.post('/api/admin/auth/register', payload);
+      const res = await axios.post('http://10.16.50.73:5000/api/admin/auth/register', payload,{
+        withCredentials: true
+      });
 
       const data = res.data;
 
@@ -48,6 +52,7 @@ const SignUpForm = () => {
         throw new Error(data.error || 'Signup failed');
       }
       console.log('Signup successful:', data);
+      navigate('/auth/sign-in');
       reset();
     } catch (error) {
       alert(error.message);

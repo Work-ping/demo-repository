@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import MaskedInput from 'react-text-mask-legacy'
 import axiosClient from '@/helpers/httpClient'
+import axios from 'axios'
 import GeoFencing from '@/pages/Maps/GeoFencing'
 const schema = yup.object({
   organizationName: yup.string().required('Organization Name is required'),
@@ -49,12 +50,14 @@ const EmployeeDetailsForm = () => {
   IPWhitelist: data.ipAddress,
   coordinates: geoCoords
 }
-
+//https://ubiquitous-space-memory-pjg5v97ppq7p3r5p6-5000.app.github.dev/
 
     console.log('Organization Details Submitted:', newData)
 
     try {
-      const response = await axiosClient.post('/api/admin/organization/add-organization', newData)
+      const response = await axios.post('https://ubiquitous-space-memory-pjg5v97ppq7p3r5p6-5000.app.github.dev/api/admin/organization/add-organization', newData,{
+        withCredentials: true
+      })
       console.log('Response:', response.data)
     } catch (error) {
       console.error('Error submitting organization details:', error)
