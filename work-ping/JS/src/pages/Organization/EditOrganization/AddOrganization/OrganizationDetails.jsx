@@ -109,8 +109,7 @@ const EmployeeDetailsForm = () => {
             />
             <small className="text-danger">{errors.ipAddress?.message}</small>
           </div>
-          <GeoFencing onChange={setGeoCoords} />
-
+         
          
        
 

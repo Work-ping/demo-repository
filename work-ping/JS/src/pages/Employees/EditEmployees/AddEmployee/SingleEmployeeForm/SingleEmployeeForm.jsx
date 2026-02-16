@@ -68,7 +68,9 @@ const AddEmployee = () => {
   })
 
   const goNext = handleSubmit(() => {
+
     setStep(1)
+    console.log(step)
   })
 
   const submitForm = async() => {
@@ -77,7 +79,8 @@ const AddEmployee = () => {
     data.faceEmbedding = faceEmbedding?.hash
     data.faceSource = faceEmbedding?.source
     try{
-       const res = await axios.post('http://10.16.63.143:5000/api/admin/add-employees/by-form', data)
+      console.log('Submitting Employee Data:', data)
+       const res = await axios.post('http://10.16.63.254:5000/api/admin/add-employees/by-form', data)
        console.log('Employee added:', res.data)
     } catch(error) {
       console.error('Error adding employee:', error)
@@ -118,8 +121,8 @@ const AddEmployee = () => {
 
             <div className="col-md-4">
               <Form.Label>User Name*</Form.Label>
-              <Form.Control placeholder="Enter Full Name" {...register('user')} />
-              <small className="text-danger">{errors.user?.message}</small>
+              <Form.Control placeholder="Enter Full Name" {...register('userName')} />
+              <small className="text-danger">{errors.userName?.message}</small>
             </div>
 
             <div className="col-md-4">
