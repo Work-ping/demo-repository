@@ -5,13 +5,14 @@ import { Button, FormCheck } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 // import dotenv from 'dotenv';
+import axiosClient from '@/helpers/httpClient';
 import axios from 'axios';
 // dotenv.config();  
 const SignUpForm = () => {
   const signUpSchema = yup.object({
     name: yup.string().required('Please enter your name'),
     number: yup.string().required('Please enter your mobile number'),
-    email: yup
+    userEmail: yup
       .string()
       .email('Please enter a valid email')
       .required('Please enter your email'),
@@ -35,11 +36,11 @@ const SignUpForm = () => {
       const payload = {
         name: values.name,
         number: values.number,
-        email: values.email,
+        userEmail: values.userEmail,
         password: values.password
       };
-
-      const res = await axios.post('http://10.16.63.143:5000/api/admin/auth/register', payload);
+      console.log(payload)
+      const res = await axiosClient.post('/api/admin/auth/register', payload);
 
       const data = res.data;
 
@@ -79,7 +80,7 @@ const SignUpForm = () => {
 
       <TextFormInput
         control={control}
-        name="email"
+        name="userEmail"
         containerClassName="mb-3"
         label="Email"
         id="email-id"
